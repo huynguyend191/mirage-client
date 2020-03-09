@@ -1,0 +1,74 @@
+.header {
+  width: 100vw;
+  height: 100px;
+  display: flex;
+  padding: 0px 15% 0px 15%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fafbfb;
+  box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
+}
+
+.headerTitle {
+  margin: 0;
+  line-height: 0;
+  font-size: 40px;
+}
+
+.userButton {
+  width: 100px;
+}
+
+.registerButton {
+  width: 300px;
+}
+
+.userButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;  
+  width: 250px;
+}
+
+.defaultBody {
+  background-image: url('../resources/assets/default-wallpaper.png');
+  width: 100vw;
+  height: 90vh;
+  background-blend-mode: darken;
+  padding-top: 100px;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.introContainer {
+  width: 1000px;
+  height: 600px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.welcomeText {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.welcomeDescription {
+  font-size: 20px;
+}
+
+.introContent {
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.introImg {
+  width: 600px;
+}

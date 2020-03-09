@@ -1,0 +1,22 @@
+.footer {
+  align-self: flex-end;
+  height: 100px;
+  box-shadow: 0 0 0 rgba(12,13,14,0.05);
+  box-sizing: border-box;
+  transition: box-shadow ease-in-out .1s,transform ease-in-out .1s;
+  border-top: 1px solid #d6d9dc;
+  background-color: #fafbfb;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.contactIcon {
+  margin: 10px;
+}
+
+.contactInfoContainer {
+  display: flex;
+  flex-direction: column;
+  color: #242729;
+}
