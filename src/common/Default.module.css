@@ -1,8 +1,14 @@
 .headerContent {
   display: flex;
-  padding: 16px 200px 0px 200px;
+  padding: 6px 200px 0px 200px;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+}
+
+.headerWrapper {
+  display: flex;
+  flex-direction: row;
   align-items: center;
 }
 
@@ -11,6 +17,11 @@
   line-height: 0;
   font-size: 40px;
   color: white
+}
+
+.headerIcon {
+  height: 52px;
+  margin-right: 5px;
 }
 
 .userButton {
@@ -29,9 +40,9 @@
 }
 
 .defaultBody {
-  background-image: url('../resources/assets/background.jpg');
+  background-image: url('../assets/background.jpg');
   width: 100vw;
-  height: 90vh;
+  height: 100vh;
   background-blend-mode: darken;
   padding-top: 100px;
   justify-content: center;
