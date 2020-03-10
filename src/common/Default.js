@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Default.module.css';
 import { Button, Layout, Divider } from 'antd';
 import FooterContent from './FooterContent';
-import introImg from '../resources/assets/video-intro.png';
+import introImg from '../resources/assets/flame-welcome.png';
 const { Header, Content, Footer } = Layout;
 
 export default function Default() {
@@ -25,9 +25,10 @@ export default function Default() {
             <p className={styles.welcomeText}>Welcome to Mirage!</p>
             <p className={styles.welcomeDescription}>Learn English anywhere you want</p>
             <Button className={styles.registerButton} type="primary" shape="round">STUDY NOW</Button>
-            <Divider>OR</Divider>
-            <p className={styles.welcomeDescription}>Share your knowledge with others</p>
-            <Button className={styles.registerButton} type="primary" shape="round">BECOME TUTOR</Button>
+            <Divider style={{width: "300px"}}>OR</Divider>
+            {/* <p className={styles.welcomeDescription}>Share your knowledge with others</p> */}
+            <Button className={styles.registerButton} type="secondary" shape="round">BECOME TUTOR</Button>
+            {/* <p className={styles.becomeTutor}>BECOME TUTOR</p> */}
           </div>
         </div>
       </div>
