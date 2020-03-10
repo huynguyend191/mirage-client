@@ -1,0 +1,16 @@
+.footerContent {
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.contactIcon {
+  margin: 10px;
+}
+
+.contactInfoContainer {
+  display: flex;
+  flex-direction: column;
+  color: #242729;
+}

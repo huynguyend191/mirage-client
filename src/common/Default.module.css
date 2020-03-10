@@ -1,19 +1,16 @@
-.header {
-  width: 100vw;
-  height: 100px;
+.headerContent {
   display: flex;
-  padding: 0px 15% 0px 15%;
+  padding: 16px 200px 0px 200px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: #fafbfb;
-  box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
 }
 
 .headerTitle {
   margin: 0;
   line-height: 0;
   font-size: 40px;
+  color: white
 }
 
 .userButton {
@@ -32,7 +29,7 @@
 }
 
 .defaultBody {
-  background-image: url('../resources/assets/default-wallpaper.png');
+  background-image: url('../resources/assets/background.jpg');
   width: 100vw;
   height: 90vh;
   background-blend-mode: darken;
