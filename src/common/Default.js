@@ -3,7 +3,7 @@ import styles from './Default.module.css';
 import { Button, Layout, Divider } from 'antd';
 import FooterContent from './FooterContent';
 import introImg from '../assets/flame-welcome.png';
-import headerIcon from '../assets/header-icon.png';
+import headerIcon from '../assets/app-logo.png';
 import RegisterModal from './RegisterModal';
 const { Header, Content, Footer } = Layout;
 
