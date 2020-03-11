@@ -1,0 +1,40 @@
+.registerContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.registerWelcome {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.registerForm {
+  width: 400px;
+}
+
+.registerButton {
+  width: 100%;
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.switchRole {
+  cursor: pointer;
+  color: #1890ff;
+  align-self: flex-end;
+}
+
+.welcomeImg {
+  width: 100%;
+}
+
+.registerWelcomeContent {
+  text-align: center;
+}
