@@ -16,7 +16,11 @@ export default function RegisterModal(props) {
   };
   const switchRole = () => {
     setIsStudent(!isStudent);
-  }
+  };
+  const switchMode = () => {
+    props.onClose();
+    props.onSwitchLogin();
+  };
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -41,7 +45,7 @@ export default function RegisterModal(props) {
   };
   const studentWelcome = (
     <div className={styles.registerWelcomeContent}>
-      <img className={styles.welcomeImg} src={welcomeStudentImg} alt="" />
+      <img className={styles.welcomeImg} draggable={false} src={welcomeStudentImg} alt="" />
       <h3>Experience new way of studying English</h3>
       <h4>Improve your English anywhere anytime</h4>
       <h4>Learn from interesting people around the world</h4>
@@ -50,7 +54,7 @@ export default function RegisterModal(props) {
   
   const tutorWelcome = (
     <div className={styles.registerWelcomeContent}>
-      <img className={styles.welcomeImg} src={welcomeTutorImg} alt="" />
+      <img className={styles.welcomeImg} draggable={false} src={welcomeTutorImg} alt="" />
       <h3>Tutoring with Mirage is fun & rewarding</h3>
       <h4>No experience necessary</h4>
       <h4>Share your knowledge with people and get paid</h4>
@@ -150,9 +154,10 @@ export default function RegisterModal(props) {
               <Button type="primary" htmlType="submit" className={styles.registerButton} shape="round">
                 Register
               </Button>
+              <p className={styles.switchModeWrapper}>Or<span onClick={switchRole} className={styles.switchMode}> become a {isStudent? "tutor" : "student"} instead</span></p>
+              <p className={styles.switchModeWrapper}>Already have an account? <span onClick={switchMode} className={styles.switchMode}> Login</span></p>
             </Form.Item>
           </Form>
-          <p onClick={switchRole} className={styles.switchRole}>Or become {isStudent? "tutor" : "student"} instead</p>
         </div>
       </div>
     </Modal>

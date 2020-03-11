@@ -3,10 +3,15 @@ import { Modal, Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './LoginModal.module.css';
 
-export default function LoginModal({ isVisible, onClose }) {
+export default function LoginModal({ isVisible, onClose, onSwitchRegister }) {
   const onFinish = values => {
     console.log('Received values of form: ', values);
   };
+  
+  const onChangeMode = () => {
+    onClose();
+    onSwitchRegister(true);
+  }
 
   return (
     <Modal
@@ -52,7 +57,7 @@ export default function LoginModal({ isVisible, onClose }) {
           <Button type="primary" htmlType="submit" className={styles.loginButton} shape="round">
             Log in
         </Button>
-        Or <a href="/">register now!</a>
+        Or <span className={styles.registerNow} onClick={onChangeMode}>register now!</span>
         </Form.Item>
       </Form>
     </Modal>

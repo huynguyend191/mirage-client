@@ -25,10 +25,13 @@
   flex-direction: column;
 }
 
-.switchRole {
+.switchMode {
   cursor: pointer;
   color: #1890ff;
-  align-self: flex-end;
+}
+
+.switchModeWrapper {
+  margin-top: 15px;
 }
 
 .welcomeImg {
