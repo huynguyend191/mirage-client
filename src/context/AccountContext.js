@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-
+import { getAccountInfo, removeAccountInfo } from '../lib/utils/getAccountInfo';
 export const AccountContext = createContext(null);
 
 const initialAccount = null;
@@ -8,15 +8,18 @@ const AccountContextProvider = (props) => {
   const [account, setAccount] = useState(initialAccount);
 
   useEffect(() => {
-    //TODO check if cookie exists
-    const existAccout = { role: 3 };
-    if (existAccout) {
-      setAccount(null)
+    if (Boolean(localStorage.getItem('remember'))) {
+      const existAccount = getAccountInfo();
+      if (existAccount) {
+        setAccount(existAccount);
+      }
+    } else {
+      removeAccountInfo();
     }
   }, []);
 
   const onLogin = (accountData) => {
-    setAccount(accountData)
+    setAccount(accountData);
   };
 
   const onLogout = () => {

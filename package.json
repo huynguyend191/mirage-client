@@ -8,12 +8,15 @@
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.0.2",
+    "axios": "^0.19.2",
+    "jwt-decode": "^2.2.0",
     "react": "^16.13.0",
     "react-app-rewired": "^2.1.5",
     "react-beforeunload": "^2.1.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "universal-cookie": "^4.0.3",
     "videojs-record": "^3.10.0"
   },
   "scripts": {
