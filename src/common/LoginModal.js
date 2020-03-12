@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal, Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './LoginModal.module.css';
+import { AccountContext } from '../context/AccountContext';
+import axios from '../lib/utils/axiosConfig';
 
 export default function LoginModal({ isVisible, onClose, onSwitchRegister }) {
   const [form] = Form.useForm();
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
+  const [loading, setLoading] = useState(false);
+  const { onLogin } = useContext(AccountContext);
+  const onFinish = async values => {
+    try {
+      setLoading(true);
+      const account = {
+        user: values.user,
+        password: values.password
+      };
+      localStorage.setItem('remember', values.remember);
+      const result = await axios.post('/accounts/login', account);
+      setLoading(false);
+      onLogin(result.data.account);
+    } catch (error) {
+      setLoading(false);
+      console.log(error.response);
+    }
   };
-  
+
   const onChangeMode = () => {
     onClose();
     onSwitchRegister(true);
@@ -35,7 +52,7 @@ export default function LoginModal({ isVisible, onClose, onSwitchRegister }) {
         form={form}
       >
         <Form.Item
-          name="username"
+          name="user"
           rules={[{ required: true, message: 'Please input your username or email!' }]}
         >
           <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username or email" />
@@ -61,7 +78,7 @@ export default function LoginModal({ isVisible, onClose, onSwitchRegister }) {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className={styles.loginButton} shape="round">
+          <Button type="primary" htmlType="submit" className={styles.loginButton} shape="round" disabled={loading}>
             Log in
         </Button>
         Or <span className={styles.registerNow} onClick={onChangeMode}>register now!</span>
