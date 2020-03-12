@@ -6,9 +6,12 @@ import welcomeTutorImg from '../assets/welcome-tutor.png';
 
 export default function RegisterModal(props) {
   const [isStudent, setIsStudent] = useState(props.isStudent);
+  const [form] = Form.useForm();
+
   useEffect(() => {
     setIsStudent(props.isStudent)
   }, [props.isStudent])
+
   const onFinish = values => {
     console.log('Received values of form: ', values);
     const url = isStudent? '/student' : '/tutor'
@@ -21,6 +24,11 @@ export default function RegisterModal(props) {
     props.onClose();
     props.onSwitchLogin();
   };
+  const onClose = () => {
+    form.resetFields();
+    props.onClose();
+  }
+
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -66,7 +74,7 @@ export default function RegisterModal(props) {
       visible={props.isVisible}
       footer={null}
       title="Register"
-      onCancel={props.onClose}
+      onCancel={onClose}
       width="800px"
     >
       <div className={styles.registerContent}>
@@ -83,6 +91,7 @@ export default function RegisterModal(props) {
             onFinish={onFinish}
             scrollToFirstError
             className={styles.registerForm}
+            form={form}
             {...formItemLayout}
           >
             <Form.Item

@@ -4,6 +4,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './LoginModal.module.css';
 
 export default function LoginModal({ isVisible, onClose, onSwitchRegister }) {
+  const [form] = Form.useForm();
   const onFinish = values => {
     console.log('Received values of form: ', values);
   };
@@ -13,11 +14,16 @@ export default function LoginModal({ isVisible, onClose, onSwitchRegister }) {
     onSwitchRegister(true);
   }
 
+  const onCancle = () => {
+    form.resetFields()
+    onClose();
+  }
+
   return (
     <Modal
       visible={isVisible}
       footer={null}
-      onCancel={onClose}
+      onCancel={onCancle}
       title="Login"
       width="400px"
     >
@@ -26,6 +32,7 @@ export default function LoginModal({ isVisible, onClose, onSwitchRegister }) {
         className={styles.loginForm}
         initialValues={{ remember: true }}
         onFinish={onFinish}
+        form={form}
       >
         <Form.Item
           name="username"
