@@ -16,16 +16,16 @@ export default function Default() {
   const showRegister = (isStudent) => {
     setIsStudent(isStudent);
     setRegister(true);
-  }
+  };
   const hideRegister = () => {
     setRegister(false);
-  }
+  };
   const showLogin = () => {
     setLogin(true);
-  }
+  };
   const hideLogin = () => {
     setLogin(false);
-  }
+  };
   return (
     <Layout>
       <LoginModal isVisible={isLogin} onClose={hideLogin} onSwitchRegister={showRegister} />

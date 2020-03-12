@@ -1,10 +1,13 @@
 import React from 'react';
-import Default from './common/Default';
+import AccountContextProvider from './context/AccountContext';
+import Router from './common/Router';
 
 function App() {
   return (
     <div className="App">
-      <Default />
+      <AccountContextProvider>
+        <Router />
+      </AccountContextProvider>
     </div>
   );
 }
