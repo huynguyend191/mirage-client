@@ -9,7 +9,7 @@ export default function LoginModal({ isVisible, onClose, onSwitchRegister }) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const { onLogin } = useContext(AccountContext);
-  const onFinish = async values => {
+  const onFinish = async (values) => {
     try {
       setLoading(true);
       const account = {

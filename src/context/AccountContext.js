@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getAccountInfo, removeAccountInfo } from '../lib/utils/getAccountInfo';
+import { getAccountInfo } from '../lib/utils/getAccountInfo';
 export const AccountContext = createContext(null);
 
 const initialAccount = null;

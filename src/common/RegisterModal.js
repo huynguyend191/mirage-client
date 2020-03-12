@@ -1,21 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
 import styles from './RegisterModal.module.css';
 import welcomeStudentImg from '../assets/welcome-student.png';
 import welcomeTutorImg from '../assets/welcome-tutor.png';
+import axios from '../lib/utils/axiosConfig';
+import { AccountContext } from '../context/AccountContext';
 
 export default function RegisterModal(props) {
   const [isStudent, setIsStudent] = useState(props.isStudent);
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  const { onLogin } = useContext(AccountContext);
 
   useEffect(() => {
     setIsStudent(props.isStudent)
   }, [props.isStudent])
 
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
-    const url = isStudent? '/student' : '/tutor'
-    console.log(url)
+  const onFinish = async (values) => {
+    try {
+      setLoading(true);
+      const url = isStudent? '/students' : '/tutors';
+      const accountInfo = {
+        username: values.username,
+        password: values.password,
+        email: values.email,
+        name: values.name
+      };
+      const result = await axios.post(url + '/register', accountInfo);
+      setLoading(false);
+      onLogin(result.data.account);
+      localStorage.setItem('remember', false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error.response);
+    }
   };
   const switchRole = () => {
     setIsStudent(!isStudent);
@@ -153,14 +171,14 @@ export default function RegisterModal(props) {
               <Input.Password />
             </Form.Item>
             <Form.Item
-              name="full name"
+              name="name"
               label="Full name"
               rules={[{ required: true, message: 'Please input your fullname!', whitespace: true }]}
             >
               <Input />
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit" className={styles.registerButton} shape="round">
+              <Button type="primary" htmlType="submit" className={styles.registerButton} shape="round" disabled={loading}>
                 Register
               </Button>
               <p className={styles.switchModeWrapper}>Or<span onClick={switchRole} className={styles.switchMode}> become a {isStudent? "tutor" : "student"} instead</span></p>
