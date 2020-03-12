@@ -8,13 +8,11 @@ const AccountContextProvider = (props) => {
   const [account, setAccount] = useState(initialAccount);
 
   useEffect(() => {
-    if (Boolean(localStorage.getItem('remember'))) {
+    if (JSON.parse(localStorage.getItem('remember'))) {
       const existAccount = getAccountInfo();
       if (existAccount) {
         setAccount(existAccount);
       }
-    } else {
-      removeAccountInfo();
     }
   }, []);
 
