@@ -6,7 +6,7 @@ import Student from '../pages/student/Student';
 import Tutor from '../pages/tutor/Tutor';
 import Admin from '../pages/admin/Admin';
 import { ROLES } from '../lib/constants';
-import Logout from './Logout';
+import SignOut from './SignOut';
 
 export default function Router() {
   const { account } = useContext(AccountContext);
@@ -14,7 +14,6 @@ export default function Router() {
     return (
       <Switch>
         <Route path="/student" component={Student} />
-        <Route path="/logout" component={Logout} />
         <Redirect to="/student" />
       </Switch>
     );
@@ -22,7 +21,6 @@ export default function Router() {
     return (
       <Switch>
         <Route path="/tutor" component={Tutor} />
-        <Route path="/logout" component={Logout} />
         <Redirect to="/tutor" />
       </Switch>
     );
@@ -37,7 +35,7 @@ export default function Router() {
     return (
       <Switch>
         <Route path="/" exact component={Default} />
-        <Route path="/logout" component={Logout} />
+        <Route path="/sign-out" component={SignOut} />
         <Redirect to="/" />
       </Switch>
     )

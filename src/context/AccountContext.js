@@ -17,18 +17,18 @@ const AccountContextProvider = (props) => {
     }
   }, []);
 
-  const onLogin = (accountData) => {
+  const onSignIn = (accountData) => {
     setAccount(accountData);
   };
 
-  const onLogout = () => {
+  const onSignOut = () => {
     removeAccountInfo();
     localStorage.clear();
     setAccount(null);
   };
 
   return (
-    <AccountContext.Provider value={{account, onLogin, onLogout}} {...props} />
+    <AccountContext.Provider value={{account, onSignIn, onSignOut}} {...props} />
   )
 }
 

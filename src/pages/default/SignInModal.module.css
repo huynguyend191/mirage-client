@@ -1,10 +1,10 @@
-.loginForm{
+.signInForm{
   align-self: center;
 }
-.loginForgot {
+.signInForgot {
   float: right;
 }
-.loginButton {
+.signInButton {
   width: 100%;
   margin-bottom: 10px;
 }

@@ -10,7 +10,7 @@ export default function RegisterModal(props) {
   const [isStudent, setIsStudent] = useState(props.isStudent);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
-  const { onLogin } = useContext(AccountContext);
+  const { onSignIn } = useContext(AccountContext);
 
   useEffect(() => {
     setIsStudent(props.isStudent)
@@ -28,7 +28,7 @@ export default function RegisterModal(props) {
       };
       const result = await axios.post(url + '/register', accountInfo);
       setLoading(false);
-      onLogin(result.data.account);
+      onSignIn(result.data.account);
       localStorage.setItem('remember', true);
     } catch (error) {
       setLoading(false);
@@ -40,7 +40,7 @@ export default function RegisterModal(props) {
   };
   const switchMode = () => {
     props.onClose();
-    props.onSwitchLogin();
+    props.onSwitchSignIn();
   };
   const onClose = () => {
     form.resetFields();
@@ -182,7 +182,7 @@ export default function RegisterModal(props) {
                 Register
               </Button>
               <p className={styles.switchModeWrapper}>Or<span onClick={switchRole} className={styles.switchMode}> become a {isStudent? "tutor" : "student"} instead</span></p>
-              <p className={styles.switchModeWrapper}>Already have an account? <span onClick={switchMode} className={styles.switchMode}> Login</span></p>
+              <p className={styles.switchModeWrapper}>Already have an account? <span onClick={switchMode} className={styles.switchMode}> Sign in</span></p>
             </Form.Item>
           </Form>
         </div>
