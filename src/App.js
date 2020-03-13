@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import AccountContextProvider from './context/AccountContext';
 import Router from './components/Router';
 
@@ -12,4 +13,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRouter(App);

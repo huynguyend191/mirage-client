@@ -1,8 +1,9 @@
 .footerContent {
-  height: 50px;
+  height: 40px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  font-size: 12px;
 }
 
 .contactIcon {
