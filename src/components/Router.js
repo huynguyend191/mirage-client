@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { AccountContext } from '../context/AccountContext';
-import Default from './Default';
-import Student from '../student/Student';
-import Tutor from '../tutor/Tutor';
+import Default from '../pages/default/Default';
+import Student from '../pages/student/Student';
+import Tutor from '../pages/tutor/Tutor';
 import { ROLES } from '../lib/constants';
 
 export default function Router() {

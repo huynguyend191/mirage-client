@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
 import styles from './RegisterModal.module.css';
-import welcomeStudentImg from '../assets/welcome-student.png';
-import welcomeTutorImg from '../assets/welcome-tutor.png';
-import axios from '../lib/utils/axiosConfig';
-import { AccountContext } from '../context/AccountContext';
+import welcomeStudentImg from '../../assets/welcome-student.png';
+import welcomeTutorImg from '../../assets/welcome-tutor.png';
+import axios from '../../lib/utils/axiosConfig';
+import { AccountContext } from '../../context/AccountContext';
 
 export default function RegisterModal(props) {
   const [isStudent, setIsStudent] = useState(props.isStudent);
@@ -29,7 +29,7 @@ export default function RegisterModal(props) {
       const result = await axios.post(url + '/register', accountInfo);
       setLoading(false);
       onLogin(result.data.account);
-      localStorage.setItem('remember', false);
+      localStorage.setItem('remember', true);
     } catch (error) {
       setLoading(false);
       console.log(error.response);

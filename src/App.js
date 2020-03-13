@@ -1,6 +1,6 @@
 import React from 'react';
 import AccountContextProvider from './context/AccountContext';
-import Router from './common/Router';
+import Router from './components/Router';
 
 function App() {
   return (

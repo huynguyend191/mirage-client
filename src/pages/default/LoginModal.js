@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { Modal, Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './LoginModal.module.css';
-import { AccountContext } from '../context/AccountContext';
-import axios from '../lib/utils/axiosConfig';
+import { AccountContext } from '../../context/AccountContext';
+import axios from '../../lib/utils/axiosConfig';
 
 export default function LoginModal({ isVisible, onClose, onSwitchRegister }) {
   const [form] = Form.useForm();
