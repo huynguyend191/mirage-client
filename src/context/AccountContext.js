@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getAccountInfo } from '../lib/utils/getAccountInfo';
+import { getAccountInfo, removeAccountInfo } from '../lib/utils/getAccountInfo';
 export const AccountContext = createContext(null);
 
 const initialAccount = null;
@@ -11,6 +11,7 @@ const AccountContextProvider = (props) => {
     if (JSON.parse(localStorage.getItem('remember'))) {
       const existAccount = getAccountInfo();
       if (existAccount) {
+        console.log(existAccount);
         setAccount(existAccount);
       }
     }
@@ -21,6 +22,8 @@ const AccountContextProvider = (props) => {
   };
 
   const onLogout = () => {
+    removeAccountInfo();
+    localStorage.clear();
     setAccount(null);
   };
 

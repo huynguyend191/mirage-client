@@ -81,7 +81,7 @@ export default function LoginModal({ isVisible, onClose, onSwitchRegister }) {
           <Button type="primary" htmlType="submit" className={styles.loginButton} shape="round" disabled={loading}>
             Log in
         </Button>
-        Or <span className={styles.registerNow} onClick={onChangeMode}>register now!</span>
+        Don't have anccount? <span className={styles.registerNow} onClick={onChangeMode}>Register now!</span>
         </Form.Item>
       </Form>
     </Modal>
