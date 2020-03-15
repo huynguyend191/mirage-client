@@ -54,9 +54,9 @@ export default function Admin(props) {
       <Layout>
         <Header style={{background: "white"}}>
           <div className={styles.userControl}>
-            <img src={Avatar} alt="" className={styles.avatar} draggable={false} />
-            <Dropdown overlay={userMenu}>
-              <div>Hello, {account.username}<DownOutlined className={styles.dropDownIcon} /></div>
+            Hello, {account.username}
+            <Dropdown overlay={userMenu} placement="bottomLeft">
+              <div><img src={Avatar} alt="" className={styles.avatar} draggable={false} /><DownOutlined className={styles.dropDownIcon} /></div>
             </Dropdown>
           </div>
         </Header>
