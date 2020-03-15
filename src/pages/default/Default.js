@@ -7,7 +7,7 @@ import headerIcon from '../../assets/app-logo.png';
 import RegisterModal from './RegisterModal';
 import SignInModal from './SignInModal';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 export default function Default() {
   const [isRegister, setRegister] = useState(false);
@@ -56,9 +56,7 @@ export default function Default() {
           </div>
         </div>
       </Content>
-      <Footer>
-        <FooterContent />
-      </Footer>
+      <FooterContent />
     </Layout>
   )
 }

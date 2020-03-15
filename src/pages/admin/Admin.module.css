@@ -1,0 +1,19 @@
+.logoContainer {
+  height: 80px;
+  overflow: hidden;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+}
+
+.logoText {
+  color: white;
+  margin: auto;
+  font-size: 30px;
+}
