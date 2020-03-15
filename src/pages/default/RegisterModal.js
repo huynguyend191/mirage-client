@@ -178,7 +178,7 @@ export default function RegisterModal(props) {
               <Input />
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit" className={styles.registerButton} shape="round" disabled={loading}>
+              <Button type="primary" htmlType="submit" className={styles.registerButton} shape="round" loading={loading}>
                 Register
               </Button>
               <p className={styles.switchModeWrapper}>Or<span onClick={switchRole} className={styles.switchMode}> become a {isStudent? "tutor" : "student"} instead</span></p>

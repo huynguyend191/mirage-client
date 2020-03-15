@@ -78,10 +78,10 @@ export default function SignInModal({ isVisible, onClose, onSwitchRegister }) {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className={styles.signInButton} shape="round" disabled={loading}>
-            Log in
+          <Button type="primary" htmlType="submit" className={styles.signInButton} shape="round" loading={loading}>
+            Sign in
         </Button>
-        Don't have anccount? <span className={styles.registerNow} onClick={onChangeMode}>Register now!</span>
+        Don't have an account? <span className={styles.registerNow} onClick={onChangeMode}>Register now!</span>
         </Form.Item>
       </Form>
     </Modal>

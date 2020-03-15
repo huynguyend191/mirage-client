@@ -12,6 +12,5 @@ export const getAccountInfo = () => {
 }
 
 export const removeAccountInfo = () => {
-  console.log("Nani")
   cookies.remove('access_token');
 }
