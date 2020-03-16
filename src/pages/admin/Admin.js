@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { AccountContext } from '../../context/AccountContext';
 import FooterContent from '../../components/FooterContent';
-import { Layout, Menu, Dropdown } from 'antd';
-import { BarChartOutlined, IdcardOutlined, TeamOutlined, DownOutlined, ExceptionOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { Layout, Menu, Dropdown, Avatar } from 'antd';
+import { BarChartOutlined, IdcardOutlined, TeamOutlined, DownOutlined, ExceptionOutlined, MenuUnfoldOutlined, MenuFoldOutlined, KeyOutlined, LogoutOutlined} from '@ant-design/icons';
 import { Link, Route, Switch } from 'react-router-dom';
 import styles from './Admin.module.css';
 import Dashboard from './Dashboard';
 import Students from './Students';
 import Tutors from './Tutors';
 import Logo from '../../assets/app-logo.png';
-import Avatar from '../../assets/admin-avatar.png';
+import AvatarPic from '../../assets/admin-avatar.png';
 import Reports from './Reports';
 
 const { Header, Content, Sider } = Layout;
@@ -24,10 +24,10 @@ export default function Admin(props) {
   const userMenu = (
     <Menu>
       <Menu.Item>
-        Change password
+        <KeyOutlined /><span>Change password</span>
       </Menu.Item>
       <Menu.Item onClick={onSignOut}>
-        Sign out
+        <LogoutOutlined /><span>Sign out</span>
       </Menu.Item>
     </Menu>
   );
@@ -62,7 +62,7 @@ export default function Admin(props) {
           <div className={styles.userControl}>
             Hello, {account.username}
             <Dropdown overlay={userMenu} placement="bottomLeft">
-              <div><img src={Avatar} alt="" className={styles.avatar} draggable={false} /><DownOutlined className={styles.dropDownIcon} /></div>
+              <div><Avatar src={AvatarPic} size="large" draggable={false} /><DownOutlined className={styles.dropDownIcon} /></div>
             </Dropdown>
           </div>
         </Header>
