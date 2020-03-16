@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AccountContext } from '../../context/AccountContext';
 import FooterContent from '../../components/FooterContent';
 import { Layout, Menu, Dropdown } from 'antd';
-import { BarChartOutlined, ContactsOutlined, TeamOutlined } from '@ant-design/icons';
+import { BarChartOutlined, IdcardOutlined, TeamOutlined, DownOutlined, ExceptionOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { Link, Route, Switch } from 'react-router-dom';
 import styles from './Admin.module.css';
 import Dashboard from './Dashboard';
@@ -10,7 +10,7 @@ import Students from './Students';
 import Tutors from './Tutors';
 import Logo from '../../assets/app-logo.png';
 import Avatar from '../../assets/admin-avatar.png';
-import { DownOutlined } from '@ant-design/icons';
+import Reports from './Reports';
 
 const { Header, Content, Sider } = Layout;
 
@@ -47,12 +47,18 @@ export default function Admin(props) {
             <TeamOutlined /><Link to="/admin/students"><span>Students</span></Link>
           </Menu.Item>
           <Menu.Item key="/admin/tutors">
-            <ContactsOutlined /><Link to="/admin/tutors"><span>Tutors</span></Link>
+            <IdcardOutlined /><Link to="/admin/tutors"><span>Tutors</span></Link>
+          </Menu.Item>
+          <Menu.Item key="/admin/reports">
+            <ExceptionOutlined /><Link to="/admin/reports"><span>Reports</span></Link>
           </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
         <Header style={{background: "white"}}>
+          {
+            collapsed ? <MenuUnfoldOutlined style={{fontSize: "20px"}} onClick={() => setCollapsed(false)} /> : <MenuFoldOutlined style={{fontSize: "20px"}}  onClick={() => setCollapsed(true)} />
+          }
           <div className={styles.userControl}>
             Hello, {account.username}
             <Dropdown overlay={userMenu} placement="bottomLeft">
@@ -64,6 +70,7 @@ export default function Admin(props) {
           <Switch>
             <Route path="/admin/students" component={Students} />
             <Route path="/admin/tutors" component={Tutors} />
+            <Route path="/admin/reports" component={Reports} />
             <Route path="/admin" component={Dashboard} exact />
           </Switch>
         </Content>
