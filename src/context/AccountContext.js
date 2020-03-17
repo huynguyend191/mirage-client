@@ -11,7 +11,6 @@ const AccountContextProvider = (props) => {
     if (JSON.parse(localStorage.getItem('remember'))) {
       const existAccount = getAccountInfo();
       if (existAccount) {
-        console.log(existAccount);
         setAccount(existAccount);
       }
     }

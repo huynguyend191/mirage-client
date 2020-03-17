@@ -6,7 +6,7 @@ import introImg from '../../assets/flame-welcome.png';
 import headerIcon from '../../assets/app-logo.png';
 import RegisterModal from './RegisterModal';
 import SignInModal from './SignInModal';
-import ForgotPasswordModal from './ForgotPasswordModal';
+import ForgotPasswordModal from '../../components/ForgotPasswordModal';
 
 const { Header, Content } = Layout;
 

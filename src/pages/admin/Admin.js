@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AccountContext } from '../../context/AccountContext';
 import FooterContent from '../../components/FooterContent';
 import { Layout, Menu, Dropdown, Avatar } from 'antd';
-import { BarChartOutlined, IdcardOutlined, TeamOutlined, DownOutlined, ExceptionOutlined, MenuUnfoldOutlined, MenuFoldOutlined, KeyOutlined, LogoutOutlined} from '@ant-design/icons';
+import { BarChartOutlined, IdcardOutlined, TeamOutlined, DownOutlined, ExceptionOutlined, MenuUnfoldOutlined, MenuFoldOutlined, KeyOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link, Route, Switch } from 'react-router-dom';
 import styles from './Admin.module.css';
 import Dashboard from './Dashboard';
@@ -11,19 +11,25 @@ import Tutors from './Tutors';
 import Logo from '../../assets/app-logo.png';
 import AvatarPic from '../../assets/admin-avatar.png';
 import Reports from './Reports';
+import ChangePasswordModal from '../../components/ChangePasswordModal';
+import ForgotPasswordModal from '../../components/ForgotPasswordModal';
 
 const { Header, Content, Sider } = Layout;
 
 export default function Admin(props) {
   const [collapsed, setCollapsed] = useState(false);
+  const [isChangePass, setIsChangePass] = useState(false);
+  const [isForgotPass, setIsForgotPass] = useState(false);
+  const { onSignOut, account } = useContext(AccountContext);
   const { location } = props;
+
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed)
   }
-  const { onSignOut, account } = useContext(AccountContext);
+
   const userMenu = (
     <Menu>
-      <Menu.Item>
+      <Menu.Item onClick={() => setIsChangePass(true)}>
         <KeyOutlined /><span>Change password</span>
       </Menu.Item>
       <Menu.Item onClick={onSignOut}>
@@ -34,6 +40,12 @@ export default function Admin(props) {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
+      <ForgotPasswordModal isVisible={isForgotPass} onClose={() => setIsForgotPass(false)} />
+      <ChangePasswordModal
+        isVisible={isChangePass}
+        onClose={() => setIsChangePass(false)}
+        onForgot={() => setIsForgotPass(true)}
+      />
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className={styles.logoContainer}>
           <img src={Logo} alt="" className={styles.logo} draggable={false} />
@@ -55,9 +67,9 @@ export default function Admin(props) {
         </Menu>
       </Sider>
       <Layout>
-        <Header style={{background: "white"}}>
+        <Header style={{ background: "white" }}>
           {
-            collapsed ? <MenuUnfoldOutlined style={{fontSize: "20px"}} onClick={() => setCollapsed(false)} /> : <MenuFoldOutlined style={{fontSize: "20px"}}  onClick={() => setCollapsed(true)} />
+            collapsed ? <MenuUnfoldOutlined style={{ fontSize: "20px" }} onClick={() => setCollapsed(false)} /> : <MenuFoldOutlined style={{ fontSize: "20px" }} onClick={() => setCollapsed(true)} />
           }
           <div className={styles.userControl}>
             Hello, {account.username}
