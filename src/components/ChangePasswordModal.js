@@ -62,7 +62,7 @@ export default function ChangePasswordModal({ isVisible, onForgot, onClose }) {
           rules={[
             {
               required: true,
-              message: 'Please input your old password!',
+              message: 'Please input your current password!',
             },
           ]}
         >
