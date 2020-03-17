@@ -6,30 +6,26 @@ import introImg from '../../assets/flame-welcome.png';
 import headerIcon from '../../assets/app-logo.png';
 import RegisterModal from './RegisterModal';
 import SignInModal from './SignInModal';
+import ForgotPasswordModal from './ForgotPasswordModal';
 
 const { Header, Content } = Layout;
 
 export default function Default() {
   const [isRegister, setRegister] = useState(false);
   const [isSignIn, setIsSignIn] = useState(false);
+  const [isForgotPass, setIsForgotPass] = useState(false);
   const [isStudent, setIsStudent] = useState(true);
+
   const showRegister = (isStudent) => {
     setIsStudent(isStudent);
     setRegister(true);
   };
-  const hideRegister = () => {
-    setRegister(false);
-  };
-  const showSignIn = () => {
-    setIsSignIn(true);
-  };
-  const hideSignIn = () => {
-    setIsSignIn(false);
-  };
+
   return (
     <Layout>
-      <SignInModal isVisible={isSignIn} onClose={hideSignIn} onSwitchRegister={showRegister} />
-      <RegisterModal isVisible={isRegister} onClose={hideRegister} isStudent={isStudent} onSwitchSignIn={showSignIn} />
+      <SignInModal isVisible={isSignIn} onClose={() => setIsSignIn(false)} onSwitchRegister={showRegister} onSwitchForgotPass={() => setIsForgotPass(true)} />
+      <RegisterModal isVisible={isRegister} onClose={() => {setRegister(false)}} isStudent={isStudent} onSwitchSignIn={() => setIsSignIn(true)} />
+      <ForgotPasswordModal isVisible={isForgotPass} onClose={() => setIsForgotPass(false)} />
       <Header>
         <div className={styles.headerContent}>
           <div className={styles.headerWrapper}>
@@ -37,7 +33,7 @@ export default function Default() {
             <h1 className={styles.headerTitle}>MIRAGE</h1>
           </div>
           <div className={styles.userButtonContainer}>
-            <Button className={styles.userButton} type="secondary" shape="round" onClick={() => showSignIn()}>Sign in</Button>
+            <Button className={styles.userButton} type="secondary" shape="round" onClick={() => setIsSignIn(true)}>Sign in</Button>
             <Button className={styles.userButton} type="primary" shape="round" onClick={() => showRegister(true)}>Register</Button>
           </div>
         </div>

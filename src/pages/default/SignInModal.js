@@ -5,7 +5,7 @@ import styles from './SignInModal.module.css';
 import { AccountContext } from '../../context/AccountContext';
 import axios from '../../lib/utils/axiosConfig';
 
-export default function SignInModal({ isVisible, onClose, onSwitchRegister }) {
+export default function SignInModal({ isVisible, onClose, onSwitchRegister, onSwitchForgotPass }) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const { onSignIn } = useContext(AccountContext);
@@ -29,18 +29,23 @@ export default function SignInModal({ isVisible, onClose, onSwitchRegister }) {
   const onChangeMode = () => {
     onClose();
     onSwitchRegister(true);
-  }
+  };
 
-  const onCancle = () => {
+  const onCancel = () => {
     form.resetFields()
     onClose();
-  }
+  };
+
+  const onForgotPass = () => {
+    onClose();
+    onSwitchForgotPass();
+  };
 
   return (
     <Modal
       visible={isVisible}
       footer={null}
-      onCancel={onCancle}
+      onCancel={onCancel}
       title="Sign in"
       width="400px"
     >
@@ -72,9 +77,9 @@ export default function SignInModal({ isVisible, onClose, onSwitchRegister }) {
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
-          <a className={styles.signInForgot} href="/">
-            Forgot password
-        </a>
+          <p onClick={onForgotPass} className={styles.signInForgot}>
+            Forgot password?
+          </p>
         </Form.Item>
 
         <Form.Item>

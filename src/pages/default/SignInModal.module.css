@@ -3,6 +3,8 @@
 }
 .signInForgot {
   float: right;
+  cursor: pointer;
+  color: #1890ff;
 }
 .signInButton {
   width: 100%;

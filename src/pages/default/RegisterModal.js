@@ -91,7 +91,7 @@ export default function RegisterModal(props) {
     <Modal
       visible={props.isVisible}
       footer={null}
-      title="Register"
+      title={isStudent? 'Register as student' : 'Register as tutor'}
       onCancel={onClose}
       width="800px"
     >
