@@ -1,0 +1,35 @@
+.userControl {
+  float: right;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: white;
+}
+
+.sideMenu {
+  background: white;
+}
+
+.logoContainer {
+  height: 80px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  user-select: none;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  margin: 20px 0px 20px 20px;
+}
+
+.logoText {
+  color: white;
+  margin: auto auto auto 10px;
+  font-size: 27px;
+}

@@ -3,10 +3,10 @@ import styles from './Default.module.css';
 import { Button, Layout, Divider } from 'antd';
 import FooterContent from '../../components/FooterContent';
 import introImg from '../../assets/flame-welcome.png';
-import headerIcon from '../../assets/app-logo.png';
 import RegisterModal from './RegisterModal';
 import SignInModal from './SignInModal';
 import ForgotPasswordModal from '../../components/ForgotPasswordModal';
+import AppLogo from '../../components/AppLogo';
 
 const { Header, Content } = Layout;
 
@@ -28,10 +28,7 @@ export default function Default() {
       <ForgotPasswordModal isVisible={isForgotPass} onClose={() => setIsForgotPass(false)} />
       <Header>
         <div className={styles.headerContent}>
-          <div className={styles.headerWrapper}>
-            <img className={styles.headerIcon} src={headerIcon} draggable={false} alt="" />
-            <h1 className={styles.headerTitle}>MIRAGE</h1>
-          </div>
+          <AppLogo />
           <div className={styles.userButtonContainer}>
             <Button className={styles.userButton} type="secondary" shape="round" onClick={() => setIsSignIn(true)}>Sign in</Button>
             <Button className={styles.userButton} type="primary" shape="round" onClick={() => showRegister(true)}>Register</Button>

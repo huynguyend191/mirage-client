@@ -1,0 +1,18 @@
+.headerWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  user-select: none;
+}
+
+.headerTitle {
+  margin: 0;
+  line-height: 0;
+  font-size: 40px;
+  color: white;
+}
+
+.headerIcon {
+  height: 52px;
+  margin-right: 5px;
+}

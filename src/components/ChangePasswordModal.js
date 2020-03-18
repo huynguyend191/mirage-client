@@ -107,7 +107,9 @@ export default function ChangePasswordModal({ isVisible, onForgot, onClose }) {
           <Button type="primary" htmlType="submit" className={styles.registerButton} loading={loading}>
             Update password
           </Button>
-          {account.role === ROLES.ADMIN ? null : <span className={styles.forgotPass} onClick={forgotPassword}>Forgot password?</span>}
+          {account.role === ROLES.ADMIN ? 
+            null : 
+            <span className={styles.forgotPass} onClick={forgotPassword}>Forgot password?</span>}
         </Form.Item>
       </Form>
     </Modal>
