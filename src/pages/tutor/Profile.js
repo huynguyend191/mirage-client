@@ -5,6 +5,7 @@ import { AccountContext } from '../../context/AccountContext';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Collapse, Form, Input, DatePicker, Button, Select } from 'antd';
 import preferences from '../../lib/preferences';
+import moment from 'moment';
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -69,7 +70,7 @@ export default function Profile() {
             initialValues={{
               name: profile.name,
               phone: profile.phone,
-              birthdate: profile.birthdate,
+              birthdate: moment(profile.birthdate),
               address: profile.address,
               interests: profile.interests,
               education: profile.education,
@@ -79,7 +80,8 @@ export default function Profile() {
               student_lvl: profile.student_lvl,
               accent: profile.accent,
               fluency: profile.fluency,
-              speciality: (profile.speciality) ? JSON.parse(profile.speciality) : undefined,
+              reason: profile.reason,
+              specialities: (profile.specialities) ? JSON.parse(profile.specialities) : undefined,
               introduction: profile.introduction
             }}
           >
@@ -111,6 +113,9 @@ export default function Profile() {
                 <Form.Item name="profession" label="Profession">
                   <Input placeholder="Your current or previous jobs" />
                 </Form.Item>
+                <Form.Item name="reason" label="Reason">
+                  <Input.TextArea placeholder="Why do you want to teach English?" />
+                </Form.Item>
               </Panel>
               <Panel header="Teaching preferences">
                 <Form.Item name="student_type" label="Target">
@@ -141,9 +146,9 @@ export default function Profile() {
                     })}
                   </Select>
                 </Form.Item>
-                <Form.Item name="speciality" label="Speciality">
+                <Form.Item name="specialities" label="Specialities">
                   <Select mode="multiple" placeholder="Select your specialities">
-                    {preferences.SPECIALITY.map(spec => {
+                    {preferences.SPECIALITIES.map(spec => {
                       return <Option value={spec} key={spec}>{spec}</Option>
                     })}
                   </Select>

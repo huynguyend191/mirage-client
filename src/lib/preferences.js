@@ -49,7 +49,7 @@ exports.STUDENT_LVL = [
   "Advanced"
 ];
 
-exports.SPECIALITY = [
+exports.SPECIALITIES = [
   "Friendly conversation", 
   "Business English", 
   "Public speaking", 

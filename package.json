@@ -10,6 +10,7 @@
     "antd": "^4.0.2",
     "axios": "^0.19.2",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.24.0",
     "react": "^16.13.0",
     "react-app-rewired": "^2.1.5",
     "react-beforeunload": "^2.1.0",
