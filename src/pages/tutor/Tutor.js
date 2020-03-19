@@ -21,8 +21,8 @@ export default function Tutor(props) {
   const [isForgotPass, setIsForgotPass] = useState(false);
   const { location } = props;
   const userAvatar = account.tutor.avatar ?
-    <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} size="large" /> :
-    <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} size="large" />
+    <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} /> :
+    <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} />
   const userMenu = (
     <Menu>
       <Menu.Item onClick={() => setIsChangePass(true)}>

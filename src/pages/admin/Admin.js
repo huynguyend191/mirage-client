@@ -8,11 +8,11 @@ import styles from './Admin.module.css';
 import Dashboard from './Dashboard';
 import Students from './Students';
 import Tutors from './Tutors';
-import Logo from '../../assets/app-logo.png';
 import AvatarPic from '../../assets/admin-avatar.png';
 import Reports from './Reports';
 import ChangePasswordModal from '../../components/ChangePasswordModal';
 import ForgotPasswordModal from '../../components/ForgotPasswordModal';
+import SideBarLogo from '../../components/SideBarLogo';
 
 const { Header, Content, Sider } = Layout;
 
@@ -47,10 +47,7 @@ export default function Admin(props) {
         onForgot={() => setIsForgotPass(true)}
       />
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-        <div className={styles.logoContainer}>
-          <img src={Logo} alt="" className={styles.logo} draggable={false} />
-          {collapsed ? null : <p className={styles.logoText}>MIRAGE</p>}
-        </div>
+        <SideBarLogo collapsed={collapsed} />
         <Menu theme="dark" defaultSelectedKeys={["/admin"]} mode="inline" selectedKeys={[location.pathname]}>
           <Menu.Item key="/admin">
             <BarChartOutlined /><Link to="/admin"><span>Dashboard</span></Link>
