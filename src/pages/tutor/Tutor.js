@@ -12,6 +12,7 @@ import Stats from './Stats';
 import VideoCall from './VideoCall';
 import { Switch, Route, Link } from 'react-router-dom';
 import SideBarLogo from '../../components/SideBarLogo';
+import { serverUrl } from '../../lib/constants';
 
 const { Header, Content, Sider } = Layout;
 
@@ -21,7 +22,7 @@ export default function Tutor(props) {
   const [isForgotPass, setIsForgotPass] = useState(false);
   const { location } = props;
   const userAvatar = account.tutor.avatar ?
-    <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} /> :
+    <Avatar style={{ margin: "10px" }} src={serverUrl + account.tutor.avatar} /> :
     <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} />
   const userMenu = (
     <Menu>

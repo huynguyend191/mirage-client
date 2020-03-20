@@ -2,17 +2,22 @@ import React, { useEffect, useState, useContext } from 'react';
 import styles from './Profile.module.css';
 import axios from '../../lib/utils/axiosConfig';
 import { AccountContext } from '../../context/AccountContext';
-import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Collapse, Form, Input, DatePicker, Button, Select } from 'antd';
+import { UserOutlined, UploadOutlined, FileTextOutlined, FileImageOutlined } from '@ant-design/icons';
+import { Avatar, Collapse, Form, Input, DatePicker, Button, Select, Upload } from 'antd';
 import preferences from '../../lib/preferences';
 import moment from 'moment';
+import { serverUrl } from '../../lib/constants';
 const { Panel } = Collapse;
 const { Option } = Select;
 
 export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState({ account: { email: null } });
-  const { account } = useContext(AccountContext);
+  const { account, onSignIn } = useContext(AccountContext);
+  const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [loadingAva, setLoadingAva] = useState(false);
+  const [avatar, setAvatar] = useState([]);
 
   const getTutorProfile = async () => {
     try {
@@ -28,8 +33,8 @@ export default function Profile() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const avatar = (profile && profile.avatar) ?
-    <img src={profile.avatar} alt="" />
+  const avatarProfile = (profile && profile.avatar) ?
+    <Avatar src={serverUrl + profile.avatar} size={100} />
     : <Avatar icon={<UserOutlined />} size={100} />
 
   const formItemLayout = {
@@ -42,21 +47,89 @@ export default function Profile() {
       sm: { span: 16 },
     },
   };
+  const uploadBtnLayout = {
+    wrapperCol: { offset: 5, span: 16 }
+  }
   const onSubmit = async (values) => {
     try {
       setLoading(true);
       await axios.put('/tutors/' + profile.id, values);
+      getTutorProfile();
       setLoading(false);
     } catch (error) {
       setLoading(false);
       console.log(error.response)
     }
   }
+  const uploadProps = {
+    onRemove: file => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: file => {
+      const isPdfOrWord = file.type === 'application/pdf' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      if (isPdfOrWord) {
+        setFileList([...fileList, file]);
+      }
+      return false;
+    },
+    fileList: fileList,
+  };
+  const uploadAvaProps = {
+    onRemove: file => {
+      setAvatar([]);
+    },
+    beforeUpload: file => {
+      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      if (isJpgOrPng) {
+        setAvatar([file]);
+      }
+      return false;
+    },
+    fileList: avatar,
+  }
+  const handleUpload = async () => {
+    try {
+      setUploading(true);
+      const formData = new FormData();
+      fileList.forEach(file => {
+        formData.append('certificates', file);
+      });
+      await axios('/tutors/certificates/' + profile.account.username, {
+        method: "POST",
+        data: formData,
+      });
+      await getTutorProfile();
+      setUploading(false);
+    } catch (error) {
+      console.log(error.response)
+      setUploading(false);
+    }
+  }
 
+  const uploadAvatar = async () => {
+    try {
+      setLoadingAva(true);
+      const formData = new FormData();
+      formData.append('avatar', avatar[0]);
+      await axios('/tutors/avatar/' + profile.account.username, {
+        method: "POST",
+        data: formData,
+      });
+      await getTutorProfile();
+      setLoadingAva(false);
+    } catch (error) {
+      setLoadingAva(false);
+      console.log(error.response)
+    }
+
+  }
   return (
     <div className={styles.profile}>
       <div className={styles.accountInfoContainer}>
-        {avatar}
+        {avatarProfile}
         <div className={styles.accountInfo}>
           <p className={styles.name}>{profile.name}</p>
           <p>Email: {profile.account.email}</p>
@@ -70,7 +143,7 @@ export default function Profile() {
             initialValues={{
               name: profile.name,
               phone: profile.phone,
-              birthdate: moment(profile.birthdate),
+              birthdate: profile.birthdate ? moment(profile.birthdate) : undefined,
               address: profile.address,
               interests: profile.interests,
               education: profile.education,
@@ -82,7 +155,8 @@ export default function Profile() {
               fluency: profile.fluency,
               reason: profile.reason,
               specialities: (profile.specialities) ? JSON.parse(profile.specialities) : undefined,
-              introduction: profile.introduction
+              introduction: profile.introduction,
+              teaching_styles: (profile.teaching_styles) ? JSON.parse(profile.teaching_styles) : undefined,
             }}
           >
             <Collapse>
@@ -99,6 +173,16 @@ export default function Profile() {
                 <Form.Item name="address" label="Address">
                   <Input placeholder="Where do you from? E.g Hanoi, Vietnam" />
                 </Form.Item>
+                <Form.Item name="avatar" label="Upload avatar">
+                  <Upload {...uploadAvaProps} listType="picture-card">
+                    <Button icon={<FileImageOutlined /> }>
+                      Change avatar
+                    </Button>
+                  </Upload>
+                </Form.Item>
+                <Form.Item {...uploadBtnLayout}>
+                  <Button onClick={uploadAvatar} loading={loadingAva} style={{ width: "159px" }}><UploadOutlined /> Upload avatar</Button>
+                </Form.Item>
               </Panel>
               <Panel header="CV">
                 <Form.Item name="interests" label="Interests">
@@ -114,7 +198,7 @@ export default function Profile() {
                   <Input placeholder="Your current or previous jobs" />
                 </Form.Item>
                 <Form.Item name="reason" label="Reason">
-                  <Input.TextArea placeholder="Why do you want to teach English?" />
+                  <Input.TextArea placeholder="Why do you want to join Mirage?" />
                 </Form.Item>
               </Panel>
               <Panel header="Teaching preferences">
@@ -153,8 +237,30 @@ export default function Profile() {
                     })}
                   </Select>
                 </Form.Item>
+                <Form.Item name="teaching_styles" label="Teaching styles">
+                  <Select mode="multiple" placeholder="Your styles">
+                    {preferences.TEACHING_STYLE.map(style => {
+                      return <Option value={style} key={style}>{style}</Option>
+                    })}
+                  </Select>
+                </Form.Item>
               </Panel>
               <Panel header="Teaching certificates (optional)">
+                  {profile.certificates ? (
+                    JSON.parse(profile.certificates).map((cert, index) => {
+                      return <p key={index}>{cert.originalname}</p>
+                    })
+                  ) : null}
+                <Form.Item name="files" label="Upload certificate">
+                  <Upload {...uploadProps} listType="picture-card">
+                    <Button icon={<FileTextOutlined />}>
+                      Select File
+                    </Button>
+                  </Upload>
+                </Form.Item>
+                <Form.Item {...uploadBtnLayout}>
+                  <Button onClick={handleUpload} loading={uploading} style={{ width: "132px" }}><UploadOutlined /> Upload</Button>
+                </Form.Item>
               </Panel>
               <Panel header="Introduce yourself">
                 <Form.Item name="introduction" label="Introduction">
