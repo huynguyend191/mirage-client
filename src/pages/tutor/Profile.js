@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import styles from './Profile.module.css';
 import axios from '../../lib/utils/axiosConfig';
 import { AccountContext } from '../../context/AccountContext';
-import { UserOutlined, UploadOutlined, FileTextOutlined, FileImageOutlined } from '@ant-design/icons';
+import { UserOutlined, UploadOutlined, FileTextOutlined, FileImageOutlined, CheckCircleTwoTone, CloseCircleOutlined } from '@ant-design/icons';
 import { Avatar, Collapse, Form, Input, DatePicker, Button, Select, Upload } from 'antd';
 import preferences from '../../lib/preferences';
 import moment from 'moment';
@@ -126,6 +126,22 @@ export default function Profile() {
     }
 
   }
+
+  const resendConfirmation = async() => {
+    try {
+      await axios.post('/accounts/resend-verify', {email: account.email});
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+  let profileStatus;
+  if (profile.profileStatus === 1) {
+    profileStatus = <p className={styles.statusAccepted}>Your tutor profile is ready</p>
+  } else if (profile.profileStatus === 2) {
+    profileStatus = <p className={styles.statusPending}>Your tutor profile is being reviewed by Admin</p>
+  } else if (profile.profileStatus === 3) {
+    profileStatus = <p className={styles.statusRejected}>Your tutor profile is rejected, edit now</p>
+  }
   return (
     <div className={styles.profile}>
       <div className={styles.accountInfoContainer}>
@@ -133,6 +149,14 @@ export default function Profile() {
         <div className={styles.accountInfo}>
           <p className={styles.name}>{profile.name}</p>
           <p>Email: {profile.account.email}</p>
+          {account.verification ? (
+            <span>Your account is verified <CheckCircleTwoTone twoToneColor="#26d701" /></span>
+          ): (
+            <span>Your account is unverified <CloseCircleOutlined /><Button type="link" onClick={resendConfirmation}>Resend confirmation email</Button></span>
+          )}
+          <div className={styles.profileStatus}>
+            {profileStatus}
+          </div>
         </div>
       </div>
       <div className={styles.collapse}>

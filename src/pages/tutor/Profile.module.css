@@ -44,3 +44,19 @@
   align-items: center;
 }
 
+.profileStatus {
+  margin-top: 15px;
+}
+
+.statusAccepted {
+  color :#26d701
+}
+
+.statusPending {
+  color: gray
+}
+
+.statusRejected {
+  color: red
+}
+
