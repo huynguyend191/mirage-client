@@ -27,7 +27,7 @@ const AccountContextProvider = (props) => {
   };
 
   return (
-    <AccountContext.Provider value={{account, onSignIn, onSignOut}} {...props} />
+    <AccountContext.Provider value={{ account, onSignIn, onSignOut }} {...props} />
   )
 }
 

@@ -3,7 +3,7 @@ import styles from './Profile.module.css';
 import axios from '../../lib/utils/axiosConfig';
 import { AccountContext } from '../../context/AccountContext';
 import { UserOutlined, UploadOutlined, FileTextOutlined, FileImageOutlined, CheckCircleTwoTone, CloseCircleOutlined } from '@ant-design/icons';
-import { Avatar, Collapse, Form, Input, DatePicker, Button, Select, Upload } from 'antd';
+import { Avatar, Collapse, Form, Input, DatePicker, Button, Select, Upload, Alert } from 'antd';
 import preferences from '../../lib/preferences';
 import moment from 'moment';
 import { serverUrl } from '../../lib/constants';
@@ -270,11 +270,18 @@ export default function Profile() {
                 </Form.Item>
               </Panel>
               <Panel header="Teaching certificates (optional)">
-                  {profile.certificates ? (
-                    JSON.parse(profile.certificates).map((cert, index) => {
-                      return <p key={index}>{cert.originalname}</p>
-                    })
-                  ) : null}
+                {/* render uploaded files */}
+                {(profile.certificates && JSON.parse(profile.certificates).length > 0) ?
+                  (<Form.Item {...formItemLayout} label="Uploaded file(s)">
+                    <div className={styles.uploadedCert}>
+                      {profile.certificates ? (
+                        JSON.parse(profile.certificates).map((cert, index) => {
+                          return <a key={index} href={serverUrl + cert.path}>{cert.originalname}</a>
+                        })
+                      ) : null}
+                    </div>
+                  </Form.Item>) :null
+                }
                 <Form.Item name="files" label="Upload certificate">
                   <Upload {...uploadProps} listType="picture-card">
                     <Button icon={<FileTextOutlined />}>
@@ -285,6 +292,7 @@ export default function Profile() {
                 <Form.Item {...uploadBtnLayout}>
                   <Button onClick={handleUpload} loading={uploading} style={{ width: "132px" }}><UploadOutlined /> Upload</Button>
                 </Form.Item>
+                <Alert message="Warning: All your previous upload will be removed when uploading new certificates" type="warning" showIcon />
               </Panel>
               <Panel header="Introduce yourself">
                 <Form.Item name="introduction" label="Introduction">
