@@ -2,18 +2,20 @@ import React, { useEffect, useState, useContext } from 'react';
 import styles from './Profile.module.css';
 import axios from '../../lib/utils/axiosConfig';
 import { AccountContext } from '../../context/AccountContext';
-import { UserOutlined, UploadOutlined, FileTextOutlined, FileImageOutlined, CheckCircleTwoTone, CloseCircleOutlined } from '@ant-design/icons';
+import { UserOutlined, UploadOutlined, FileTextOutlined, FileImageOutlined, CheckCircleTwoTone, CloseCircleOutlined, FileDoneOutlined } from '@ant-design/icons';
 import { Avatar, Collapse, Form, Input, DatePicker, Button, Select, Upload, Alert } from 'antd';
 import preferences from '../../lib/preferences';
 import moment from 'moment';
 import { serverUrl } from '../../lib/constants';
+import VideoRecorder from './VideoRecorder';
+import VideoPlayer from './VideoPlayer';
 const { Panel } = Collapse;
 const { Option } = Select;
 
 export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState({ account: { email: null } });
-  const { account, onSignIn } = useContext(AccountContext);
+  const { account } = useContext(AccountContext);
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [loadingAva, setLoadingAva] = useState(false);
@@ -134,6 +136,7 @@ export default function Profile() {
       console.log(error.response)
     }
   }
+
   let profileStatus;
   if (profile.profileStatus === 1) {
     profileStatus = <p className={styles.statusAccepted}>Your tutor profile is ready</p>
@@ -276,7 +279,7 @@ export default function Profile() {
                     <div className={styles.uploadedCert}>
                       {profile.certificates ? (
                         JSON.parse(profile.certificates).map((cert, index) => {
-                          return <a key={index} href={serverUrl + cert.path}>{cert.originalname}</a>
+                          return (<a key={index} href={serverUrl + cert.path}><FileDoneOutlined />{cert.originalname}</a>);
                         })
                       ) : null}
                     </div>
@@ -297,6 +300,21 @@ export default function Profile() {
               <Panel header="Introduce yourself">
                 <Form.Item name="introduction" label="Introduction">
                   <Input.TextArea placeholder="Introduce yourself" />
+                </Form.Item>
+                <div>
+                  <p className={styles.introInstruct}>Record a video to emphasize your teaching style, expertise and personality to help students overcome their nerve when speaking with foreigners. 
+                  A friendly video will encourage the stundents to call you.
+                  A few helpful tips:</p>
+                  <div className={styles.introTips}>
+                    <p>1. Find a clean and quiet place</p>
+                    <p>2. Look at the camera and smile</p>
+                    <p>3. Dress smart</p>
+                    <p>4. Speak for 1-2 minutes</p>
+                    <p>5. Brand yourself and have fun!</p>
+                  </div>
+                </div>
+                <Form.Item label="Intro video">
+                  {profile.video ? <VideoPlayer /> : <VideoRecorder />}
                 </Form.Item>
               </Panel>
             </Collapse>
