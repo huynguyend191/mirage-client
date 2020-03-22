@@ -20,11 +20,15 @@ export default function Profile() {
   const [uploading, setUploading] = useState(false);
   const [loadingAva, setLoadingAva] = useState(false);
   const [avatar, setAvatar] = useState([]);
+  const [isRecord, setIsRecord] = useState(true);
 
   const getTutorProfile = async () => {
     try {
       const result = await axios.get('/tutors/' + account.tutor.id);
       setProfile(result.data.tutor);
+      if (result.data.tutor.video) {
+        setIsRecord(false);
+      }
     } catch (error) {
       console.log(error.response);
     }
@@ -129,9 +133,9 @@ export default function Profile() {
 
   }
 
-  const resendConfirmation = async() => {
+  const resendConfirmation = async () => {
     try {
-      await axios.post('/accounts/resend-verify', {email: account.email});
+      await axios.post('/accounts/resend-verify', { email: account.email });
     } catch (error) {
       console.log(error.response)
     }
@@ -154,9 +158,9 @@ export default function Profile() {
           <p>Email: {profile.account.email}</p>
           {account.verification ? (
             <span>Your account is verified <CheckCircleTwoTone twoToneColor="#26d701" /></span>
-          ): (
-            <span>Your account is unverified <CloseCircleOutlined /><Button type="link" onClick={resendConfirmation}>Resend confirmation email</Button></span>
-          )}
+          ) : (
+              <span>Your account is unverified <CloseCircleOutlined /><Button type="link" onClick={resendConfirmation}>Resend confirmation email</Button></span>
+            )}
           <div className={styles.profileStatus}>
             {profileStatus}
           </div>
@@ -202,7 +206,7 @@ export default function Profile() {
                 </Form.Item>
                 <Form.Item name="avatar" label="Upload avatar">
                   <Upload {...uploadAvaProps} listType="picture-card">
-                    <Button icon={<FileImageOutlined /> }>
+                    <Button icon={<FileImageOutlined />}>
                       Change avatar
                     </Button>
                   </Upload>
@@ -283,7 +287,7 @@ export default function Profile() {
                         })
                       ) : null}
                     </div>
-                  </Form.Item>) :null
+                  </Form.Item>) : null
                 }
                 <Form.Item name="files" label="Upload certificate">
                   <Upload {...uploadProps} listType="picture-card">
@@ -302,19 +306,22 @@ export default function Profile() {
                   <Input.TextArea placeholder="Introduce yourself" />
                 </Form.Item>
                 <div>
-                  <p className={styles.introInstruct}>Record a video to emphasize your teaching style, expertise and personality to help students overcome their nerve when speaking with foreigners. 
+                  <p className={styles.introInstruct}>Record a video to emphasize your teaching style, expertise and personality to help students overcome their nerve when speaking with foreigners.
                   A friendly video will encourage the stundents to call you.
                   A few helpful tips:</p>
                   <div className={styles.introTips}>
-                    <p>1. Find a clean and quiet place</p>
-                    <p>2. Look at the camera and smile</p>
-                    <p>3. Dress smart</p>
-                    <p>4. Speak for 1-2 minutes</p>
-                    <p>5. Brand yourself and have fun!</p>
+                    <p>1. Make sure your camera/webcam is working properly</p>
+                    <p>2. Find a clean and quiet place</p>
+                    <p>3. Look at the camera and smile</p>
+                    <p>4. Dress smart</p>
+                    <p>5. Speak for 1-2 minutes</p>
+                    <p>6. Brand yourself and have fun!</p>
                   </div>
                 </div>
                 <Form.Item label="Intro video">
-                  {profile.video ? <VideoPlayer /> : <VideoRecorder />}
+                  {isRecord ?
+                    <VideoRecorder cancelRecord={() => setIsRecord(false)} existedVideo={profile.video} refreshProfile={getTutorProfile} /> :
+                    <VideoPlayer recordNew={() => setIsRecord(true)} />}
                 </Form.Item>
               </Panel>
             </Collapse>

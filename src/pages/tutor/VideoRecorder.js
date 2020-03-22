@@ -1,29 +1,52 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import 'video.js/dist/video-js.css';
 import videojs from 'video.js';
 import 'webrtc-adapter';
 import RecordRTC from 'recordrtc';
 import 'videojs-record/dist/css/videojs.record.css';
 import Record from 'videojs-record/dist/videojs.record.js';
+import { Button } from 'antd';
+import axios from '../../lib/utils/axiosConfig';
+import { AccountContext } from '../../context/AccountContext';
 
 const videoJsOptions = {
   controls: true,
   width: 480,
-  height: 360 ,
+  height: 360,
   fluid: false,
   plugins: {
     record: {
-        audio: true,
-        video: true,
-        maxLength: 120,
-        debug: true
+      audio: true,
+      video: true,
+      maxLength: 120,
+      debug: true
     }
   }
 };
 
-export default function VideoRecorder() {
+export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfile }) {
   const player = useRef(null);
   const videoNode = useRef(null);
+  const [recorded, setRecorded] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { account } = useContext(AccountContext);
+  const uploadVideo = async () => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append('video', recorded, 'introVideo.webm');
+      await axios('/tutors/video/' + account.username, {
+        data: formData,
+        method: 'POST'
+      });
+      refreshProfile();
+      setLoading(false);
+    } catch (error) {
+      console.log(error.response)
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     player.current = videojs(videoNode.current, videoJsOptions, () => {
       const version_info = 'Using video.js ' + videojs.VERSION +
@@ -43,6 +66,7 @@ export default function VideoRecorder() {
       // recordedData is a blob object containing the recorded data that
       // can be downloaded by the user, stored on server etc.
       console.log('finished recording: ', player.current.recordedData);
+      setRecorded(player.current.recordedData);
     });
 
     // error handling
@@ -60,8 +84,12 @@ export default function VideoRecorder() {
     }
   }, []);
   return (
-    <div data-vjs-player>
-      <video id="myVideo" ref={node => videoNode.current = node} className="video-js vjs-default-skin" playsInline></video>
+    <div>
+      <div data-vjs-player>
+        <video id="myVideo" ref={node => videoNode.current = node} className="video-js vjs-default-skin" playsInline></video>
+      </div>
+      <Button onClick={uploadVideo} loading={loading}>Upload</Button>
+      {existedVideo ? <Button onClick={cancelRecord}>Cancel record</Button> : null}
     </div>
   )
 }
