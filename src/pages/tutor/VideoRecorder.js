@@ -89,7 +89,7 @@ export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfi
       <div data-vjs-player>
         <video id="myVideo" ref={node => videoNode.current = node} className="video-js vjs-default-skin" playsInline></video>
       </div>
-      {!existedVideo ? (
+      {existedVideo ? (
         <div className={styles.btnWrapper}>
           <Button className={styles.videoBtn} onClick={uploadVideo} loading={loading}>Upload</Button>
           <Button className={styles.videoBtn} type="danger" onClick={cancelRecord}>Cancel</Button>
