@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AccountContext } from '../../context/AccountContext';
-import VerifyAccount from '../../components/VerifyAccount';
 import { Layout, Avatar, Dropdown, Menu } from 'antd';
 import FooterContent from '../../components/FooterContent';
 import styles from './Tutor.module.css';

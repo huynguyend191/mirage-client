@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AccountContext } from '../../context/AccountContext';
-import VerifyAccount from '../../components/VerifyAccount';
 import { Layout, Avatar, Dropdown, Menu } from 'antd';
 import FooterContent from '../../components/FooterContent';
 import styles from './Student.module.css';
@@ -9,6 +8,11 @@ import ForgotPasswordModal from '../../components/ForgotPasswordModal';
 import ChangePasswordModal from '../../components/ChangePasswordModal';
 import { Switch, Route, Link } from 'react-router-dom';
 import SideBarLogo from '../../components/SideBarLogo';
+import Profile from './Profile';
+import Stats from './Stats';
+import VideoCall from './VideoCall';
+import { serverUrl } from '../../lib/constants';
+
 const { Header, Content, Sider } = Layout;
 
 export default function Student(props) {
@@ -17,8 +21,8 @@ export default function Student(props) {
   const [isForgotPass, setIsForgotPass] = useState(false);
   const { location } = props;
   const userAvatar = account.student.avatar ?
-    <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} size="large" /> :
-    <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} size="large" />
+    <Avatar style={{ margin: "10px" }} src={serverUrl + account.student.avatar} /> :
+    <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} />
   useEffect(() => {
     
   }, []);
@@ -42,12 +46,12 @@ export default function Student(props) {
       />
       <Sider>
         <SideBarLogo collapsed={false} />
-        <Menu theme="dark" defaultSelectedKeys={["/student"]} mode="inline" selectedKeys={[location.pathname]}>
-          <Menu.Item key="/student">
-            <ContactsOutlined /><Link to="/student"><span>Profile</span></Link>
-          </Menu.Item>
+        <Menu theme="dark" defaultSelectedKeys={["/student/video-call"]} mode="inline" selectedKeys={[location.pathname]}>
           <Menu.Item key="/student/video-call">
             <VideoCameraOutlined /><Link to="/student/video-call"><span>Video call</span></Link>
+          </Menu.Item>
+          <Menu.Item key="/student">
+            <ContactsOutlined /><Link to="/student"><span>Profile</span></Link>
           </Menu.Item>
           <Menu.Item key="/student/stats">
             <BarChartOutlined /><Link to="/student/stats"><span>Stats</span></Link>
@@ -67,9 +71,9 @@ export default function Student(props) {
         </Header>
         <Content>
           <Switch>
-            {/* <Route path="/student/stats" component={Stats} />
+            <Route path="/student/stats" component={Stats} />
             <Route path="/student/video-call" component={VideoCall} />
-            <Route path="/student" component={Profile} exact /> */}
+            <Route path="/student" component={Profile} exact />
           </Switch>
         </Content>
         <FooterContent />

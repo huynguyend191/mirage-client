@@ -31,7 +31,7 @@ export default function VideoPlayer({ recordNew }) {
         player.current.dispose();
       }
     }
-  }, []);
+  }, [videoJsOptions]);
   return (
     <div>
       <div data-vjs-player>

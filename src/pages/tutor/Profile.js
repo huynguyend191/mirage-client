@@ -130,7 +130,6 @@ export default function Profile() {
       setLoadingAva(false);
       console.log(error.response)
     }
-
   }
 
   const resendConfirmation = async () => {
@@ -143,11 +142,11 @@ export default function Profile() {
 
   let profileStatus;
   if (profile.profileStatus === 1) {
-    profileStatus = <p className={styles.statusAccepted}>Your tutor profile is ready</p>
+    profileStatus = <Alert message="Your tutor profile is ready" type="success" showIcon />
   } else if (profile.profileStatus === 2) {
-    profileStatus = <p className={styles.statusPending}>Your tutor profile is being reviewed by Admin</p>
+    profileStatus = <Alert message="Your tutor profile is being reviewed by Admin" type="info" showIcon />
   } else if (profile.profileStatus === 3) {
-    profileStatus = <p className={styles.statusRejected}>Your tutor profile is rejected, edit now</p>
+    profileStatus = <Alert message="Your tutor profile is rejected, edit now" type="error" showIcon />
   }
   return (
     <div className={styles.profile}>
@@ -180,10 +179,10 @@ export default function Profile() {
               education: profile.education,
               experience: profile.experience,
               profession: profile.profession,
-              student_type: profile.student_type,
-              student_lvl: profile.student_lvl,
-              accent: profile.accent,
-              fluency: profile.fluency,
+              student_type: profile.student_type? profile.student_type: undefined,
+              student_lvl: profile.student_lvl? profile.student_lvl : undefined,
+              accent: profile.accent? profile.accent: undefined,
+              fluency: profile.fluency? profile.fluency: undefined,
               reason: profile.reason,
               specialities: (profile.specialities) ? JSON.parse(profile.specialities) : undefined,
               introduction: profile.introduction,
