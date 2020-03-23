@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button, Alert } from 'antd';
 import styles from './RegisterModal.module.css';
 import welcomeStudentImg from '../../assets/welcome-student.png';
 import welcomeTutorImg from '../../assets/welcome-tutor.png';
@@ -9,6 +9,7 @@ import { AccountContext } from '../../context/AccountContext';
 export default function RegisterModal(props) {
   const [isStudent, setIsStudent] = useState(props.isStudent);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [form] = Form.useForm();
   const { onSignIn } = useContext(AccountContext);
 
@@ -32,7 +33,7 @@ export default function RegisterModal(props) {
       localStorage.setItem('remember', true);
     } catch (error) {
       setLoading(false);
-      console.log(error.response);
+      setError(error.response.data.message);
     }
   };
   const switchRole = () => {
@@ -95,6 +96,7 @@ export default function RegisterModal(props) {
       onCancel={onClose}
       width="800px"
     >
+      {error ? <Alert style={{marginBottom: "15px"}} message={error} type="error" showIcon banner closable afterClose={() => setError(null)} /> : null}
       <div className={styles.registerContent}>
         <div className={styles.registerWelcome}>
           {

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Modal, Form, Input, Button, Checkbox } from 'antd';
+import { Modal, Form, Input, Button, Checkbox, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './SignInModal.module.css';
 import { AccountContext } from '../../context/AccountContext';
@@ -8,6 +8,7 @@ import axios from '../../lib/utils/axiosConfig';
 export default function SignInModal({ isVisible, onClose, onSwitchRegister, onSwitchForgotPass }) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { onSignIn } = useContext(AccountContext);
   const onFinish = async (values) => {
     try {
@@ -22,7 +23,7 @@ export default function SignInModal({ isVisible, onClose, onSwitchRegister, onSw
       onSignIn(result.data.account);
     } catch (error) {
       setLoading(false);
-      console.log(error.response);
+      setError(error.response.data.message);
     }
   };
 
@@ -49,6 +50,7 @@ export default function SignInModal({ isVisible, onClose, onSwitchRegister, onSw
       title="Sign in"
       width="400px"
     >
+      {error ? <Alert style={{marginBottom: "15px"}} message={error} type="error" showIcon banner closable afterClose={() => setError(null)} /> : null}
       <Form
         name="normal_sign_in"
         className={styles.signInForm}
