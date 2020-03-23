@@ -1,0 +1,14 @@
+.btnWrapper {
+  margin-top: 20px;
+  padding-left: 240px;
+}
+
+.btnWrapperNoCancel {
+  margin-top: 20px;
+  padding-left: 360px;
+}
+
+.videoBtn {
+  width: 120px;
+}
+

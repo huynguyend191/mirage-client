@@ -4,6 +4,7 @@ import videojs from 'video.js';
 import { Button } from 'antd';
 import { serverUrl } from '../../lib/constants';
 import { AccountContext } from '../../context/AccountContext';
+import styles from './VideoPlayer.module.css';
 
 export default function VideoPlayer({ recordNew }) {
   const player = useRef(null);
@@ -36,7 +37,9 @@ export default function VideoPlayer({ recordNew }) {
       <div data-vjs-player>
         <video id="myVideo" ref={node => videoNode.current = node} className="video-js vjs-default-skin vjs-big-play-centered" playsInline></video>
       </div>
-      <Button onClick={recordNew}>Record new video</Button>
+      <div className={styles.btnWrapper} >
+       <Button onClick={recordNew}>Record new video</Button>
+      </div>
     </div >
   );
 }

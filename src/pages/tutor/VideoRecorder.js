@@ -8,6 +8,7 @@ import Record from 'videojs-record/dist/videojs.record.js';
 import { Button } from 'antd';
 import axios from '../../lib/utils/axiosConfig';
 import { AccountContext } from '../../context/AccountContext';
+import styles from './VideoRecorder.module.css';
 
 const videoJsOptions = {
   controls: true,
@@ -88,8 +89,16 @@ export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfi
       <div data-vjs-player>
         <video id="myVideo" ref={node => videoNode.current = node} className="video-js vjs-default-skin" playsInline></video>
       </div>
-      <Button onClick={uploadVideo} loading={loading}>Upload</Button>
-      {existedVideo ? <Button onClick={cancelRecord}>Cancel record</Button> : null}
+      {!existedVideo ? (
+        <div className={styles.btnWrapper}>
+          <Button className={styles.videoBtn} onClick={uploadVideo} loading={loading}>Upload</Button>
+          <Button className={styles.videoBtn} type="danger" onClick={cancelRecord}>Cancel</Button>
+        </div>
+      ) : (
+        <div className={styles.btnWrapperNoCancel}>
+          <Button className={styles.videoBtn} onClick={uploadVideo} loading={loading}>Upload</Button>
+        </div>
+      )}
     </div>
   )
 }
