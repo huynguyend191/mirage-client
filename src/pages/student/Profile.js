@@ -2,8 +2,8 @@ import React, { useEffect, useState, useContext } from 'react';
 import styles from './Profile.module.css';
 import axios from '../../lib/utils/axiosConfig';
 import { AccountContext } from '../../context/AccountContext';
-import { Avatar, Collapse, Form, Input, DatePicker, Button, Select, Upload, Alert } from 'antd';
-import { UserOutlined, UploadOutlined, FileImageOutlined, CheckCircleTwoTone, CloseCircleOutlined } from '@ant-design/icons';
+import { Avatar, Collapse, Form, Input, DatePicker, Button, Select, Upload, Alert, Tag } from 'antd';
+import { UserOutlined, UploadOutlined, FileImageOutlined} from '@ant-design/icons';
 import preferences from '../../lib/preferences';
 import moment from 'moment';
 import { serverUrl } from '../../lib/constants';
@@ -23,11 +23,13 @@ export default function Profile() {
       setProfile(result.data.student);
       console.log(result.data)
     } catch (error) {
+      console.log(error)
       console.log(error.response);
     }
   }
 
   useEffect(() => {
+    console.log(account)
     getStudentProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -109,9 +111,9 @@ export default function Profile() {
           <p className={styles.name}>{profile.name}</p>
           <p>Email: {profile.account.email}</p>
           {account.verification ? (
-            <span>Your account is verified <CheckCircleTwoTone twoToneColor="#26d701" /></span>
+            <Tag color="success">Verified</Tag>
           ) : (
-              <span>Your account is unverified <CloseCircleOutlined /><Button type="link" onClick={resendConfirmation}>Resend confirmation email</Button></span>
+            <span><Tag color="default">Unverified</Tag><Button type="link" onClick={resendConfirmation}>Resend confirmation email</Button></span>
             )}
         </div>
       </div>

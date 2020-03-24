@@ -20,7 +20,7 @@ export default function Student(props) {
   const [isChangePass, setIsChangePass] = useState(false);
   const [isForgotPass, setIsForgotPass] = useState(false);
   const { location } = props;
-  const userAvatar = account.student.avatar ?
+  const userAvatar = (account.student && account.student.avatar) ?
     <Avatar style={{ margin: "10px" }} src={serverUrl + account.student.avatar} /> :
     <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} />
   useEffect(() => {
