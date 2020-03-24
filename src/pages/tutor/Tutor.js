@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AccountContext } from '../../context/AccountContext';
 import { Layout, Avatar, Dropdown, Menu } from 'antd';
 import FooterContent from '../../components/FooterContent';
@@ -20,7 +20,7 @@ export default function Tutor(props) {
   const [isChangePass, setIsChangePass] = useState(false);
   const [isForgotPass, setIsForgotPass] = useState(false);
   const { location } = props;
-  const userAvatar = account.tutor.avatar ?
+  const userAvatar = (account.tutor && account.tutor.avatar) ?
     <Avatar style={{ margin: "10px" }} src={serverUrl + account.tutor.avatar} /> :
     <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} />
   const userMenu = (
