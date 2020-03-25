@@ -3,7 +3,7 @@ import styles from './Profile.module.css';
 import axios from '../../lib/utils/axiosConfig';
 import { AccountContext } from '../../context/AccountContext';
 import { UserOutlined, UploadOutlined, FileTextOutlined, FileImageOutlined, FileDoneOutlined } from '@ant-design/icons';
-import { Avatar, Collapse, Form, Input, DatePicker, Button, Select, Upload, Alert, Tag } from 'antd';
+import { Avatar, Collapse, Form, Input, DatePicker, Button, Select, Upload, Alert, Tag, Spin } from 'antd';
 import preferences from '../../lib/preferences';
 import moment from 'moment';
 import { serverUrl } from '../../lib/constants';
@@ -13,6 +13,7 @@ const { Panel } = Collapse;
 const { Option } = Select;
 
 export default function Profile() {
+  const [loadingProfile, setLoadingProfile] = useState(false);
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState({ account: { email: null } });
   const { account } = useContext(AccountContext);
@@ -24,12 +25,15 @@ export default function Profile() {
 
   const getTutorProfile = async () => {
     try {
+      setLoadingProfile(true);
       const result = await axios.get('/tutors/' + account.tutor.id);
       setProfile(result.data.tutor);
       if (result.data.tutor.video) {
         setIsRecord(false);
       }
+      setLoadingProfile(false);
     } catch (error) {
+      setLoadingProfile(true);
       console.log(error.response);
     }
   }
@@ -149,190 +153,193 @@ export default function Profile() {
     profileStatus = <Alert message="Your tutor profile is rejected, edit now" type="error" showIcon />
   }
   return (
-    <div className={styles.profile}>
-      <div className={styles.accountInfoContainer}>
-        {avatarProfile}
-        <div className={styles.accountInfo}>
-          <p className={styles.name}>{profile.name}</p>
-          <p>Email: {profile.account.email}</p>
-          {account.verification ? (
-            <Tag color="success">Verified</Tag>
-          ) : (
-            <span><Tag color="default">Unverified</Tag><Button type="link" onClick={resendConfirmation}>Resend confirmation email</Button></span>
-            )}
-          <div className={styles.profileStatus}>
-            {profileStatus}
+    <Spin spinning={loadingProfile}>
+      <div className={styles.profile}>
+        <div className={styles.accountInfoContainer}>
+          {avatarProfile}
+          <div className={styles.accountInfo}>
+            <p className={styles.name}>{profile.name}</p>
+            <p>Email: {profile.account.email}</p>
+            {account.verification ? (
+              <Tag color="success">Verified</Tag>
+            ) : (
+                <span><Tag color="default">Unverified</Tag><Button type="link" onClick={resendConfirmation}>Resend confirmation email</Button></span>
+              )}
+            <div className={styles.profileStatus}>
+              {profileStatus}
+            </div>
           </div>
         </div>
-      </div>
-      <div className={styles.collapse}>
-        {profile.name ? (
-          <Form
-            {...formItemLayout}
-            onFinish={onSubmit}
-            initialValues={{
-              name: profile.name,
-              phone: profile.phone,
-              birthdate: profile.birthdate ? moment(profile.birthdate) : undefined,
-              address: profile.address,
-              interests: profile.interests,
-              education: profile.education,
-              experience: profile.experience,
-              profession: profile.profession,
-              student_type: profile.student_type? profile.student_type: undefined,
-              student_lvl: profile.student_lvl? profile.student_lvl : undefined,
-              accent: profile.accent? profile.accent: undefined,
-              fluency: profile.fluency? profile.fluency: undefined,
-              reason: profile.reason,
-              specialities: (profile.specialities) ? JSON.parse(profile.specialities) : undefined,
-              introduction: profile.introduction,
-              teaching_styles: (profile.teaching_styles) ? JSON.parse(profile.teaching_styles) : undefined,
-            }}
-          >
-            <Collapse>
-              <Panel header="Basic info">
-                <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please enter your name' }]}>
-                  <Input placeholder="Your fullname" value={profile.name} />
-                </Form.Item>
-                <Form.Item name="phone" label="Phone">
-                  <Input placeholder="Your phone number (optional)" />
-                </Form.Item>
-                <Form.Item name="birthdate" label="Birthdate">
-                  <DatePicker />
-                </Form.Item>
-                <Form.Item name="address" label="Address">
-                  <Input placeholder="Where do you from? E.g Hanoi, Vietnam" />
-                </Form.Item>
-                <Form.Item name="avatar" label="Upload avatar">
-                  <Upload {...uploadAvaProps} listType="picture-card">
-                    <Button icon={<FileImageOutlined />}>
-                      Change avatar
+        <div className={styles.collapse}>
+          {profile.name ? (
+            <Form
+              {...formItemLayout}
+              onFinish={onSubmit}
+              initialValues={{
+                name: profile.name,
+                phone: profile.phone,
+                birthdate: profile.birthdate ? moment(profile.birthdate) : undefined,
+                address: profile.address,
+                interests: profile.interests,
+                education: profile.education,
+                experience: profile.experience,
+                profession: profile.profession,
+                student_type: profile.student_type ? profile.student_type : undefined,
+                student_lvl: profile.student_lvl ? profile.student_lvl : undefined,
+                accent: profile.accent ? profile.accent : undefined,
+                fluency: profile.fluency ? profile.fluency : undefined,
+                reason: profile.reason,
+                specialities: (profile.specialities) ? JSON.parse(profile.specialities) : undefined,
+                introduction: profile.introduction,
+                teaching_styles: (profile.teaching_styles) ? JSON.parse(profile.teaching_styles) : undefined,
+              }}
+            >
+              <Collapse>
+                <Panel header="Basic info">
+                  <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please enter your name' }]}>
+                    <Input placeholder="Your fullname" value={profile.name} />
+                  </Form.Item>
+                  <Form.Item name="phone" label="Phone">
+                    <Input placeholder="Your phone number (optional)" />
+                  </Form.Item>
+                  <Form.Item name="birthdate" label="Birthdate">
+                    <DatePicker />
+                  </Form.Item>
+                  <Form.Item name="address" label="Address">
+                    <Input placeholder="Where do you from? E.g Hanoi, Vietnam" />
+                  </Form.Item>
+                  <Form.Item name="avatar" label="Upload avatar">
+                    <Upload {...uploadAvaProps} listType="picture-card">
+                      <Button icon={<FileImageOutlined />}>
+                        Change avatar
                     </Button>
-                  </Upload>
-                </Form.Item>
-                <Form.Item {...uploadBtnLayout}>
-                  <Button onClick={uploadAvatar} loading={loadingAva} style={{ width: "159px" }}><UploadOutlined /> Upload avatar</Button>
-                </Form.Item>
-              </Panel>
-              <Panel header="CV">
-                <Form.Item name="interests" label="Interests">
-                  <Input.TextArea placeholder="Share with us everything you want such as interests, hobbies, life experiences" />
-                </Form.Item>
-                <Form.Item name="education" label="Education">
-                  <Input.TextArea placeholder="E.g Bachelor of Information Technology" />
-                </Form.Item>
-                <Form.Item name="experience" label="Experience">
-                  <Input.TextArea placeholder="Your working experience" />
-                </Form.Item>
-                <Form.Item name="profession" label="Profession">
-                  <Input placeholder="Your current or previous jobs" />
-                </Form.Item>
-                <Form.Item name="reason" label="Reason">
-                  <Input.TextArea placeholder="Why do you want to join Mirage?" />
-                </Form.Item>
-              </Panel>
-              <Panel header="Teaching preferences">
-                <Form.Item name="student_type" label="Target">
-                  <Select placeholder="Who do you want to teach?" >
-                    {preferences.STUDENT_TYPE.map(type => {
-                      return <Option value={type} key={type}>{type}</Option>
-                    })}
-                  </Select>
-                </Form.Item>
-                <Form.Item name="student_lvl" label="Student level">
-                  <Select placeholder="You are good at teaching students who are">
-                    {preferences.STUDENT_LVL.map(lvl => {
-                      return <Option value={lvl} key={lvl}>{lvl}</Option>
-                    })}
-                  </Select>
-                </Form.Item>
-                <Form.Item name="accent" label="Accent">
-                  <Select placeholder="Your English accent">
-                    {preferences.ENG_ACCENT.map(accent => {
-                      return <Option value={accent} key={accent}>{accent}</Option>
-                    })}
-                  </Select>
-                </Form.Item>
-                <Form.Item name="fluency" label="Fluency">
-                  <Select placeholder="Your fluency">
-                    {preferences.ENG_FLUENCY.map(fluency => {
-                      return <Option value={fluency} key={fluency}>{fluency}</Option>
-                    })}
-                  </Select>
-                </Form.Item>
-                <Form.Item name="specialities" label="Specialities">
-                  <Select mode="multiple" placeholder="Select your specialities">
-                    {preferences.SPECIALITIES.map(spec => {
-                      return <Option value={spec} key={spec}>{spec}</Option>
-                    })}
-                  </Select>
-                </Form.Item>
-                <Form.Item name="teaching_styles" label="Teaching styles">
-                  <Select mode="multiple" placeholder="Your styles">
-                    {preferences.TEACHING_STYLE.map(style => {
-                      return <Option value={style} key={style}>{style}</Option>
-                    })}
-                  </Select>
-                </Form.Item>
-              </Panel>
-              <Panel header="Teaching certificates (optional)">
-                {/* render uploaded files */}
-                {(profile.certificates && JSON.parse(profile.certificates).length > 0) ?
-                  (<Form.Item {...formItemLayout} label="Uploaded file(s)">
-                    <div className={styles.uploadedCert}>
-                      {profile.certificates ? (
-                        JSON.parse(profile.certificates).map((cert, index) => {
-                          return (<a key={index} href={serverUrl + cert.path}><FileDoneOutlined />{cert.originalname}</a>);
-                        })
-                      ) : null}
-                    </div>
-                  </Form.Item>) : null
-                }
-                <Form.Item name="files" label="Upload certificate">
-                  <Upload {...uploadProps} listType="picture-card">
-                    <Button icon={<FileTextOutlined />}>
-                      Select File
+                    </Upload>
+                  </Form.Item>
+                  <Form.Item {...uploadBtnLayout}>
+                    <Button onClick={uploadAvatar} loading={loadingAva} style={{ width: "159px" }}><UploadOutlined /> Upload avatar</Button>
+                  </Form.Item>
+                </Panel>
+                <Panel header="CV">
+                  <Form.Item name="interests" label="Interests">
+                    <Input.TextArea placeholder="Share with us everything you want such as interests, hobbies, life experiences" />
+                  </Form.Item>
+                  <Form.Item name="education" label="Education">
+                    <Input.TextArea placeholder="E.g Bachelor of Information Technology" />
+                  </Form.Item>
+                  <Form.Item name="experience" label="Experience">
+                    <Input.TextArea placeholder="Your working experience" />
+                  </Form.Item>
+                  <Form.Item name="profession" label="Profession">
+                    <Input placeholder="Your current or previous jobs" />
+                  </Form.Item>
+                  <Form.Item name="reason" label="Reason">
+                    <Input.TextArea placeholder="Why do you want to join Mirage?" />
+                  </Form.Item>
+                </Panel>
+                <Panel header="Teaching preferences">
+                  <Form.Item name="student_type" label="Target">
+                    <Select placeholder="Who do you want to teach?" >
+                      {preferences.STUDENT_TYPE.map(type => {
+                        return <Option value={type} key={type}>{type}</Option>
+                      })}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="student_lvl" label="Student level">
+                    <Select placeholder="You are good at teaching students who are">
+                      {preferences.STUDENT_LVL.map(lvl => {
+                        return <Option value={lvl} key={lvl}>{lvl}</Option>
+                      })}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="accent" label="Accent">
+                    <Select placeholder="Your English accent">
+                      {preferences.ENG_ACCENT.map(accent => {
+                        return <Option value={accent} key={accent}>{accent}</Option>
+                      })}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="fluency" label="Fluency">
+                    <Select placeholder="Your fluency">
+                      {preferences.ENG_FLUENCY.map(fluency => {
+                        return <Option value={fluency} key={fluency}>{fluency}</Option>
+                      })}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="specialities" label="Specialities">
+                    <Select mode="multiple" placeholder="Select your specialities">
+                      {preferences.SPECIALITIES.map(spec => {
+                        return <Option value={spec} key={spec}>{spec}</Option>
+                      })}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="teaching_styles" label="Teaching styles">
+                    <Select mode="multiple" placeholder="Your styles">
+                      {preferences.TEACHING_STYLE.map(style => {
+                        return <Option value={style} key={style}>{style}</Option>
+                      })}
+                    </Select>
+                  </Form.Item>
+                </Panel>
+                <Panel header="Teaching certificates (optional)">
+                  {/* render uploaded files */}
+                  {(profile.certificates && JSON.parse(profile.certificates).length > 0) ?
+                    (<Form.Item {...formItemLayout} label="Uploaded file(s)">
+                      <div className={styles.uploadedCert}>
+                        {profile.certificates ? (
+                          JSON.parse(profile.certificates).map((cert, index) => {
+                            return (<a key={index} href={serverUrl + cert.path}><FileDoneOutlined />{cert.originalname}</a>);
+                          })
+                        ) : null}
+                      </div>
+                    </Form.Item>) : null
+                  }
+                  <Form.Item name="files" label="Upload certificate">
+                    <Upload {...uploadProps} listType="picture-card">
+                      <Button icon={<FileTextOutlined />}>
+                        Select File
                     </Button>
-                  </Upload>
-                </Form.Item>
-                <Form.Item {...uploadBtnLayout}>
-                  <Button onClick={handleUpload} loading={uploading} style={{ width: "132px" }}><UploadOutlined /> Upload</Button>
-                </Form.Item>
-                <Alert message="Warning: All your previous upload will be removed when uploading new certificates" type="warning" showIcon />
-              </Panel>
-              <Panel header="Introduce yourself">
-                <Form.Item name="introduction" label="Introduction">
-                  <Input.TextArea placeholder="Introduce yourself" />
-                </Form.Item>
-                <div>
-                  <p className={styles.introInstruct}>Record a video to emphasize your teaching style, expertise and personality to help students overcome their nerve when speaking with foreigners.
-                  A friendly video will encourage the stundents to call you.
+                    </Upload>
+                  </Form.Item>
+                  <Form.Item {...uploadBtnLayout}>
+                    <Button onClick={handleUpload} loading={uploading} style={{ width: "132px" }}><UploadOutlined /> Upload</Button>
+                  </Form.Item>
+                  <Alert message="Warning: All your previous upload will be removed when uploading new certificates" type="warning" showIcon />
+                </Panel>
+                <Panel header="Introduce yourself">
+                  <Form.Item name="introduction" label="Introduction">
+                    <Input.TextArea placeholder="Introduce yourself" />
+                  </Form.Item>
+                  <div>
+                    <p className={styles.introInstruct}>Record a video to emphasize your teaching style, expertise and personality to help students overcome their nerve when speaking with foreigners.
+                    A friendly video will encourage the stundents to call you.
                   A few helpful tips:</p>
-                  <div className={styles.introTips}>
-                    <p>1. Make sure your camera/webcam is working properly</p>
-                    <p>2. Find a clean and quiet place</p>
-                    <p>3. Look at the camera and smile</p>
-                    <p>4. Dress smart</p>
-                    <p>5. Speak for 1-2 minutes</p>
-                    <p>6. Brand yourself and have fun!</p>
+                    <div className={styles.introTips}>
+                      <p>1. Make sure your camera/webcam is working properly</p>
+                      <p>2. Find a clean and quiet place</p>
+                      <p>3. Look at the camera and smile</p>
+                      <p>4. Dress smart</p>
+                      <p>5. Speak for 1-2 minutes</p>
+                      <p>6. Brand yourself and have fun!</p>
+                    </div>
                   </div>
-                </div>
-                <Form.Item label="Intro video">
-                  {isRecord ?
-                    <VideoRecorder cancelRecord={() => setIsRecord(false)} existedVideo={profile.video} refreshProfile={getTutorProfile} /> :
-                    <VideoPlayer recordNew={() => setIsRecord(true)} />}
-                </Form.Item>
-              </Panel>
-            </Collapse>
-            <div className={styles.submitWrapper}>
-              <Button type="primary" htmlType="submit" loading={loading}>
-                Update profile
+                  <Form.Item label="Intro video">
+                    {isRecord ?
+                      <VideoRecorder cancelRecord={() => setIsRecord(false)} existedVideo={profile.video} refreshProfile={getTutorProfile} /> :
+                      <VideoPlayer recordNew={() => setIsRecord(true)} />}
+                  </Form.Item>
+                </Panel>
+              </Collapse>
+              <div className={styles.submitWrapper}>
+                <Button type="primary" htmlType="submit" loading={loading}>
+                  Update profile
               </Button>
-            </div>
-          </Form>
-        ) : null}
+              </div>
+            </Form>
+          ) : null}
 
+        </div>
       </div>
-    </div>
+    </Spin>
+
   );
 }
