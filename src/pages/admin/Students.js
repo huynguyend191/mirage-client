@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../lib/utils/axiosConfig';
-import { Table, Tag, Pagination } from 'antd';
+import { Table, Tag, Pagination, Spin } from 'antd';
 import styles from './Students.module.css';
 
 export default function Students() {
-  const pageSize = 20;
+  const [pageSize, setPageSize] = useState(10);
   const [students, setStudents] = useState([]);
   const [page, setPage] = useState(1);
   const [searchKey, setSearchKey] = useState("");
   const [total, setTotal] = useState(0);
-  const [totalPage, setTotalPage] = useState(0);
+  const [loading, setLoading] = useState(false);
   const getStudentsData = async () => {
     try {
-      const result = await axios.get(`/students?page=${page}&pageSize=${pageSize}&search=` + searchKey);
+      setLoading(true);
+      const result = await axios.get(`/students?page=${page}&size=${pageSize}&search=` + searchKey);
       const tableData = [];
       result.data.students.forEach(student => {
         tableData.push({
@@ -27,16 +28,17 @@ export default function Students() {
         })
       });
       setTotal(result.data.totalResults);
-      setTotalPage(result.data.totalPages);
       setStudents(tableData);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error.response);
     }
   }
   useEffect(() => {
     getStudentsData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page, pageSize]);
 
   const columns = [
     {
@@ -61,14 +63,49 @@ export default function Students() {
     }
   ];
 
+  const showTotal = () => {
+    return `Total ${total} results`;
+  }
+
+  const changePageSize = (current, size) => {
+    setPageSize(size);
+    setPage(Math.ceil(total/size));
+  }
+
+  const changePage = (page, pageSize) => {
+    setPage(page);
+  }
+
+  const onSelectRow = (record, index) => {
+    return {
+      onClick: event => {
+        console.log(record);
+      }
+    }
+  }
+
   return (
     <div className={styles.studentsLayout}>
-      <Table 
-         columns={columns}
-         dataSource={students}
-         pagination={false}
-      />
-      <Pagination defaultCurrent={page} total={total} pageSize={pageSize} />
+      <Spin spinning={loading}>
+        <Table 
+          columns={columns}
+          dataSource={students}
+          pagination={false}
+          onRow={onSelectRow}
+        />
+      </Spin>
+      <div className={styles.paginationWrapper}>
+        <Pagination 
+          current={page}
+          defaultCurrent={page} 
+          total={total} 
+          pageSize={pageSize} 
+          showSizeChanger 
+          showTotal={showTotal} 
+          onShowSizeChange={changePageSize}
+          onChange={changePage}
+        />
+      </div>
     </div>
   )
 }
