@@ -31,7 +31,6 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    console.log(account)
     getStudentProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

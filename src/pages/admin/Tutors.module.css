@@ -8,3 +8,11 @@
   margin-top: 10px;
   float: right;
 }
+
+.searchBar {
+  width: 300px;
+  margin-bottom: 20px;
+  float: right;
+  position: relative;
+  z-index: 99;
+}

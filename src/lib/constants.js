@@ -4,6 +4,12 @@ export const ROLES = Object.freeze({
   STUDENT: 3
 });
 
+export const STATES = Object.freeze({
+  ACTIVE: 1,
+  INACTIVE: 0
+});
+
+
 export const serverUrl = process.env.NODE_ENV === 'development'
 ? 'https://localhost:3003/'
 : 'https://mirage-video-call.herokuapp.com/';
