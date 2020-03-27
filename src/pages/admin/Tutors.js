@@ -3,9 +3,10 @@ import axios from '../../lib/utils/axiosConfig';
 import { Table, Tag, Pagination, Input, Spin, Modal, Avatar, Tabs, Button, Alert } from 'antd';
 import styles from './Tutors.module.css';
 import { serverUrl } from '../../lib/constants';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, FileDoneOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { STATES, PROFILE_STATUS } from '../../lib/constants';
+import VideoPlayer from './VideoPlayer';
 const { Search } = Input;
 const { TabPane } = Tabs;
 
@@ -65,7 +66,7 @@ export default function Tutors() {
   const updateProfileStatus = async (status) => {
     try {
       setUpdateStatusLoading(true);
-      await axios.put('/tutors/' + selected.id, {profileStatus: status});
+      await axios.put('/tutors/' + selected.id, { profileStatus: status });
       await getTutorsData();
       setUpdateStatusLoading(false);
       setShowDetailModal(false);
@@ -97,12 +98,12 @@ export default function Tutors() {
     {
       title: 'Email',
       dataIndex: 'email'
-    }, 
+    },
     {
       title: 'State',
       dataIndex: 'state',
       render: state => (state ? <Tag color="success">Active</Tag> : <Tag color="error">Inactive</Tag>)
-    }, 
+    },
     {
       title: 'Verification',
       dataIndex: 'verification',
@@ -116,15 +117,15 @@ export default function Tutors() {
           return <Tag color="success">Accepted</Tag>
         }
         else if (profileStatus === PROFILE_STATUS.PENDING) {
-          return <Tag color="blue">Pending</Tag> 
+          return <Tag color="blue">Pending</Tag>
         }
         else {
-          return <Tag color="error">Rejected</Tag> 
+          return <Tag color="error">Rejected</Tag>
         }
       }
     }
   ];
-  
+
 
   const showTotal = () => {
     return `Total ${total} results`;
@@ -155,7 +156,7 @@ export default function Tutors() {
   const updateStateUser = async (state) => {
     try {
       setStateLoading(true);
-      await axios.put('/accounts/' + selected.accountId, {state: state});
+      await axios.put('/accounts/' + selected.accountId, { state: state });
       await getTutorsData();
       setStateLoading(false);
       setShowDetailModal(false);
@@ -169,25 +170,25 @@ export default function Tutors() {
     <div className={styles.statusControl}>
       <Alert showIcon message="Rejected" type="error" />
       <div className={styles.statusControlBtnWrapper}>
-        <Button 
-          type="primary" 
-          style={{backgroundColor: "#52c41a", color: "white", borderColor: "#52c41a"}} 
+        <Button
+          type="primary"
+          style={{ backgroundColor: "#52c41a", color: "white", borderColor: "#52c41a" }}
           className={styles.statusControlBtn}
           onClick={() => updateProfileStatus(PROFILE_STATUS.ACCEPTED)}
-          >Accept</Button>
+        >Accept</Button>
         <Button className={styles.statusControlBtn} onClick={() => updateProfileStatus(PROFILE_STATUS.PENDING)}>Pending</Button>
       </div>
     </div>
   )
   if (selected && selected.profileStatus === PROFILE_STATUS.ACCEPTED) {
-    statusControl =  (
+    statusControl = (
       <div className={styles.statusControl}>
         <Alert showIcon message="Accept" type="success" />
         <div className={styles.statusControlBtnWrapper}>
           <Button className={styles.statusControlBtn} onClick={() => updateProfileStatus(PROFILE_STATUS.PENDING)}>Pending</Button>
-          <Button 
-            type="primary" 
-            danger 
+          <Button
+            type="primary"
+            danger
             className={styles.statusControlBtn}
             onClick={() => updateProfileStatus(PROFILE_STATUS.REJECTED)}
           >Reject</Button>
@@ -196,18 +197,18 @@ export default function Tutors() {
     )
   }
   if (selected && selected.profileStatus === PROFILE_STATUS.PENDING) {
-    statusControl =  (
+    statusControl = (
       <div className={styles.statusControl}>
         <Alert showIcon message="Pending" type="info" />
         <div className={styles.statusControlBtnWrapper}>
-          <Button 
-            className={styles.statusControlBtn} 
-            style={{backgroundColor: "#52c41a", color: "white", borderColor: "#52c41a"}}
+          <Button
+            className={styles.statusControlBtn}
+            style={{ backgroundColor: "#52c41a", color: "white", borderColor: "#52c41a" }}
             onClick={() => updateProfileStatus(PROFILE_STATUS.ACCEPTED)}
           >Accept</Button>
-          <Button 
-            type="primary" 
-            danger 
+          <Button
+            type="primary"
+            danger
             className={styles.statusControlBtn}
             onClick={() => updateProfileStatus(PROFILE_STATUS.REJECTED)}
           >Reject</Button>
@@ -221,35 +222,74 @@ export default function Tutors() {
     <div>
       <Spin spinning={updateStatusLoading}>
         {statusControl}
+        <div>
+          {detail ? (
+            <div>
+              <div className={styles.detailWrapper}>
+                <p className={styles.detailTitle}>Teaching preferences</p>
+                <div className={styles.detailAdditionalRow}>Student level: {detail.student_lvl}</div>
+                <div className={styles.detailAdditionalRow}>Student type: {detail.student_type}</div>
+                <div className={styles.detailAdditionalRow}>Accent: {detail.accent}</div>
+                <div className={styles.detailAdditionalRow}>Fluency: {detail.fluency}</div>
+                <div className={styles.detailAdditionalRow}>Tutor styles: {detail.teaching_styles ? JSON.parse(detail.teaching_styles).map(style => { return <Tag key={style}>{style}</Tag> }) : null}</div>
+                <div className={styles.detailAdditionalRow}>Specialities: {detail.specialities ? JSON.parse(detail.specialities).map(speciality => { return <Tag key={speciality}>{speciality}</Tag> }) : null}</div>
+              </div>
+              <div className={styles.detailWrapper}>
+                <p className={styles.detailTitle}>CV</p>
+                <div className={styles.detailAdditionalRow}>Interests: {detail.interests}</div>
+                <div className={styles.detailAdditionalRow}>Education: {detail.education}</div>
+                <div className={styles.detailAdditionalRow}>Experience: {detail.experience}</div>
+                <div className={styles.detailAdditionalRow}>Profession: {detail.profession}</div>
+                <div className={styles.detailAdditionalRow}>Reason: {detail.reason}</div>
+              </div>
+              <div className={styles.detailWrapper}>
+                <p className={styles.detailTitle}>Certificates</p>
+                <div className={styles.uploadedCert}>
+                  {detail.certificates ? (
+                    JSON.parse(detail.certificates).map((cert, index) => {
+                      return (<a key={index} href={serverUrl + cert.path}><FileDoneOutlined />{cert.originalname}</a>);
+                    })
+                  ) : null}
+                </div>
+              </div>
+              <div className={styles.detailWrapper}>
+                <p className={styles.detailTitle}>Introduction</p>
+                <div className={styles.detailAdditionalRow}>Introduction: {detail.introduction}</div>
+                {detail.video ? <div className={styles.videoWrapper}><VideoPlayer username={selected.username}/></div> : null}
+              </div>
+            </div>
+          ) : null}
+        </div>
+
       </Spin>
     </div>
   )
 
   //detail modal
   const renderDetail = detail ?
-  ( <Tabs defaultActiveKey="info" type="card">
+    (<Tabs defaultActiveKey="info" type="card">
       <TabPane tab="Info" key="info">
-      <div className={styles.detail}>
-        <div className={styles.detailBasic}>
-          {detail.avatar ? <Avatar src={serverUrl + detail.avatar} size={100} />
-            : <Avatar icon={<UserOutlined />} size={100} />}
-          <div className={styles.detailBasicInfo}>
-            <p className={styles.detailName}>{detail.name}</p>
-            <p>Username: {selected.username}</p>
-            <p>Email: {selected.email}</p>
-            <div className={styles.detailAdditionalRow}>Phone: {detail.phone}</div>
-            <div className={styles.detailAdditionalRow}>Address: {detail.address}</div>
-            <div className={styles.detailAdditionalRow}>Birthdate: {detail.birthdate? moment(detail.birthdate).format('YYYY-MM-DD') : null}</div>
-            {selected.verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>}
-            {selected.state ? <Tag color="success">Active</Tag> : <Tag color="error">Inactive</Tag>}
+        <div className={styles.detail}>
+          <div className={styles.detailBasic}>
+            {detail.avatar ? <Avatar src={serverUrl + detail.avatar} size={100} />
+              : <Avatar icon={<UserOutlined />} size={100} />}
+            <div className={styles.detailBasicInfo}>
+              <p className={styles.detailName}>{detail.name}</p>
+              <p>Username: {selected.username}</p>
+              <p>Email: {selected.email}</p>
+              <div className={styles.detailAdditionalRow}>Phone: {detail.phone}</div>
+              <div className={styles.detailAdditionalRow}>Address: {detail.address}</div>
+              <div className={styles.detailAdditionalRow}>Birthdate: {detail.birthdate ? moment(detail.birthdate).format('YYYY-MM-DD') : null}</div>
+              {selected.verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>}
+              {selected.state ? <Tag color="success">Active</Tag> : <Tag color="error">Inactive</Tag>}
+            </div>
+          </div>
+          <div className={styles.banBtnHolder}>
+            {selected.state ?
+              <Button loading={stateLoading} className={styles.changeStateBtn} type="primary" danger onClick={() => updateStateUser(STATES.INACTIVE)}>Ban</Button> :
+              <Button loading={stateLoading} className={styles.changeStateBtn} type="primary" onClick={() => updateStateUser(STATES.ACTIVE)}>Unban</Button>}
           </div>
         </div>
-        <div className={styles.banBtnHolder}>
-          {selected.state ? 
-            <Button loading={stateLoading} className={styles.changeStateBtn} type="primary" danger onClick={() => updateStateUser(STATES.INACTIVE)}>Ban</Button> : 
-            <Button loading={stateLoading} className={styles.changeStateBtn} type="primary" onClick={() => updateStateUser(STATES.ACTIVE)}>Unban</Button>}
-        </div>
-      </div>
       </TabPane>
       <TabPane tab="Profile" key="profile">
         {tutorProfile}
@@ -264,9 +304,9 @@ export default function Tutors() {
         Payment
       </TabPane>
     </Tabs>
-  
-  )
-  : null;
+
+    )
+    : null;
 
   return (
     <div className={styles.tutorsLayout}>
@@ -277,6 +317,7 @@ export default function Tutors() {
         footer={null}
         width="600px"
         destroyOnClose
+        bodyStyle={{height: "400px", overflow: "auto"}}
       >
         <Spin spinning={loadingDetail}>
           {renderDetail}

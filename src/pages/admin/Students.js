@@ -189,6 +189,7 @@ export default function Students() {
         footer={null}
         width="600px"
         destroyOnClose
+        bodyStyle={{height: "400px", overflow: "auto"}}
       >
         <Spin spinning={loadingDetail}>
           {renderDetail}

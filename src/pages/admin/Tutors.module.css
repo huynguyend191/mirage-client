@@ -11,6 +11,7 @@
 
 
 .detail {
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -80,4 +81,26 @@
 
 .changeStateBtn {
   width: 200px;
+}
+
+.detailWrapper {
+  border-bottom: 1px solid #d9d9d9;
+  padding: 10px;
+}
+
+.detailTitle {
+  font-weight: 700;
+  font-size: 18;
+}
+
+.uploadedCert {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d9d9d9;
+  padding: 10px;
+}
+
+.videoWrapper {
+  display: flex;
+  justify-content: center;
 }
