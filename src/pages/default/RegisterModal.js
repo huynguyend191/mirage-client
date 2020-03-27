@@ -96,7 +96,6 @@ export default function RegisterModal(props) {
       onCancel={onClose}
       width="800px"
     >
-      {error ? <Alert style={{marginBottom: "15px"}} message={error} type="error" showIcon banner closable afterClose={() => setError(null)} /> : null}
       <div className={styles.registerContent}>
         <div className={styles.registerWelcome}>
           {
@@ -106,6 +105,7 @@ export default function RegisterModal(props) {
           }
         </div>
         <div className={styles.formWrapper}>
+          {error ? <Alert style={{marginBottom: "15px"}} message={error} type="error" showIcon banner closable afterClose={() => setError(null)} /> : null}
           <Form
             name="register"
             onFinish={onFinish}

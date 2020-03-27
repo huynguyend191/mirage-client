@@ -9,6 +9,11 @@ export const STATES = Object.freeze({
   INACTIVE: 0
 });
 
+export const PROFILE_STATUS = Object.freeze({
+  ACCEPTED: 1,
+  PENDING: 2,
+  REJECTED: 3
+});
 
 export const serverUrl = process.env.NODE_ENV === 'development'
 ? 'https://localhost:3003/'

@@ -9,10 +9,75 @@
   float: right;
 }
 
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailBasic {
+  padding: 10px 40px ;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailName {
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 0em;
+}
+
+.detailBasicInfo {
+  margin-left: 20px;
+}
+
+.banBtnHolder {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.detailAdditional {
+  width: 80%;
+  padding: 20px 50px;
+}
+
+.detailAdditionalRow {
+  margin-bottom: 5px;
+}
+
 .searchBar {
   width: 300px;
   margin-bottom: 20px;
   float: right;
   position: relative;
   z-index: 99;
+}
+
+.statusControl {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.statusControlBtnWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 15px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.statusControlBtn {
+  width: 150px;
+}
+
+.changeStateBtn {
+  width: 200px;
 }

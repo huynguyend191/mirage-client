@@ -46,7 +46,7 @@ export default function Students() {
       setLoading(false);
       console.log(error.response);
     }
-  }
+  };
   const getStudentDetail = async () => {
     try {
       setLoadingDetail(true);
@@ -60,7 +60,7 @@ export default function Students() {
       setLoadingDetail(false);
 
     }
-  }
+  };
   useEffect(() => {
     getStudentsData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,16 +98,16 @@ export default function Students() {
 
   const showTotal = () => {
     return `Total ${total} results`;
-  }
+  };
 
   const changePageSize = (current, size) => {
     setPageSize(size);
     setPage(Math.ceil(total / size));
-  }
+  };
 
   const changePage = (page, pageSize) => {
     setPage(page);
-  }
+  };
 
   const onSelectRow = (record, index) => {
     return {
@@ -116,12 +116,12 @@ export default function Students() {
         setShowDetailModal(true);
       }
     }
-  }
+  };
 
-  const banUser = async () => {
+  const updateStateUser = async (state) => {
     try {
       setStateLoading(true);
-      await axios.put('/accounts/' + selected.accountId, {state: STATES.INACTIVE});
+      await axios.put('/accounts/' + selected.accountId, {state: state});
       await getStudentsData();
       setStateLoading(false);
       setShowDetailModal(false);
@@ -129,20 +129,7 @@ export default function Students() {
       setStateLoading(false);
       console.log(error.response);
     }
-  }
-
-  const unbanUser = async () => {
-    try {
-      setStateLoading(true);
-      await axios.put('/accounts/' + selected.accountId, {state: STATES.ACTIVE});
-      await getStudentsData();
-      setStateLoading(false);
-      setShowDetailModal(false);
-    } catch (error) {
-      setStateLoading(false);
-      console.log(error.response);
-    }
-  }
+  };
 
   const searchUser = (value) => {
     setSearchKey(value);
@@ -165,8 +152,8 @@ export default function Students() {
           </div>
           <div className={styles.banBtnHolder}>
             {selected.state ? 
-              <Button loading={stateLoading} style={{width: '200px'}} block type="primary" danger onClick={banUser}>Ban</Button> : 
-              <Button loading={stateLoading} style={{width: '200px'}} block type="primary" onClick={unbanUser}>Unban</Button>}
+              <Button loading={stateLoading} className={styles.changeStateBtn} type="primary" danger onClick={() => updateStateUser(STATES.INACTIVE)}>Ban</Button> : 
+              <Button loading={stateLoading} className={styles.changeStateBtn} type="primary" onClick={() => updateStateUser(STATES.ACTIVE)}>Unban</Button>}
           </div>
           <div className={styles.detailAdditional}>
             <div className={styles.detailAdditionalRow}>Phone: {detail.phone}</div>
