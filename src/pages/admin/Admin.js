@@ -39,14 +39,14 @@ export default function Admin(props) {
   );
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout>
       <ForgotPasswordModal isVisible={isForgotPass} onClose={() => setIsForgotPass(false)} />
       <ChangePasswordModal
         isVisible={isChangePass}
         onClose={() => setIsChangePass(false)}
         onForgot={() => setIsForgotPass(true)}
       />
-      <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+      <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} className={styles.adminMenu}>
         <SideBarLogo collapsed={collapsed} />
         <Menu theme="dark" defaultSelectedKeys={["/admin"]} mode="inline" selectedKeys={[location.pathname]}>
           <Menu.Item key="/admin">
@@ -66,7 +66,7 @@ export default function Admin(props) {
       <Layout>
         <Header style={{ background: "white" }}>
           {
-            collapsed ? <MenuUnfoldOutlined style={{ fontSize: "20px" }} onClick={() => setCollapsed(false)} /> : <MenuFoldOutlined style={{ fontSize: "20px" }} onClick={() => setCollapsed(true)} />
+            collapsed ? <MenuUnfoldOutlined className={styles.menuIcon} onClick={() => setCollapsed(false)} /> : <MenuFoldOutlined className={styles.menuIcon} onClick={() => setCollapsed(true)} />
           }
           <div className={styles.userControl}>
             Hello, {account.username}
