@@ -31,7 +31,8 @@ export default function VideoPlayer({ recordNew }) {
         player.current.dispose();
       }
     }
-  }, [videoJsOptions]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <div data-vjs-player>

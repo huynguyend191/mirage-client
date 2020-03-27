@@ -40,6 +40,7 @@ export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfi
         data: formData,
         method: 'POST'
       });
+      cancelRecord();
       refreshProfile();
       setLoading(false);
     } catch (error) {
@@ -87,7 +88,7 @@ export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfi
   return (
     <div>
       <div data-vjs-player>
-        <video id="myVideo" ref={node => videoNode.current = node} className="video-js vjs-default-skin" playsInline></video>
+        <video id="myVideoRecord" ref={node => videoNode.current = node} className="video-js vjs-default-skin" playsInline></video>
       </div>
       {existedVideo ? (
         <div className={styles.btnWrapper}>
