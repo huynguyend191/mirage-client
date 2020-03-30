@@ -8,7 +8,7 @@ import ForgotPasswordModal from '../../components/ForgotPasswordModal';
 import ChangePasswordModal from '../../components/ChangePasswordModal';
 import Profile from './Profile';
 import Stats from './Stats';
-import VideoCall from './VideoCall';
+import Teaching from './Teaching';
 import { Switch, Route, Link } from 'react-router-dom';
 import SideBarLogo from '../../components/SideBarLogo';
 import { serverUrl } from '../../lib/constants';
@@ -47,8 +47,8 @@ export default function Tutor(props) {
           <Menu.Item key="/tutor">
             <ContactsOutlined /><Link to="/tutor"><span>Profile</span></Link>
           </Menu.Item>
-          <Menu.Item key="/tutor/video-call">
-            <VideoCameraOutlined /><Link to="/tutor/video-call"><span>Video call</span></Link>
+          <Menu.Item key="/tutor/teaching">
+            <VideoCameraOutlined /><Link to="/tutor/teaching"><span>Teaching</span></Link>
           </Menu.Item>
           <Menu.Item key="/tutor/stats">
             <BarChartOutlined /><Link to="/tutor/stats"><span>Stats</span></Link>
@@ -69,7 +69,7 @@ export default function Tutor(props) {
         <Content>
           <Switch>
             <Route path="/tutor/stats" component={Stats} />
-            <Route path="/tutor/video-call" component={VideoCall} />
+            <Route path="/tutor/teaching" component={Teaching} />
             <Route path="/tutor" component={Profile} exact />
           </Switch>
         </Content>

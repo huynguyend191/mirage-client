@@ -18,3 +18,11 @@ export const PROFILE_STATUS = Object.freeze({
 export const serverUrl = process.env.NODE_ENV === 'development'
 ? 'https://localhost:3003/'
 : 'https://mirage-video-call.herokuapp.com/';
+
+export const SOCKET_EVENTS = Object.freeze({
+  INIT: 'init',
+  REQUEST: 'request',
+  CALL: 'call',
+  END: 'end',
+  DISCONNECT: 'disconnect'
+});

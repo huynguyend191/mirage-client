@@ -10,7 +10,7 @@ import { Switch, Route, Link } from 'react-router-dom';
 import SideBarLogo from '../../components/SideBarLogo';
 import Profile from './Profile';
 import Stats from './Stats';
-import VideoCall from './VideoCall';
+import Study from './Study';
 import { serverUrl } from '../../lib/constants';
 
 const { Header, Content, Sider } = Layout;
@@ -47,8 +47,8 @@ export default function Student(props) {
       <Sider>
         <SideBarLogo collapsed={false} />
         <Menu theme="dark" defaultSelectedKeys={["/student/video-call"]} mode="inline" selectedKeys={[location.pathname]}>
-          <Menu.Item key="/student/video-call">
-            <VideoCameraOutlined /><Link to="/student/video-call"><span>Video call</span></Link>
+          <Menu.Item key="/student/study">
+            <VideoCameraOutlined /><Link to="/student/study"><span>Study</span></Link>
           </Menu.Item>
           <Menu.Item key="/student">
             <ContactsOutlined /><Link to="/student"><span>Profile</span></Link>
@@ -72,7 +72,7 @@ export default function Student(props) {
         <Content>
           <Switch>
             <Route path="/student/stats" component={Stats} />
-            <Route path="/student/video-call" component={VideoCall} />
+            <Route path="/student/Study" component={Study} />
             <Route path="/student" component={Profile} exact />
           </Switch>
         </Content>
