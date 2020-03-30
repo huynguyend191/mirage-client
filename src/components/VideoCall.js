@@ -79,7 +79,7 @@ export default function VideoCall() {
 
   const callWithVideo = (video) => {
     const config = { audio: true, video };
-    return () => startCall(true, 'huynd191', config);
+    return () => startCall(true, 'huynd', config);
   };
 
   return (
@@ -105,7 +105,7 @@ export default function VideoCall() {
           callWindow={callWindow}
           localSrc={localSrc}
           peerSrc={peerSrc}
-          configRef={configRef.current}
+          config={configRef.current}
           mediaDevice={pcRef.current.mediaDevice}
           endCall={endCall}
         />

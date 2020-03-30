@@ -11,10 +11,10 @@ class MediaDevice extends Emitter {
   start() {
     const constraints = {
       //TODO enable video on pc with webcam
-      // video: {
-      //   facingMode: 'user',
-      //   height: { min: 360, ideal: 720, max: 1080 }
-      // },
+      video: {
+        facingMode: 'user',
+        height: { min: 360, ideal: 720, max: 1080 }
+      },
       audio: true
     };
 

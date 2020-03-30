@@ -41,6 +41,7 @@ export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, sta
   };
   return (
     <div>
+      <h1>Hello</h1>
       <video id="peerVideo" ref={peerVideo} autoPlay />
       <video id="localVideo" ref={localVideo} autoPlay muted />
       <div className="video-control">
