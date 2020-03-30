@@ -17,8 +17,8 @@ export default function VideoCall() {
   const [callFrom, setCallFrom] = useState('');
   const [localSrc, setLocalSrc] = useState(null);
   const [peerSrc, setPeerSrc] = useState(null);
-  const pc = useRef({});
-  const config = useRef(null);
+  const pcRef = useRef({});
+  const configRef = useRef(null);
 
   useEffect(() => {
     socket
@@ -31,9 +31,9 @@ export default function VideoCall() {
       })
       .on(SOCKET_EVENTS.CALL, (data) => {
         if (data.sdp) {
-          pc.current.setRemoteDescription(data.sdp);
-          if (data.sdp.type === 'offer') pc.current.createAnswer();
-        } else pc.current.addIceCandidate(data.candidate);
+          pcRef.current.setRemoteDescription(data.sdp);
+          if (data.sdp.type === 'offer') pcRef.current.createAnswer();
+        } else pcRef.current.addIceCandidate(data.candidate);
       })
       .on(SOCKET_EVENTS.END, () => endCall(false))
       .emit(SOCKET_EVENTS.INIT, { account });
@@ -48,8 +48,8 @@ export default function VideoCall() {
   }, []);
 
   const startCall = (isCaller, friendID, config) => {
-    config.current = config;
-    pc.current = new PeerConnection(friendID)
+    configRef.current = config;
+    pcRef.current = new PeerConnection(friendID)
       .on('localStream', (src) => {
         setCallWindow(true);
         setLocalSrc(src)
@@ -57,7 +57,7 @@ export default function VideoCall() {
       })
       .on('peerStream', src => setPeerSrc(src))
       .start(isCaller, config);
-    console.log(config.current)
+    console.log(!_.isEmpty(configRef.current))
   }
 
   const rejectCall = () => {
@@ -66,11 +66,11 @@ export default function VideoCall() {
   }
 
   const endCall = (isStarter) => {
-    if (_.isFunction(pc.current.stop)) {
-      pc.current.stop(isStarter);
+    if (_.isFunction(pcRef.current.stop)) {
+      pcRef.current.stop(isStarter);
     }
-    pc.current = {};
-    config.current = null;
+    pcRef.current = {};
+    configRef.current = null;
     setCallModal(false);
     setCallWindow(false);
     setLocalSrc(null);
@@ -100,13 +100,13 @@ export default function VideoCall() {
           size="large"
         />
         </div>
-      {!_.isEmpty(config.current) && (
+      {!_.isEmpty(configRef.current) && (
         <CallWindow
           callWindow={callWindow}
           localSrc={localSrc}
           peerSrc={peerSrc}
-          config={config.current}
-          mediaDevice={pc.current.mediaDevice}
+          configRef={configRef.current}
+          mediaDevice={pcRef.current.mediaDevice}
           endCall={endCall}
         />
       )}
