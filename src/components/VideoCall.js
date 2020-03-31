@@ -1,29 +1,28 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { AccountContext } from '../context/AccountContext';
 import socket from '../lib/socket';
-import { SOCKET_EVENTS } from '../lib/constants';
+import { SOCKET_EVENTS, ROLES } from '../lib/constants';
 import PeerConnection from '../lib/PeerConnection';
 import _ from 'lodash';
 import CallWindow from './CallWindow';
 import CallModal from './CallModal';
-import { Button } from 'antd';
-import { VideoCameraFilled, AudioFilled } from '@ant-design/icons';
+import OnlineTutors from '../pages/student/OnlineTutors';
+
 
 export default function VideoCall() {
   const { account } = useContext(AccountContext);
-  const [clientId, setClientId] = useState('');
   const [callWindow, setCallWindow] = useState(false);
   const [callModal, setCallModal] = useState(false);
   const [callFrom, setCallFrom] = useState('');
   const [localSrc, setLocalSrc] = useState(null);
   const [peerSrc, setPeerSrc] = useState(null);
+  const [onlineTutors, setOnlineTutors] = useState([]);
   const pcRef = useRef({});
   const configRef = useRef(null);
 
   useEffect(() => {
     socket
       .on(SOCKET_EVENTS.INIT, (data) => {
-        setClientId(data.id);
       })
       .on(SOCKET_EVENTS.REQUEST, ({ from }) => {
         setCallModal(true);
@@ -36,15 +35,21 @@ export default function VideoCall() {
         } else pcRef.current.addIceCandidate(data.candidate);
       })
       .on(SOCKET_EVENTS.END, () => endCall(false))
+      .on(SOCKET_EVENTS.GET_ONLINE_TUTORS, (data) => {
+        console.log(data)
+        setOnlineTutors(data.online);
+      })
       .emit(SOCKET_EVENTS.INIT, { account });
-      return () => {
-        socket
-          .off(SOCKET_EVENTS.INIT)
-          .off(SOCKET_EVENTS.REQUEST)
-          .off(SOCKET_EVENTS.CALL)
-          .off(SOCKET_EVENTS.END)
-        rejectCall();
-      }
+    return () => {
+      socket
+        .off(SOCKET_EVENTS.INIT)
+        .off(SOCKET_EVENTS.REQUEST)
+        .off(SOCKET_EVENTS.CALL)
+        .off(SOCKET_EVENTS.END)
+        .off(SOCKET_EVENTS.GET_ONLINE_TUTORS)
+      rejectCall();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const startCall = (isCaller, friendID, config) => {
@@ -57,7 +62,6 @@ export default function VideoCall() {
       })
       .on('peerStream', src => setPeerSrc(src))
       .start(isCaller, config);
-    console.log(!_.isEmpty(configRef.current))
   }
 
   const rejectCall = () => {
@@ -77,29 +81,15 @@ export default function VideoCall() {
     setPeerSrc(null);
   }
 
-  const callWithVideo = (video) => {
-    const config = { audio: true, video };
-    return () => startCall(true, 'huynd', config);
-  };
 
   return (
     <div>
-        <div>
-        <Button
-          shape="circle"
-          type="primary"
-          icon={<VideoCameraFilled />}
-          onClick={callWithVideo(true)}
-          size="large"
+      {account.role === ROLES.STUDENT && (
+        <OnlineTutors
+          onlineTutors={onlineTutors}
+          startCall={startCall}
         />
-        <Button
-          shape="circle"
-          type="primary"
-          icon={<AudioFilled />}
-          onClick={callWithVideo(false)}
-          size="large"
-        />
-        </div>
+      )}
       {!_.isEmpty(configRef.current) && (
         <CallWindow
           callWindow={callWindow}

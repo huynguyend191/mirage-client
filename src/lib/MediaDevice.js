@@ -10,7 +10,6 @@ class MediaDevice extends Emitter {
    */
   start() {
     const constraints = {
-      //TODO enable video on pc with webcam
       video: {
         facingMode: 'user',
         height: { min: 360, ideal: 720, max: 1080 }
@@ -25,7 +24,6 @@ class MediaDevice extends Emitter {
         this.emit('stream', stream);
       })
       .catch((err) => {
-        
         if (err instanceof DOMException) {
           console.log(err)
           alert('Cannot open webcam and/or microphone');
