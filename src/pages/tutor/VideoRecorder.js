@@ -4,7 +4,7 @@ import videojs from 'video.js';
 import 'webrtc-adapter';
 import RecordRTC from 'recordrtc';
 import 'videojs-record/dist/css/videojs.record.css';
-import Record from 'videojs-record/dist/videojs.record.js';
+import 'videojs-record/dist/videojs.record.js';
 import { Button } from 'antd';
 import axios from '../../lib/utils/axiosConfig';
 import { AccountContext } from '../../context/AccountContext';

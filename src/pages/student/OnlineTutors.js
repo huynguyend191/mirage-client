@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, List, Card } from 'antd';
+import { List, Card } from 'antd';
 import { VideoCameraFilled, AudioFilled } from '@ant-design/icons';
 
 export default function OnlineTutors({ startCall, onlineTutors }) {
@@ -14,30 +14,17 @@ export default function OnlineTutors({ startCall, onlineTutors }) {
       dataSource={onlineTutors}
       renderItem={item => (
         <List.Item>
-        <Card
-          title={item.profile.name}
-          actions={[
-            <Button
-            shape="circle"
-            type="primary"
-            icon={<VideoCameraFilled />}
-            onClick={callWithVideo(true, item.username)}
-            size="large"
-            />,
-            <Button
-            shape="circle"
-            type="primary"
-            icon={<AudioFilled />}
-            onClick={callWithVideo(false, item.username)}
-            size="large"
-          />
-          ]}
-        >
-
-        </Card>
+          <Card
+            title={item.profile.name}
+            actions={[
+              <VideoCameraFilled onClick={callWithVideo(true, item.username)} />,
+              <AudioFilled onClick={callWithVideo(false, item.username)} />
+            ]}
+          >
+          </Card>
         </List.Item>
       )}
     />
-    
+
   )
 }

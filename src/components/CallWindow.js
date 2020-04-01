@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useBeforeunload } from 'react-beforeunload';
 import { Button } from 'antd';
-import { VideoCameraFilled, AudioFilled, PhoneFilled } from '@ant-design/icons';
-export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, status, endCall }) {
+import { VideoCameraFilled, AudioFilled, StopOutlined, AudioMutedOutlined, VideoCameraAddOutlined } from '@ant-design/icons';
+import styles from './CallWindow.module.css';
+
+export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, endCall }) {
   const peerVideo = useRef(null);
   const localVideo = useRef(null);
   const [video, setVideo] = useState(config.video);
@@ -12,11 +14,11 @@ export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, sta
     endCall(true)
   });
 
-  
+
   useEffect(() => {
     if (peerVideo.current && peerSrc) peerVideo.current.srcObject = peerSrc;
     if (localVideo.current && localSrc) localVideo.current.srcObject = localSrc;
-  });
+  }, [localSrc, peerSrc]);
 
   useEffect(() => {
     if (mediaDevice) {
@@ -40,22 +42,23 @@ export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, sta
     }
   };
   return (
-    <div>
-      <h1>Hello</h1>
-      <video id="peerVideo" ref={peerVideo} autoPlay />
-      <video id="localVideo" ref={localVideo} autoPlay muted />
-      <div className="video-control">
+    <div className={styles.callWindow}>
+      <div className={styles.videoScreenContainer}>
+        <video className={styles.videoScreen} ref={localVideo} autoPlay muted />
+        {peerSrc && <video className={styles.videoScreen} ref={peerVideo} autoPlay /> }
+      </div>
+      <div className={styles.videoControl}>
         <Button
           shape="circle"
-          type="primary"
-          icon={<VideoCameraFilled />}
+          type={video ? "primary" : "danger"}
+          icon={video? <VideoCameraFilled />: <VideoCameraAddOutlined />}
           onClick={() => toggleMediaDevice('video')}
           size="large"
         />
         <Button
           shape="circle"
-          type="primary"
-          icon={<AudioFilled />}
+          type={audio ? "primary" : "danger"}
+          icon={audio? <AudioFilled /> : <AudioMutedOutlined /> }
           onClick={() => toggleMediaDevice('audio')}
           size="large"
         />
@@ -63,7 +66,7 @@ export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, sta
           shape="circle"
           type="danger"
           onClick={() => endCall(true)}
-          icon={<PhoneFilled />}
+          icon={<StopOutlined />}
           size="large"
         />
       </div>

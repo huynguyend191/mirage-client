@@ -36,7 +36,6 @@ export default function VideoCall() {
       })
       .on(SOCKET_EVENTS.END, () => endCall(false))
       .on(SOCKET_EVENTS.GET_ONLINE_TUTORS, (data) => {
-        console.log(data)
         setOnlineTutors(data.online);
       })
       .emit(SOCKET_EVENTS.INIT, { account });
@@ -84,7 +83,7 @@ export default function VideoCall() {
 
   return (
     <div>
-      {account.role === ROLES.STUDENT && (
+      {(account.role === ROLES.STUDENT && !callWindow) && (
         <OnlineTutors
           onlineTutors={onlineTutors}
           startCall={startCall}

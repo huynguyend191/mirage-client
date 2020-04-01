@@ -1,7 +1,7 @@
 import React from 'react'
 import { useBeforeunload } from 'react-beforeunload';
 import { Button } from 'antd';
-import { VideoCameraFilled, AudioFilled, PhoneFilled } from '@ant-design/icons';
+import { VideoCameraFilled, AudioFilled, StopOutlined } from '@ant-design/icons';
 import styles from './CallModal.module.css';
 
 export default function CallModal({callModal, callFrom, startCall, rejectCall }) {
@@ -37,7 +37,7 @@ export default function CallModal({callModal, callFrom, startCall, rejectCall })
         shape="circle"
         type="danger"
         onClick={rejectCall}
-        icon={<PhoneFilled />}
+        icon={<StopOutlined />}
         size="large"
       />
     </div>) : null
