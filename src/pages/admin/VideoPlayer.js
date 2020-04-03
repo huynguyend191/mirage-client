@@ -8,7 +8,7 @@ export default function VideoPlayer({ username }) {
   const videoNode = useRef(null);
   const videoJsOptions = {
     controls: true,
-    width: 480,
+    width: 513,
     height: 360,
     fluid: false,
     sources: [{

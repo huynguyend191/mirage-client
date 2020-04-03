@@ -181,7 +181,7 @@ export default function Profile() {
                       })}
                     </Select>
                   </Form.Item>
-                  <Form.Item name="specialities" label="Specialities">
+                  <Form.Item name="specialities" label="Interests">
                     <Select mode="multiple" placeholder="What do you want to study?">
                       {preferences.SPECIALITIES.map(spec => {
                         return <Option value={spec} key={spec}>{spec}</Option>

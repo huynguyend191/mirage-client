@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../lib/utils/axiosConfig';
-import { Table, Tag, Pagination, Input, Spin, Modal, Avatar, Tabs, Button, Alert } from 'antd';
+import { Table, Tag, Pagination, Input, Spin, Modal, Avatar, Tabs, Button, Alert, Descriptions } from 'antd';
 import styles from './Tutors.module.css';
 import { serverUrl } from '../../lib/constants';
 import { UserOutlined, FileDoneOutlined } from '@ant-design/icons';
@@ -226,21 +226,23 @@ export default function Tutors() {
           {detail ? (
             <div>
               <div className={styles.detailWrapper}>
-                <p className={styles.detailTitle}>Teaching preferences</p>
-                <div className={styles.detailAdditionalRow}>Student level: {detail.student_lvl}</div>
-                <div className={styles.detailAdditionalRow}>Student type: {detail.student_type}</div>
-                <div className={styles.detailAdditionalRow}>Accent: {detail.accent}</div>
-                <div className={styles.detailAdditionalRow}>Fluency: {detail.fluency}</div>
-                <div className={styles.detailAdditionalRow}>Tutor styles: {detail.teaching_styles ? JSON.parse(detail.teaching_styles).map(style => { return <Tag key={style}>{style}</Tag> }) : null}</div>
-                <div className={styles.detailAdditionalRow}>Specialities: {detail.specialities ? JSON.parse(detail.specialities).map(speciality => { return <Tag key={speciality}>{speciality}</Tag> }) : null}</div>
+                <Descriptions bordered size="small" column={1} title="Teaching preferences">
+                  <Descriptions.Item label="Student level">{detail.student_lvl}</Descriptions.Item>
+                  <Descriptions.Item label="Student type">{detail.student_type}</Descriptions.Item>
+                  <Descriptions.Item label="Accent">{detail.accent}</Descriptions.Item>
+                  <Descriptions.Item label="Fluency">{detail.fluency}</Descriptions.Item>
+                  <Descriptions.Item label="Tutor styles"> {detail.teaching_styles ? JSON.parse(detail.teaching_styles).map(style => { return <Tag key={style}>{style}</Tag> }) : null}</Descriptions.Item>
+                  <Descriptions.Item label="Specialities">{detail.specialities ? JSON.parse(detail.specialities).map(speciality => { return <Tag key={speciality}>{speciality}</Tag> }) : null}</Descriptions.Item>
+                </Descriptions>
               </div>
               <div className={styles.detailWrapper}>
-                <p className={styles.detailTitle}>CV</p>
-                <div className={styles.detailAdditionalRow}>Interests: {detail.interests}</div>
-                <div className={styles.detailAdditionalRow}>Education: {detail.education}</div>
-                <div className={styles.detailAdditionalRow}>Experience: {detail.experience}</div>
-                <div className={styles.detailAdditionalRow}>Profession: {detail.profession}</div>
-                <div className={styles.detailAdditionalRow}>Reason: {detail.reason}</div>
+                <Descriptions bordered size="small" column={1} title="CV">
+                  <Descriptions.Item label="Interests">{detail.interests}</Descriptions.Item>
+                  <Descriptions.Item label="Education">{detail.education}</Descriptions.Item>
+                  <Descriptions.Item label="Experience">{detail.experience}</Descriptions.Item>
+                  <Descriptions.Item label="Profession">{detail.profession}</Descriptions.Item>
+                  <Descriptions.Item label="Reason">{detail.reason}</Descriptions.Item>
+                </Descriptions>
               </div>
               <div className={styles.detailWrapper}>
                 <p className={styles.detailTitle}>Certificates</p>
@@ -252,9 +254,10 @@ export default function Tutors() {
                   ) : null}
                 </div>
               </div>
-              <div className={styles.detailWrapper}>
-                <p className={styles.detailTitle}>Introduction</p>
-                <div className={styles.detailAdditionalRow}>Introduction: {detail.introduction}</div>
+              <div className={styles.detailWrapper}> 
+                <Descriptions bordered size="small" column={1} title="Introduction">
+                  <Descriptions.Item label="Introduction">{detail.introduction}</Descriptions.Item>
+                </Descriptions>
                 {detail.video ? <div className={styles.videoWrapper}><VideoPlayer username={selected.username}/></div> : null}
               </div>
             </div>
@@ -274,14 +277,17 @@ export default function Tutors() {
             {detail.avatar ? <Avatar src={serverUrl + detail.avatar} size={100} />
               : <Avatar icon={<UserOutlined />} size={100} />}
             <div className={styles.detailBasicInfo}>
-              <p className={styles.detailName}>{detail.name}</p>
-              <p>Username: {selected.username}</p>
-              <p>Email: {selected.email}</p>
-              <div className={styles.detailAdditionalRow}>Phone: {detail.phone}</div>
-              <div className={styles.detailAdditionalRow}>Address: {detail.address}</div>
-              <div className={styles.detailAdditionalRow}>Birthdate: {detail.birthdate ? moment(detail.birthdate).format('YYYY-MM-DD') : null}</div>
-              {selected.verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>}
-              {selected.state ? <Tag color="success">Active</Tag> : <Tag color="error">Inactive</Tag>}
+              <Descriptions size="small" column={1} title={detail.name} bordered>
+                <Descriptions.Item label="Username">{selected.username}</Descriptions.Item>
+                <Descriptions.Item label="Email">{selected.email}</Descriptions.Item>
+                <Descriptions.Item label="Phone">{detail.phone}</Descriptions.Item>
+                <Descriptions.Item label="Address">{detail.address}</Descriptions.Item>
+                <Descriptions.Item label="Birthdate">{detail.birthdate ? moment(detail.birthdate).format('YYYY-MM-DD') : null}</Descriptions.Item>
+                <Descriptions.Item label="Status"> 
+                  {selected.verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>}
+                  {selected.state ? <Tag color="success">Active</Tag> : <Tag color="error">Inactive</Tag>}
+                </Descriptions.Item>
+              </Descriptions>
             </div>
           </div>
           <div className={styles.banBtnHolder}>
