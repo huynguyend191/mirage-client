@@ -42,33 +42,35 @@ export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, end
     }
   };
   return (
-    <div className={styles.callWindow}>
-      <div className={styles.videoScreenContainer}>
-        <video className={styles.videoScreen} ref={localVideo} autoPlay muted />
-        {peerSrc && <video className={styles.videoScreen} ref={peerVideo} autoPlay /> }
-      </div>
-      <div className={styles.videoControl}>
-        <Button
-          shape="circle"
-          type={video ? "primary" : "danger"}
-          icon={video? <VideoCameraFilled />: <VideoCameraAddOutlined />}
-          onClick={() => toggleMediaDevice('video')}
-          size="large"
-        />
-        <Button
-          shape="circle"
-          type={audio ? "primary" : "danger"}
-          icon={audio? <AudioFilled /> : <AudioMutedOutlined /> }
-          onClick={() => toggleMediaDevice('audio')}
-          size="large"
-        />
-        <Button
-          shape="circle"
-          type="danger"
-          onClick={() => endCall(true)}
-          icon={<StopOutlined />}
-          size="large"
-        />
+    <div className={styles.callWindowWrapper}>
+      <div className={styles.callWindow}>
+        <div className={styles.videoScreenContainer}>
+          <video className={styles.videoScreen} ref={localVideo} autoPlay muted />
+          {peerSrc && <video className={styles.videoScreen} ref={peerVideo} autoPlay />}
+        </div>
+        <div className={styles.videoControl}>
+          <Button
+            shape="circle"
+            type={video ? "primary" : "danger"}
+            icon={video ? <VideoCameraFilled /> : <VideoCameraAddOutlined />}
+            onClick={() => toggleMediaDevice('video')}
+            size="large"
+          />
+          <Button
+            shape="circle"
+            type={audio ? "primary" : "danger"}
+            icon={audio ? <AudioFilled /> : <AudioMutedOutlined />}
+            onClick={() => toggleMediaDevice('audio')}
+            size="large"
+          />
+          <Button
+            shape="circle"
+            type="danger"
+            onClick={() => endCall(true)}
+            icon={<StopOutlined />}
+            size="large"
+          />
+        </div>
       </div>
     </div>
   )

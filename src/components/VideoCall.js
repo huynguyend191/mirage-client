@@ -38,13 +38,14 @@ export default function VideoCall({ account }) {
       })
       .emit(SOCKET_EVENTS.INIT, { account });
     return () => {
+      rejectCall();
+      socket.emit(SOCKET_EVENTS.LEAVE);
       socket
         .off(SOCKET_EVENTS.INIT)
         .off(SOCKET_EVENTS.REQUEST)
         .off(SOCKET_EVENTS.CALL)
         .off(SOCKET_EVENTS.END)
         .off(SOCKET_EVENTS.GET_ONLINE_TUTORS)
-      rejectCall();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -62,6 +63,7 @@ export default function VideoCall({ account }) {
   }
 
   const rejectCall = () => {
+    console.log("Nani")
     socket.emit(SOCKET_EVENTS.END, { to: callFrom.username });
     setCallModal(false);
   }

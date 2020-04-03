@@ -25,5 +25,6 @@ export const SOCKET_EVENTS = Object.freeze({
   CALL: 'call',
   END: 'end',
   DISCONNECT: 'disconnect',
-  GET_ONLINE_TUTORS: 'get_online_tutors'
+  GET_ONLINE_TUTORS: 'get_online_tutors',
+  LEAVE: 'leave'
 });

@@ -9,8 +9,9 @@
   background: #001529;
   padding: 30px;
   border-radius: 10px;
-  width: 1600px;
-  top: 0
+  width: 1700px;
+  top: 0;
+  margin-top: 200px;
 }
 
 .videoScreenContainer {
@@ -22,7 +23,7 @@
 }
 
 .videoScreen {
-  width: 780px;
+  width: 800px;
 }
 
 .videoControl {
@@ -34,4 +35,19 @@
   border: 1px solid white;
   border-radius: 10px;
   padding: 10px;
+}
+
+
+.callWindowWrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
