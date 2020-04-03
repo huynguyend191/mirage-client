@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import { AccountContext } from '../context/AccountContext';
+import React, { useState, useEffect, useRef } from 'react';
 import socket from '../lib/socket';
 import { SOCKET_EVENTS, ROLES } from '../lib/constants';
 import PeerConnection from '../lib/PeerConnection';
@@ -7,13 +6,12 @@ import _ from 'lodash';
 import CallWindow from './CallWindow';
 import CallModal from './CallModal';
 import OnlineTutors from '../pages/student/OnlineTutors';
+import styles from './VideoCall.module.css';
 
-
-export default function VideoCall() {
-  const { account } = useContext(AccountContext);
+export default function VideoCall({ account }) {
   const [callWindow, setCallWindow] = useState(false);
   const [callModal, setCallModal] = useState(false);
-  const [callFrom, setCallFrom] = useState('');
+  const [callFrom, setCallFrom] = useState({});
   const [localSrc, setLocalSrc] = useState(null);
   const [peerSrc, setPeerSrc] = useState(null);
   const [onlineTutors, setOnlineTutors] = useState([]);
@@ -64,7 +62,7 @@ export default function VideoCall() {
   }
 
   const rejectCall = () => {
-    socket.emit(SOCKET_EVENTS.END, { to: callFrom });
+    socket.emit(SOCKET_EVENTS.END, { to: callFrom.username });
     setCallModal(false);
   }
 
@@ -82,7 +80,7 @@ export default function VideoCall() {
 
 
   return (
-    <div>
+    <div className={styles.videoCall}>
       {(account.role === ROLES.STUDENT && !callWindow) && (
         <OnlineTutors
           onlineTutors={onlineTutors}

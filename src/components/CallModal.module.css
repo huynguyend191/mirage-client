@@ -1,0 +1,30 @@
+.callModal {
+  position: absolute;
+  border: 1px solid #001529;
+  background: #001529;
+  z-index: 9999;
+  top: 0;
+  margin: 0 auto;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.controlBtns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 500px;
+}
+
+.caller {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-left: 30px;
+}
+
+.callerTxt {
+  margin-left: 5px;
+}

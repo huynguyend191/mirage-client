@@ -9,6 +9,7 @@ import moment from 'moment';
 import { serverUrl } from '../../lib/constants';
 import VideoRecorder from './VideoRecorder';
 import VideoPlayer from './VideoPlayer';
+import { PROFILE_STATUS } from '../../lib/constants';
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -145,11 +146,11 @@ export default function Profile() {
   }
 
   let profileStatus;
-  if (profile.profileStatus === 1) {
+  if (profile.profileStatus === PROFILE_STATUS.ACCEPTED) {
     profileStatus = <Alert message="Your tutor profile is ready" type="success" showIcon />
-  } else if (profile.profileStatus === 2) {
+  } else if (profile.profileStatus === PROFILE_STATUS.PENDING) {
     profileStatus = <Alert message="Your tutor profile is being reviewed by Admin" type="info" showIcon />
-  } else if (profile.profileStatus === 3) {
+  } else if (profile.profileStatus === PROFILE_STATUS.REJECTED) {
     profileStatus = <Alert message="Your tutor profile is rejected, edit now" type="error" showIcon />
   }
   return (
