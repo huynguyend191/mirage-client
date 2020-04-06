@@ -3,6 +3,7 @@ import { useBeforeunload } from 'react-beforeunload';
 import { Button } from 'antd';
 import { VideoCameraFilled, AudioFilled, StopOutlined, AudioMutedOutlined, VideoCameraAddOutlined } from '@ant-design/icons';
 import styles from './CallWindow.module.css';
+import Timer from 'react-compound-timer';
 
 export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, endCall }) {
   const peerVideo = useRef(null);
@@ -48,6 +49,16 @@ export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, end
           <video className={styles.videoScreen} ref={localVideo} autoPlay muted />
           {peerSrc && <video className={styles.videoScreen} ref={peerVideo} autoPlay />}
         </div>
+        {peerSrc && (
+          <Timer 
+            formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
+            lastUnit="h"
+          >
+            <Timer.Hours />:
+            <Timer.Minutes />:
+            <Timer.Seconds />
+          </Timer>
+        )}
         <div className={styles.videoControl}>
           <Button
             shape="circle"

@@ -18,6 +18,9 @@ export default function VideoCall({ account }) {
   const pcRef = useRef({});
   const configRef = useRef(null);
 
+  const start = useRef(0);
+  const end = useRef(0);
+
   useEffect(() => {
     socket
       .on(SOCKET_EVENTS.INIT, (data) => {
@@ -27,6 +30,8 @@ export default function VideoCall({ account }) {
         setCallFrom(from)
       })
       .on(SOCKET_EVENTS.CALL, (data) => {
+        start.current = Date.now();
+        console.log("Start", start.current);
         if (data.sdp) {
           pcRef.current.setRemoteDescription(data.sdp);
           if (data.sdp.type === 'offer') pcRef.current.createAnswer();
@@ -54,7 +59,7 @@ export default function VideoCall({ account }) {
     configRef.current = config;
     pcRef.current = new PeerConnection(friendID)
       .on('localStream', (src) => {
-        setCallWindow(true);
+        setCallWindow(true);    
         setLocalSrc(src)
         if (!isCaller) setCallModal(false)
       })
@@ -63,12 +68,14 @@ export default function VideoCall({ account }) {
   }
 
   const rejectCall = () => {
-    console.log("Nani")
     socket.emit(SOCKET_EVENTS.END, { to: callFrom.username });
     setCallModal(false);
   }
 
   const endCall = (isStarter) => {
+    end.current = Date.now();
+    console.log("End", end.current);
+    console.log("Duration", end.current - start.current);
     if (_.isFunction(pcRef.current.stop)) {
       pcRef.current.stop(isStarter);
     }
