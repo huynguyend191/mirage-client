@@ -47,7 +47,7 @@ export default function Teaching() {
   return (
     <div className={styles.teaching}>
       <Spin size="large" spinning={loading}>
-        <Steps style={{ width: "1600px" }}>
+        <Steps style={{ width: "100%" }}>
           <Step status={(profile.account && profile.account.verification) ? "finish" : "wait"} title="Verification" icon={<SolutionOutlined />} />
           {profileStatus}
           <Step status={(profile.account && profile.account.verification && profile.profileStatus === PROFILE_STATUS.ACCEPTED) ? "finish" : "wait"} title="Ready" icon={<SmileOutlined />} />
