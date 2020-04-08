@@ -5,7 +5,7 @@ import PeerConnection from '../lib/PeerConnection';
 import _ from 'lodash';
 import CallWindow from './CallWindow';
 import CallModal from './CallModal';
-import OnlineTutors from '../pages/student/OnlineTutors';
+import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
 
 export default function VideoCall({ account }) {
@@ -53,7 +53,7 @@ export default function VideoCall({ account }) {
         .off(SOCKET_EVENTS.GET_ONLINE_TUTORS)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [account]);
 
   const startCall = (isCaller, friendID, config) => {
     configRef.current = config;
@@ -91,7 +91,7 @@ export default function VideoCall({ account }) {
   return (
     <div className={styles.videoCall}>
       {(account.role === ROLES.STUDENT && !callWindow) && (
-        <OnlineTutors
+        <TutorList
           onlineTutors={onlineTutors}
           startCall={startCall}
         />
