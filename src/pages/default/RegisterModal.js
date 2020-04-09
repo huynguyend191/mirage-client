@@ -31,6 +31,7 @@ export default function RegisterModal(props) {
       setLoading(false);
       onSignIn(result.data.account);
       localStorage.setItem('remember', true);
+      window.location.reload(false);
     } catch (error) {
       setLoading(false);
       setError(error.response.data.message);

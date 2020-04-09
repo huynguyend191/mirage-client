@@ -21,6 +21,7 @@ export default function SignInModal({ isVisible, onClose, onSwitchRegister, onSw
       const result = await axios.post('/accounts/sign-in', account);
       setLoading(false);
       onSignIn(result.data.account);
+      window.location.reload(false);
     } catch (error) {
       setLoading(false);
       setError(error.response.data.message);
