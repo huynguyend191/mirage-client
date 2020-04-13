@@ -7,6 +7,7 @@ import CallWindow from './CallWindow';
 import CallModal from './CallModal';
 import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
+import axios from '../lib/utils/axiosConfig';
 
 export default function VideoCall({ account }) {
   const [callWindow, setCallWindow] = useState(false);
@@ -17,6 +18,8 @@ export default function VideoCall({ account }) {
   const [onlineTutors, setOnlineTutors] = useState([]);
   const pcRef = useRef({});
   const configRef = useRef(null);
+  const mediaRecorder = useRef(null);
+  const chunks = useRef([]);
 
   const start = useRef(0);
   const end = useRef(0);
@@ -52,14 +55,28 @@ export default function VideoCall({ account }) {
         .off(SOCKET_EVENTS.END)
         .off(SOCKET_EVENTS.GET_ONLINE_TUTORS)
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
+
+  useEffect(() => {
+    if (peerSrc && account.role === ROLES.STUDENT) {
+      mediaRecorder.current = new MediaRecorder(peerSrc, { mimeType: "video/webm; codecs=vp9" });
+      mediaRecorder.current.ondataavailable = e => {
+        if (e.data && e.data.size > 0) {
+          chunks.current.push(e.data);
+        }
+      }
+      mediaRecorder.current.start(1000);
+    }
+  }, [peerSrc, account.role])
+
 
   const startCall = (isCaller, friendID, config) => {
     configRef.current = config;
     pcRef.current = new PeerConnection(friendID)
       .on('localStream', (src) => {
-        setCallWindow(true);    
+        setCallWindow(true);
         setLocalSrc(src)
         if (!isCaller) setCallModal(false)
       })
@@ -85,6 +102,22 @@ export default function VideoCall({ account }) {
     setCallWindow(false);
     setLocalSrc(null);
     setPeerSrc(null);
+    stopRecording();
+  }
+
+  const stopRecording = (e) => {
+    if (account.role === ROLES.STUDENT && mediaRecorder.current) {
+      mediaRecorder.current.stop();
+      console.log(chunks.current)
+      const blob = new Blob(chunks.current, { type: "video/webm" });
+      console.log(blob);
+      const formData = new FormData();
+      formData.append('video', blob, 'test.webm');
+      axios('/tutors/video/' + account.username, {
+        data: formData,
+        method: 'POST'
+      });
+    }
   }
 
 

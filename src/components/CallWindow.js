@@ -15,7 +15,6 @@ export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, end
     endCall(true)
   });
 
-
   useEffect(() => {
     if (peerVideo.current && peerSrc) peerVideo.current.srcObject = peerSrc;
     if (localVideo.current && localSrc) localVideo.current.srcObject = localSrc;
@@ -50,14 +49,18 @@ export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, end
           {peerSrc && <video className={styles.videoScreen} ref={peerVideo} autoPlay />}
         </div>
         {peerSrc && (
-          <Timer 
-            formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
-            lastUnit="h"
-          >
+          <div>
+            <Timer
+              formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
+              lastUnit="h"
+              className={styles.callTime}
+            >
             <Timer.Hours />:
             <Timer.Minutes />:
             <Timer.Seconds />
-          </Timer>
+            </Timer>
+          </div>
+
         )}
         <div className={styles.videoControl}>
           <Button
