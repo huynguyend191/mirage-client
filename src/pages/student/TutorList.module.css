@@ -1,5 +1,64 @@
 .tutorList {
   margin-top: 50px;
-  width: 80%;
   background-color: #ffffff;
+  width: 1200px;
+  min-height: 200px;
+  border: 1px solid #d9d9d9;
+}
+
+.tabPane {
+  padding: 10px;
+}
+
+.tutorInfo {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+
+.tutorInfoDetail {
+  margin-left: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.tutorCard {
+  height: 150px;
+  overflow: hidden;
+}
+
+.status {
+  float: right;
+}
+
+.tutorName {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.detailWrapper {
+  border-bottom: 1px solid #d9d9d9;
+  padding: 10px;
+}
+
+.detailTitle {
+  margin-bottom: 20px;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.5715;
+}
+
+.uploadedCert {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+  padding: 10px;
+}
+
+.videoWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }

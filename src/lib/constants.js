@@ -28,3 +28,8 @@ export const SOCKET_EVENTS = Object.freeze({
   GET_ONLINE_TUTORS: 'get_online_tutors',
   LEAVE: 'leave'
 });
+
+export const STATUS = Object.freeze({
+  AVAILABLE: 1,
+  BUSY: 0
+})

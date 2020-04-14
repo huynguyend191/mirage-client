@@ -27,7 +27,8 @@ export default function VideoPlayer({ username }) {
         player.current.dispose();
       }
     }
-  }, [videoJsOptions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div data-vjs-player>
       <video id="myVideo" ref={node => videoNode.current = node} className="video-js vjs-default-skin vjs-big-play-centered" playsInline></video>
