@@ -130,6 +130,7 @@ export default function Profile() {
         data: formData,
       });
       await getTutorProfile();
+      window.location.reload(false);
       setLoadingAva(false);
     } catch (error) {
       setLoadingAva(false);
@@ -195,8 +196,8 @@ export default function Profile() {
                 teaching_styles: (profile.teaching_styles) ? JSON.parse(profile.teaching_styles) : undefined,
               }}
             >
-              <Collapse>
-                <Panel header="Basic info">
+              <Collapse defaultActiveKey={["1"]}>
+                <Panel header="Basic info" key="1">
                   <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please enter your name' }]}>
                     <Input placeholder="Your fullname" value={profile.name} />
                   </Form.Item>
@@ -220,7 +221,7 @@ export default function Profile() {
                     <Button onClick={uploadAvatar} loading={loadingAva} style={{ width: "159px" }} icon={<UploadOutlined /> }>Upload avatar</Button>
                   </Form.Item>
                 </Panel>
-                <Panel header="CV">
+                <Panel header="CV" key="2">
                   <Form.Item name="interests" label="Interests">
                     <Input.TextArea placeholder="Share with us everything you want such as interests, hobbies, life experiences" />
                   </Form.Item>
@@ -237,7 +238,7 @@ export default function Profile() {
                     <Input.TextArea placeholder="Why do you want to join Mirage?" />
                   </Form.Item>
                 </Panel>
-                <Panel header="Teaching preferences">
+                <Panel header="Teaching preferences" key="3">
                   <Form.Item name="student_type" label="Target">
                     <Select placeholder="Who do you want to teach?" >
                       {preferences.STUDENT_TYPE.map(type => {
@@ -281,7 +282,7 @@ export default function Profile() {
                     </Select>
                   </Form.Item>
                 </Panel>
-                <Panel header="Teaching certificates (optional)">
+                <Panel header="Teaching certificates (optional)" key="4">
                   {/* render uploaded files */}
                   {(profile.certificates && JSON.parse(profile.certificates).length > 0) ?
                     (<Form.Item {...formItemLayout} label="Uploaded file(s)">
@@ -306,7 +307,7 @@ export default function Profile() {
                   </Form.Item>
                   <Alert message="Warning: All your previous upload will be removed when uploading new certificates" type="warning" showIcon />
                 </Panel>
-                <Panel header="Introduce yourself">
+                <Panel header="Introduce yourself" key="5">
                   <Form.Item name="introduction" label="Introduction">
                     <Input.TextArea placeholder="Introduce yourself" />
                   </Form.Item>

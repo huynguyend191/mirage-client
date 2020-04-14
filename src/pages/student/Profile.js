@@ -89,6 +89,7 @@ export default function Profile() {
         data: formData,
       });
       await getStudentProfile();
+      window.location.reload(false);
       setLoadingAva(false);
     } catch (error) {
       setLoadingAva(false);
