@@ -15,7 +15,7 @@ class MediaDevice extends Emitter {
         height: { min: 360, ideal: 720, max: 1080 }
       },
       audio: {
-        echoCancellation: true
+        echoCancellation: false
       }
     };
 

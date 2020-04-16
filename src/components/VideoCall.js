@@ -106,7 +106,7 @@ export default function VideoCall({ account }) {
   }
 
   const stopRecording = (e) => {
-    if (account.role === ROLES.STUDENT && mediaRecorder.current) {
+    if (account.role === ROLES.STUDENT && mediaRecorder.current && peerSrc) {
       mediaRecorder.current.stop();
       console.log(chunks.current)
       const blob = new Blob(chunks.current, { type: "video/webm" });
