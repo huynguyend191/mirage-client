@@ -8,6 +8,7 @@ import CallModal from './CallModal';
 import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
 import axios from '../lib/utils/axiosConfig';
+import uuid from 'uuid/v4';
 
 export default function VideoCall({ account }) {
   const [callWindow, setCallWindow] = useState(false);
@@ -18,8 +19,10 @@ export default function VideoCall({ account }) {
   const [onlineTutors, setOnlineTutors] = useState([]);
   const pcRef = useRef({});
   const configRef = useRef(null);
-  const mediaRecorder = useRef(null);
-  const chunks = useRef([]);
+  const peerRecorder = useRef(null);
+  const peerChunks = useRef([]);
+  const localRecorder = useRef(null);
+  const localChunks = useRef([]);
 
   const start = useRef(0);
   const end = useRef(0);
@@ -61,16 +64,27 @@ export default function VideoCall({ account }) {
 
   useEffect(() => {
     if (peerSrc && account.role === ROLES.STUDENT) {
-      mediaRecorder.current = new MediaRecorder(peerSrc, { mimeType: "video/webm; codecs=vp9" });
-      mediaRecorder.current.ondataavailable = e => {
+      peerRecorder.current = new MediaRecorder(peerSrc, { mimeType: "video/webm; codecs=vp9" });
+      peerRecorder.current.ondataavailable = e => {
         if (e.data && e.data.size > 0) {
-          chunks.current.push(e.data);
+          peerChunks.current.push(e.data);
         }
       }
-      mediaRecorder.current.start(1000);
+      peerRecorder.current.start(1000);
     }
-  }, [peerSrc, account.role])
+  }, [peerSrc, account.role]);
 
+  useEffect(() => {
+    if (localSrc && account.role === ROLES.STUDENT) {
+      localRecorder.current = new MediaRecorder(localSrc, { mimeType: "video/webm; codecs=vp9" });
+      localRecorder.current.ondataavailable = e => {
+        if (e.data && e.data.size > 0) {
+          localChunks.current.push(e.data);
+        }
+      }
+      localRecorder.current.start(1000);
+    }
+  }, [localSrc, account.role]);
 
   const startCall = (isCaller, friendID, config) => {
     configRef.current = config;
@@ -89,34 +103,49 @@ export default function VideoCall({ account }) {
     setCallModal(false);
   }
 
-  const endCall = (isStarter) => {
+  const endCall = async (isStarter) => {
     end.current = Date.now();
     console.log("End", end.current);
     console.log("Duration", end.current - start.current);
     if (_.isFunction(pcRef.current.stop)) {
       pcRef.current.stop(isStarter);
     }
+    await stopRecording();
     pcRef.current = {};
     configRef.current = null;
+    localChunks.current = [];
+    peerChunks.current = [];
     setCallModal(false);
     setCallWindow(false);
     setLocalSrc(null);
     setPeerSrc(null);
-    stopRecording();
   }
 
-  const stopRecording = (e) => {
-    if (account.role === ROLES.STUDENT && mediaRecorder.current && peerSrc) {
-      mediaRecorder.current.stop();
-      console.log(chunks.current)
-      const blob = new Blob(chunks.current, { type: "video/webm" });
-      console.log(blob);
-      const formData = new FormData();
-      formData.append('video', blob, 'test.webm');
-      axios('/tutors/video/' + account.username, {
-        data: formData,
-        method: 'POST'
-      });
+  const stopRecording = async (e) => {
+    console.log("stop Recording")
+    if (account.role === ROLES.STUDENT) {
+      if (peerRecorder.current && peerSrc) {
+        peerRecorder.current.stop();
+      }
+      if (localRecorder.current && localSrc) {
+        localRecorder.current.stop();
+      }
+      if (peerChunks.current.length > 0 && localChunks.current.length > 0) {
+        const peerBlob = new Blob(peerChunks.current, { type: "video/webm" });
+        const localBlob = new Blob(localChunks.current, { type: "video/webm" });
+        const formData = new FormData();
+        formData.append('videos', peerBlob, 'tutor.webm');
+        formData.append('videos', localBlob, 'student.webm');
+        formData.append('id', uuid());
+        try {
+          await axios('/call-histories', {
+            data: formData,
+            method: 'POST'
+          });
+        } catch (error) {
+          console.log(error)
+        }
+      }
     }
   }
 
