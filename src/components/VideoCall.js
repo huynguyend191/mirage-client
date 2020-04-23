@@ -8,7 +8,6 @@ import CallModal from './CallModal';
 import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
 import axios from '../lib/utils/axiosConfig';
-import uuid from 'uuid/v4';
 
 export default function VideoCall({ account }) {
   const [callWindow, setCallWindow] = useState(false);
@@ -17,13 +16,16 @@ export default function VideoCall({ account }) {
   const [localSrc, setLocalSrc] = useState(null);
   const [peerSrc, setPeerSrc] = useState(null);
   const [onlineTutors, setOnlineTutors] = useState([]);
+  const [tutorId, setTutorId] = useState(null);
+
   const pcRef = useRef({});
+  // record videos when calling
   const configRef = useRef(null);
   const peerRecorder = useRef(null);
   const peerChunks = useRef([]);
   const localRecorder = useRef(null);
   const localChunks = useRef([]);
-
+  // call timer
   const start = useRef(0);
   const end = useRef(0);
 
@@ -37,7 +39,6 @@ export default function VideoCall({ account }) {
       })
       .on(SOCKET_EVENTS.CALL, (data) => {
         start.current = Date.now();
-        console.log("Start", start.current);
         if (data.sdp) {
           pcRef.current.setRemoteDescription(data.sdp);
           if (data.sdp.type === 'offer') pcRef.current.createAnswer();
@@ -86,6 +87,10 @@ export default function VideoCall({ account }) {
     }
   }, [localSrc, account.role]);
 
+  const setTutor = id => {
+    setTutorId(id);
+  }
+
   const startCall = (isCaller, friendID, config) => {
     configRef.current = config;
     pcRef.current = new PeerConnection(friendID)
@@ -105,8 +110,6 @@ export default function VideoCall({ account }) {
 
   const endCall = async (isStarter) => {
     end.current = Date.now();
-    console.log("End", end.current);
-    console.log("Duration", end.current - start.current);
     if (_.isFunction(pcRef.current.stop)) {
       pcRef.current.stop(isStarter);
     }
@@ -122,7 +125,6 @@ export default function VideoCall({ account }) {
   }
 
   const stopRecording = async (e) => {
-    console.log("stop Recording")
     if (account.role === ROLES.STUDENT) {
       if (peerRecorder.current && peerSrc) {
         peerRecorder.current.stop();
@@ -136,7 +138,9 @@ export default function VideoCall({ account }) {
         const formData = new FormData();
         formData.append('videos', peerBlob, 'tutor.webm');
         formData.append('videos', localBlob, 'student.webm');
-        formData.append('id', uuid());
+        formData.append('tutorId', tutorId);
+        formData.append('studentId', account.student.id);
+        formData.append('duration', end.current - start.current);
         try {
           await axios('/call-histories', {
             data: formData,
@@ -156,6 +160,7 @@ export default function VideoCall({ account }) {
         <TutorList
           onlineTutors={onlineTutors}
           startCall={startCall}
+          setTutorId={setTutor}
         />
       )}
       {!_.isEmpty(configRef.current) && (

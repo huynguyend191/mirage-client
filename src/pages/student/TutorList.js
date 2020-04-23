@@ -6,14 +6,15 @@ import { serverUrl, STATUS } from '../../lib/constants';
 import VideoPlayer from '../admin/VideoPlayer';
 const { TabPane } = Tabs;
 
-export default function TutorList({ startCall, onlineTutors }) {
+export default function TutorList({ startCall, onlineTutors, setTutorId }) {
 
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selected, setSelected] = useState(null);
 
-  const callWithVideo = (video, username) => {
+  const callWithVideo = (video, user) => {
+    setTutorId(user.profile.id);
     const config = { audio: true, video };
-    return () => startCall(true, username, config);
+    startCall(true, user.username, config);
   };
 
   const openModal = (tutor) => {
@@ -102,8 +103,8 @@ export default function TutorList({ startCall, onlineTutors }) {
               <List.Item>
                 <Card
                   actions={[
-                    <Tooltip title="Video call"><VideoCameraFilled onClick={callWithVideo(true, item.username)} /></Tooltip>,
-                    <Tooltip title="Audio call"><AudioFilled onClick={callWithVideo(false, item.username)} /></Tooltip>,
+                    <Tooltip title="Video call"><VideoCameraFilled onClick={() => callWithVideo(true, item)} /></Tooltip>,
+                    <Tooltip title="Audio call"><AudioFilled onClick={() => callWithVideo(false, item)} /></Tooltip>,
                     <Tooltip title="Profile"><UserOutlined onClick={() => openModal(item)} /></Tooltip>
                   ]}
                 >
