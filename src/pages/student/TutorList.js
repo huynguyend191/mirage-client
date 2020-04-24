@@ -6,13 +6,13 @@ import { serverUrl, STATUS } from '../../lib/constants';
 import VideoPlayer from '../admin/VideoPlayer';
 const { TabPane } = Tabs;
 
-export default function TutorList({ startCall, onlineTutors, setTutorId }) {
+export default function TutorList({ startCall, onlineTutors, setTutor }) {
 
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selected, setSelected] = useState(null);
 
   const callWithVideo = (video, user) => {
-    setTutorId(user.profile.id);
+    setTutor(user.profile);
     const config = { audio: true, video };
     startCall(true, user.username, config);
   };

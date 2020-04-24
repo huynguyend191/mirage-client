@@ -37,7 +37,7 @@ export default function CallModal({ callModal, callFrom, startCall, rejectCall }
               size="large"
             >
               Video call
-        </Button>
+            </Button>
             <Button
               shape="round"
               type="primary"
@@ -46,7 +46,7 @@ export default function CallModal({ callModal, callFrom, startCall, rejectCall }
               size="large"
             >
               Audio call
-        </Button>
+            </Button>
             <Button
               shape="round"
               type="danger"
@@ -55,7 +55,7 @@ export default function CallModal({ callModal, callFrom, startCall, rejectCall }
               size="large"
             >
               Reject call
-        </Button>
+            </Button>
           </div>
         </div>
         </div>

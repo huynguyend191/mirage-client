@@ -4,3 +4,26 @@
   justify-content: center;
   align-items: center;
 }
+
+.endCallImg {
+  height: 200px;
+  margin-right: 10px;
+}
+
+.afterCall {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.endUser {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.endDuration {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
+}

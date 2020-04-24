@@ -8,19 +8,22 @@ import CallModal from './CallModal';
 import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
 import axios from '../lib/utils/axiosConfig';
+import { getTimeFromMs } from '../lib/utils/formatTime';
+import endCallImg from '../assets/endcall.png'
+import { Modal, Button } from 'antd';
+import { FlagOutlined, StarOutlined, LikeOutlined } from '@ant-design/icons';
+
 
 export default function VideoCall({ account }) {
+  // video call
   const [callWindow, setCallWindow] = useState(false);
   const [callModal, setCallModal] = useState(false);
   const [callFrom, setCallFrom] = useState({});
   const [localSrc, setLocalSrc] = useState(null);
   const [peerSrc, setPeerSrc] = useState(null);
-  const [onlineTutors, setOnlineTutors] = useState([]);
-  const [tutorId, setTutorId] = useState(null);
-
   const pcRef = useRef({});
-  // record videos when calling
   const configRef = useRef(null);
+  // record videos when calling
   const peerRecorder = useRef(null);
   const peerChunks = useRef([]);
   const localRecorder = useRef(null);
@@ -28,6 +31,10 @@ export default function VideoCall({ account }) {
   // call timer
   const start = useRef(0);
   const end = useRef(0);
+  // others
+  const [onlineTutors, setOnlineTutors] = useState([]);
+  const tutor = useRef(null);
+  const [afterCallModal, setAfterCallModal] = useState(false);
 
   useEffect(() => {
     socket
@@ -87,8 +94,8 @@ export default function VideoCall({ account }) {
     }
   }, [localSrc, account.role]);
 
-  const setTutor = id => {
-    setTutorId(id);
+  const setTutor = tutorProfile => {
+    tutor.current = tutorProfile;
   }
 
   const startCall = (isCaller, friendID, config) => {
@@ -110,6 +117,9 @@ export default function VideoCall({ account }) {
 
   const endCall = async (isStarter) => {
     end.current = Date.now();
+    if (start.current > 0) {
+      setAfterCallModal(true);
+    }
     if (_.isFunction(pcRef.current.stop)) {
       pcRef.current.stop(isStarter);
     }
@@ -138,7 +148,7 @@ export default function VideoCall({ account }) {
         const formData = new FormData();
         formData.append('videos', peerBlob, 'tutor.webm');
         formData.append('videos', localBlob, 'student.webm');
-        formData.append('tutorId', tutorId);
+        formData.append('tutorId', tutor.current.id);
         formData.append('studentId', account.student.id);
         formData.append('duration', end.current - start.current);
         try {
@@ -153,6 +163,58 @@ export default function VideoCall({ account }) {
     }
   }
 
+  const closeAfterCall = () => {
+    setAfterCallModal(false);
+    start.current = 0;
+    end.current = 0;
+  }
+
+  let renderCallFrom = null;
+  let btnHolder = null;
+  if (callFrom.student) {
+    renderCallFrom = callFrom.student.name;
+    btnHolder = (
+      <div>
+        <Button
+          shape="round"
+          type="danger"
+          icon={<FlagOutlined />}
+          size="small"
+        >
+          Report
+        </Button>
+      </div>
+    )
+  } else if (tutor.current) {
+    renderCallFrom = tutor.current.name;
+    btnHolder = (
+      <div>
+        <Button
+          shape="round"
+          type="primary"
+          icon={<LikeOutlined />}
+          size="small"
+        >
+          Favorite
+        </Button>
+        <Button
+          shape="round"
+          icon={<StarOutlined />}
+          size="small"
+        >
+          Feedback
+        </Button>
+        <Button
+          shape="round"
+          type="danger"
+          icon={<FlagOutlined />}
+          size="small"
+        >
+          Report
+        </Button>
+      </div>
+    )
+  }
 
   return (
     <div className={styles.videoCall}>
@@ -160,7 +222,7 @@ export default function VideoCall({ account }) {
         <TutorList
           onlineTutors={onlineTutors}
           startCall={startCall}
-          setTutorId={setTutor}
+          setTutor={setTutor}
         />
       )}
       {!_.isEmpty(configRef.current) && (
@@ -179,7 +241,29 @@ export default function VideoCall({ account }) {
         rejectCall={rejectCall}
         callFrom={callFrom}
       />
-
+      <Modal
+        visible={afterCallModal}
+        title="Call ended"
+        onCancel={closeAfterCall}
+        destroyOnClose
+        footer={false}
+        width="600px"
+      >
+        <div className={styles.afterCall}>
+          <img className={styles.endCallImg} src={endCallImg} draggable={false} alt="" />
+          <div>
+            <div className={styles.endUser}>
+              Call with {renderCallFrom}
+            </div>
+            <div className={styles.endDuration}>
+              Duration: {getTimeFromMs(end.current - start.current)}
+            </div>
+            <div className={styles.btnHolder}>
+              {btnHolder}
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }
