@@ -51,7 +51,9 @@ class PeerConnection extends Emitter {
       socket.emit('end', { to: this.friendID });
     }
     this.mediaDevice.stop();
-    this.pc.close();
+    if (this.pc) {
+      this.pc.close();
+    }
     this.pc = null;
     this.off();
     return this;

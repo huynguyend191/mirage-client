@@ -19,7 +19,6 @@ export default function TutorList({ startCall, onlineTutors, setTutor }) {
 
   const openModal = (tutor) => {
     setSelected(tutor);
-    console.log(tutor)
     setShowDetailModal(true);
   }
 
@@ -125,15 +124,20 @@ export default function TutorList({ startCall, onlineTutors, setTutor }) {
                             <Tooltip title="User is busy"><MinusCircleFilled style={{ color: "red", fontSize: "12px", marginLeft: "3px" }} /></Tooltip>
                           }
                         </div>
-
                         <div>
                           {(item.profile.certificates && JSON.parse(item.profile.certificates.length) > 0) ?
                             <Tag>Teaching certificates</Tag> :
-                            null}
+                            null
+                          }
                         </div>
-                        <div>
-                          <Rate disabled defaultValue={5} />
-                        </div>
+                        { item.profile.review ? 
+                          <div>
+                            <Rate disabled defaultValue={Number((Math.round(item.profile.review.avg * 2) / 2).toFixed(1))} allowHalf />
+                            <span className={styles.reviewCount}>/ {item.profile.review.count} review(s)</span>
+                          </div>
+                          : null
+                        }
+                        
                       </div>
                     </div>
                     <p>

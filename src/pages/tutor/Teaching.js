@@ -19,7 +19,7 @@ export default function Teaching() {
   const getProfile = async () => {
     try {
       setLoading(true);
-      const result = await axios.get('/tutors/' + account.tutor.id);
+      const result = await axios.get('/tutors/' + account.tutor.id);             
       account.tutor = result.data.tutor;
       setProfile(result.data.tutor);
       setLoading(false);
@@ -71,7 +71,7 @@ export default function Teaching() {
             </div>
           </div>)
         }
-        <VideoCall account={account} />
+        {loading ? null : <VideoCall account={account} />}
       </Spin>
     </div>
   );
