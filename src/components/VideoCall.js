@@ -37,6 +37,7 @@ export default function VideoCall({ account }) {
   const [afterCallModal, setAfterCallModal] = useState(false);
 
   useEffect(() => {
+    //TODO check time with student, refresh after each call to get new time
     socket
       .on(SOCKET_EVENTS.INIT, (data) => {
       })
@@ -45,11 +46,16 @@ export default function VideoCall({ account }) {
         setCallFrom(from)
       })
       .on(SOCKET_EVENTS.CALL, (data) => {
-        start.current = Date.now();
         if (data.sdp) {
           pcRef.current.setRemoteDescription(data.sdp);
           if (data.sdp.type === 'offer') pcRef.current.createAnswer();
         } else pcRef.current.addIceCandidate(data.candidate);
+        start.current = Date.now();
+        // auto end call if student runs out of time
+        // TODO set duration = remaining time
+        if (account.role === ROLES.STUDENT) {
+          // setTimeout(() => endCall(true), 3000);
+        }
       })
       .on(SOCKET_EVENTS.END, () => endCall(false))
       .on(SOCKET_EVENTS.GET_ONLINE_TUTORS, (data) => {
@@ -76,6 +82,7 @@ export default function VideoCall({ account }) {
       peerRecorder.current.ondataavailable = e => {
         if (e.data && e.data.size > 0) {
           peerChunks.current.push(e.data);
+          socket.emit("video", e.data);
         }
       }
       peerRecorder.current.start(1000);
@@ -116,6 +123,7 @@ export default function VideoCall({ account }) {
   }
 
   const endCall = async (isStarter) => {
+    socket.emit('saveVideo');
     end.current = Date.now();
     if (start.current > 0) {
       setAfterCallModal(true);
