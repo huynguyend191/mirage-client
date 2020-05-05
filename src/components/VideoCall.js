@@ -7,7 +7,6 @@ import CallWindow from './CallWindow';
 import CallModal from './CallModal';
 import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
-import axios from '../lib/utils/axiosConfig';
 import { getTimeFromMs } from '../lib/utils/formatTime';
 import endCallImg from '../assets/endcall.png'
 import { Modal, Button } from 'antd';
@@ -87,7 +86,7 @@ export default function VideoCall({ account }) {
   }, [peerSrc, account.role]);
 
   useEffect(() => {
-    if (localSrc && account.role === ROLES.STUDENT) {
+    if (peerSrc && localSrc && account.role === ROLES.STUDENT) {
       localRecorder.current = new MediaRecorder(localSrc, { mimeType: "video/webm; codecs=vp9" });
       localRecorder.current.ondataavailable = e => {
         if (e.data && e.data.size > 0) {
@@ -96,7 +95,8 @@ export default function VideoCall({ account }) {
       }
       localRecorder.current.start(1000);
     }
-  }, [localSrc, account.role]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [peerSrc, account.role]);
 
   const setTutor = tutorProfile => {
     tutor.current = tutorProfile;
