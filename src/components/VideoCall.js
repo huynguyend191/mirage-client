@@ -25,9 +25,7 @@ export default function VideoCall({ account }) {
   const configRef = useRef(null);
   // record videos when calling
   const peerRecorder = useRef(null);
-  const peerChunks = useRef([]);
   const localRecorder = useRef(null);
-  const localChunks = useRef([]);
   // call timer
   const start = useRef(0);
   const end = useRef(0);
@@ -81,8 +79,7 @@ export default function VideoCall({ account }) {
       peerRecorder.current = new MediaRecorder(peerSrc, { mimeType: "video/webm; codecs=vp9" });
       peerRecorder.current.ondataavailable = e => {
         if (e.data && e.data.size > 0) {
-          peerChunks.current.push(e.data);
-          socket.emit("video", e.data);
+          socket.emit(SOCKET_EVENTS.RECORD_TUTOR, e.data);
         }
       }
       peerRecorder.current.start(1000);
@@ -94,7 +91,7 @@ export default function VideoCall({ account }) {
       localRecorder.current = new MediaRecorder(localSrc, { mimeType: "video/webm; codecs=vp9" });
       localRecorder.current.ondataavailable = e => {
         if (e.data && e.data.size > 0) {
-          localChunks.current.push(e.data);
+          socket.emit(SOCKET_EVENTS.RECORD_STUDENT, e.data);
         }
       }
       localRecorder.current.start(1000);
@@ -123,7 +120,9 @@ export default function VideoCall({ account }) {
   }
 
   const endCall = async (isStarter) => {
-    socket.emit('saveVideo');
+    if (account.role === ROLES.STUDENT) {
+      socket.emit(SOCKET_EVENTS.SAVE_VIDEOS, tutor.current);
+    }
     end.current = Date.now();
     if (start.current > 0) {
       setAfterCallModal(true);
@@ -134,8 +133,6 @@ export default function VideoCall({ account }) {
     await stopRecording();
     pcRef.current = {};
     configRef.current = null;
-    localChunks.current = [];
-    peerChunks.current = [];
     setCallModal(false);
     setCallWindow(false);
     setLocalSrc(null);
@@ -149,24 +146,6 @@ export default function VideoCall({ account }) {
       }
       if (localRecorder.current && localSrc) {
         localRecorder.current.stop();
-      }
-      if (peerChunks.current.length > 0 && localChunks.current.length > 0) {
-        const peerBlob = new Blob(peerChunks.current, { type: "video/webm" });
-        const localBlob = new Blob(localChunks.current, { type: "video/webm" });
-        const formData = new FormData();
-        formData.append('videos', peerBlob, 'tutor.webm');
-        formData.append('videos', localBlob, 'student.webm');
-        formData.append('tutorId', tutor.current.id);
-        formData.append('studentId', account.student.id);
-        formData.append('duration', end.current - start.current);
-        try {
-          await axios('/call-histories', {
-            data: formData,
-            method: 'POST'
-          });
-        } catch (error) {
-          console.log(error)
-        }
       }
     }
   }

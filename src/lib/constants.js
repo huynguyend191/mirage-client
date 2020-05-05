@@ -26,7 +26,10 @@ export const SOCKET_EVENTS = Object.freeze({
   END: 'end',
   DISCONNECT: 'disconnect',
   GET_ONLINE_TUTORS: 'get_online_tutors',
-  LEAVE: 'leave'
+  LEAVE: 'leave',
+  RECORD_STUDENT: 'record_student',
+  RECORD_TUTOR: 'record_tutor',
+  SAVE_VIDEOS: 'save_videos'
 });
 
 export const STATUS = Object.freeze({
