@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { List, Card, Tabs, Avatar, Tooltip, Tag, Rate, Modal, Descriptions } from 'antd';
-import { VideoCameraFilled, AudioFilled, RiseOutlined, LikeOutlined, TeamOutlined, UserOutlined, CheckCircleFilled, MinusCircleFilled, FileDoneOutlined } from '@ant-design/icons';
+import { List, Tabs } from 'antd';
+import { RiseOutlined, LikeOutlined, TeamOutlined } from '@ant-design/icons';
 import styles from './TutorList.module.css';
-import { serverUrl, STATUS } from '../../lib/constants';
-import VideoPlayer from '../admin/VideoPlayer';
+import TutorCard from './TutorCard';
+import TutorDetailModal from './TutorDetailModal';
+import TutorReviewModal from './TutorReviewModal';
 const { TabPane } = Tabs;
 
 export default function TutorList({ startCall, onlineTutors, setTutor }) {
 
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [showReviewModal, setShowReviewModal] = useState(false);
 
   const callWithVideo = (video, user) => {
     setTutor(user.profile);
@@ -17,70 +19,28 @@ export default function TutorList({ startCall, onlineTutors, setTutor }) {
     startCall(true, user.username, config);
   };
 
-  const openModal = (tutor) => {
+  const openDetailModal = (tutor) => {
     setSelected(tutor);
     setShowDetailModal(true);
   }
 
-  const tutorProfile = (
-    <div>
-      <div>
-        {selected ? (
-          <div>
-            <div className={styles.detailWrapper}>
-              {selected.profile.video ? <div className={styles.videoWrapper}><VideoPlayer username={selected.username} /></div> : null}
-              {selected.profile.introduction}
-            </div>
-            <div className={styles.detailWrapper}>
-              <Descriptions bordered size="small" column={1} title="Teaching preferences">
-                <Descriptions.Item label="Student level">{selected.profile.student_lvl}</Descriptions.Item>
-                <Descriptions.Item label="Student type">{selected.profile.student_type}</Descriptions.Item>
-                <Descriptions.Item label="Accent">{selected.profile.accent}</Descriptions.Item>
-                <Descriptions.Item label="Fluency">{selected.profile.fluency}</Descriptions.Item>
-                <Descriptions.Item label="Tutor styles"> {selected.profile.teaching_styles ? JSON.parse(selected.profile.teaching_styles).map(style => { return <Tag key={style}>{style}</Tag> }) : null}</Descriptions.Item>
-                <Descriptions.Item label="Specialities">{selected.profile.specialities ? JSON.parse(selected.profile.specialities).map(speciality => { return <Tag key={speciality}>{speciality}</Tag> }) : null}</Descriptions.Item>
-              </Descriptions>
-            </div>
-            <div className={styles.detailWrapper}>
-              <Descriptions bordered size="small" column={1} title="CV">
-                <Descriptions.Item label="Interests">{selected.profile.interests}</Descriptions.Item>
-                <Descriptions.Item label="Education">{selected.profile.education}</Descriptions.Item>
-                <Descriptions.Item label="Experience">{selected.profile.experience}</Descriptions.Item>
-                <Descriptions.Item label="Profession">{selected.profile.profession}</Descriptions.Item>
-                <Descriptions.Item label="Reason">{selected.profile.reason}</Descriptions.Item>
-              </Descriptions>
-            </div>
-            <div className={styles.detailWrapper}>
-              <p className={styles.detailTitle}>Certificates</p>
-              <div className={styles.uploadedCert}>
-                {selected.profile.certificates ? (
-                  JSON.parse(selected.profile.certificates).map((cert, index) => {
-                    return (<a key={index} href={serverUrl + cert.path}><FileDoneOutlined />{cert.originalname}</a>);
-                  })
-                ) : null}
-              </div>
-            </div>
-
-          </div>
-        ) : null}
-      </div>
-    </div>
-  )
-
+  const openReviewlModal = (tutor) => {
+    setSelected(tutor);
+    setShowReviewModal(true);
+  }
 
   return (
     <div className={styles.tutorList}>
-      <Modal
-        title={selected ? selected.profile.name : null}
-        visible={showDetailModal}
-        onCancel={() => setShowDetailModal(false)}
-        footer={null}
-        width="600px"
-        destroyOnClose
-        bodyStyle={{ height: "600px", overflow: "auto" }}
-      >
-        {tutorProfile}
-      </Modal>
+      <TutorDetailModal
+        selected={selected}
+        showDetailModal={showDetailModal}
+        setShowDetailModal={setShowDetailModal}
+      />
+      <TutorReviewModal 
+        selected={selected}
+        showReviewModal={showReviewModal}
+        setShowReviewModal={setShowReviewModal}
+      />
       <Tabs
         defaultActiveKey="online"
         type="card"
@@ -100,51 +60,12 @@ export default function TutorList({ startCall, onlineTutors, setTutor }) {
             dataSource={onlineTutors}
             renderItem={item => (
               <List.Item>
-                <Card
-                  actions={[
-                    <Tooltip title="Video call"><VideoCameraFilled onClick={() => callWithVideo(true, item)} /></Tooltip>,
-                    <Tooltip title="Audio call"><AudioFilled onClick={() => callWithVideo(false, item)} /></Tooltip>,
-                    <Tooltip title="Profile"><UserOutlined onClick={() => openModal(item)} /></Tooltip>
-                  ]}
-                >
-                  <div className={styles.tutorCard}>
-                    <div className={styles.tutorInfo}>
-                      <div>
-                        {item.profile.avatar ?
-                          <Avatar src={serverUrl + item.profile.avatar} size={80} />
-                          : <Avatar icon={<UserOutlined />} size={80} />
-                        }
-                      </div>
-
-                      <div className={styles.tutorInfoDetail}>
-                        <div className={styles.tutorName}>
-                          {item.profile.name}
-                          {item.status === STATUS.AVAILABLE ?
-                            <CheckCircleFilled style={{ color: "#52c41a", fontSize: "12px", marginLeft: "3px" }} /> :
-                            <Tooltip title="User is busy"><MinusCircleFilled style={{ color: "red", fontSize: "12px", marginLeft: "3px" }} /></Tooltip>
-                          }
-                        </div>
-                        <div>
-                          {(item.profile.certificates && JSON.parse(item.profile.certificates.length) > 0) ?
-                            <Tag>Teaching certificates</Tag> :
-                            null
-                          }
-                        </div>
-                        { item.profile.review ? 
-                          <div>
-                            <Rate disabled defaultValue={Number((Math.round(item.profile.review.avg * 2) / 2).toFixed(1))} allowHalf />
-                            <span className={styles.reviewCount}>/ {item.profile.review.count} review(s)</span>
-                          </div>
-                          : null
-                        }
-                        
-                      </div>
-                    </div>
-                    <p>
-                      {item.profile.introduction}
-                    </p>
-                  </div>
-                </Card>
+                <TutorCard
+                  item={item}
+                  callWithVideo={callWithVideo}
+                  openDetailModal={openDetailModal}
+                  openReviewlModal={openReviewlModal}
+                />
               </List.Item>
             )}
           />

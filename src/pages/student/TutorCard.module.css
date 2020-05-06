@@ -1,0 +1,41 @@
+.tutorInfo {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+
+.tutorInfoDetail {
+  margin-left: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.tutorCard {
+  height: 150px;
+  overflow: hidden;
+}
+
+.status {
+  float: right;
+}
+
+.tutorName {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+.reviewCount {
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+.reviewCount:hover {
+  color: #1890ff;
+}
+
+.reviewWrapper {
+  cursor: pointer;
+}
