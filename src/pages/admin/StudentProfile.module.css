@@ -1,0 +1,47 @@
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailBasic {
+  padding: 10px 20px ;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailName {
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 0em;
+}
+
+.detailBasicInfo {
+  margin-left: 20px;
+}
+
+.banBtnHolder {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 10px;
+}
+
+.detailAdditional {
+  width: 100%;
+  padding: 20px 40px;
+}
+
+.detailAdditionalRow {
+  margin-bottom: 5px;
+}
+
+.changeStateBtn {
+  width: 200px;
+}
