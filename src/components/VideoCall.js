@@ -11,6 +11,7 @@ import { getTimeFromMs } from '../lib/utils/formatTime';
 import endCallImg from '../assets/endcall.png'
 import { Modal, Button } from 'antd';
 import { FlagOutlined, StarOutlined, LikeOutlined } from '@ant-design/icons';
+import FeedbackModal from '../pages/student/FeedbackModal';
 
 
 export default function VideoCall({ account }) {
@@ -28,10 +29,13 @@ export default function VideoCall({ account }) {
   // call timer
   const start = useRef(0);
   const end = useRef(0);
-  // others
+  // tutor called with student
   const [onlineTutors, setOnlineTutors] = useState([]);
   const tutor = useRef(null);
+
+  // control after call modal like report, review, ...
   const [afterCallModal, setAfterCallModal] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   useEffect(() => {
     //TODO check time with student, refresh after each call to get new time
@@ -188,6 +192,7 @@ export default function VideoCall({ account }) {
           shape="round"
           icon={<StarOutlined />}
           size="small"
+          onClick={() => setShowFeedback(true)}
         >
           Feedback
         </Button>
@@ -205,6 +210,11 @@ export default function VideoCall({ account }) {
 
   return (
     <div className={styles.videoCall}>
+      <FeedbackModal
+        tutor={tutor.current}
+        showFeedback={showFeedback}
+        setShowFeedBack={setShowFeedback}
+      />
       {(account.role === ROLES.STUDENT && !callWindow) && (
         <TutorList
           onlineTutors={onlineTutors}

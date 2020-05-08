@@ -156,7 +156,7 @@ export default function Profile() {
                     </Upload>
                   </Form.Item>
                   <Form.Item {...uploadBtnLayout}>
-                    <Button onClick={uploadAvatar} loading={loadingAva} style={{ width: "159px" }}><UploadOutlined /> Upload avatar</Button>
+                    <Button disabled={avatar.length <= 0} onClick={uploadAvatar} loading={loadingAva} style={{ width: "159px" }}><UploadOutlined /> Upload avatar</Button>
                   </Form.Item>
                 </Panel>
                 <Panel header="Study preferences" key="2">

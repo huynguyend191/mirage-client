@@ -1,0 +1,39 @@
+.reviewSummary {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.ratingCount {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.ratingCountList {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.rating {
+  margin-right: 5px;
+}
+
+.reviewAvg {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.reviewOverall {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.reviewNumber {
+  font-size: 12px;
+}

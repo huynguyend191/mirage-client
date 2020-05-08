@@ -218,7 +218,7 @@ export default function Profile() {
                     </Upload>
                   </Form.Item>
                   <Form.Item {...uploadBtnLayout}>
-                    <Button onClick={uploadAvatar} loading={loadingAva} style={{ width: "159px" }} icon={<UploadOutlined /> }>Upload avatar</Button>
+                    <Button disabled={avatar.length <= 0} onClick={uploadAvatar} loading={loadingAva} style={{ width: "159px" }} icon={<UploadOutlined />}>Upload avatar</Button>
                   </Form.Item>
                 </Panel>
                 <Panel header="CV" key="2">
@@ -303,7 +303,7 @@ export default function Profile() {
                     </Upload>
                   </Form.Item>
                   <Form.Item {...uploadBtnLayout}>
-                    <Button onClick={handleUpload} loading={uploading} style={{ width: "132px" }} icon={<UploadOutlined /> }>Upload</Button>
+                    <Button onClick={handleUpload} loading={uploading} style={{ width: "132px" }} icon={<UploadOutlined />}>Upload</Button>
                   </Form.Item>
                   <Alert message="Warning: All your previous upload will be removed when uploading new certificates" type="warning" showIcon />
                 </Panel>
@@ -333,7 +333,7 @@ export default function Profile() {
               <div className={styles.submitWrapper}>
                 <Button type="primary" htmlType="submit" loading={loading}>
                   Update profile
-              </Button>
+                </Button>
               </div>
             </Form>
           ) : null}
