@@ -99,7 +99,7 @@ export default function Profile() {
 
   const resendConfirmation = async () => {
     try {
-      await axios.post('/accounts/resend-verify', { email: account.email });
+      await axios.post('/accounts/resend-verify', { email: profile.account.email });
     } catch (error) {
       console.log(error.response)
     }
