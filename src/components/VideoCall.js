@@ -78,11 +78,11 @@ export default function VideoCall({ account }) {
   }, [account]);
 
   useEffect(() => {
-    if (peerSrc && account.role === ROLES.STUDENT) {
+    if (peerSrc && account.role === ROLES.TUTOR) {
       peerRecorder.current = new MediaRecorder(peerSrc, { mimeType: "video/webm; codecs=vp9" });
       peerRecorder.current.ondataavailable = e => {
         if (e.data && e.data.size > 0) {
-          socket.emit(SOCKET_EVENTS.RECORD_TUTOR, e.data);
+          socket.emit(SOCKET_EVENTS.RECORD_STUDENT, e.data);
         }
       }
       peerRecorder.current.start(1000);
@@ -90,17 +90,16 @@ export default function VideoCall({ account }) {
   }, [peerSrc, account.role]);
 
   useEffect(() => {
-    if (peerSrc && localSrc && account.role === ROLES.STUDENT) {
+    if (localSrc && account.role === ROLES.TUTOR) {
       localRecorder.current = new MediaRecorder(localSrc, { mimeType: "video/webm; codecs=vp9" });
       localRecorder.current.ondataavailable = e => {
         if (e.data && e.data.size > 0) {
-          socket.emit(SOCKET_EVENTS.RECORD_STUDENT, e.data);
+          socket.emit(SOCKET_EVENTS.RECORD_TUTOR, e.data);
         }
       }
       localRecorder.current.start(1000);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [peerSrc, account.role]);
+  }, [localSrc, account.role]);
 
   const setTutor = tutorProfile => {
     tutor.current = tutorProfile;
@@ -124,8 +123,8 @@ export default function VideoCall({ account }) {
   }
 
   const endCall = async (isStarter) => {
-    if (account.role === ROLES.STUDENT) {
-      socket.emit(SOCKET_EVENTS.SAVE_VIDEOS, tutor.current);
+    if (account.role === ROLES.TUTOR) {
+      socket.emit(SOCKET_EVENTS.SAVE_VIDEOS, callFrom.student);
     }
     end.current = Date.now();
     if (start.current > 0) {
