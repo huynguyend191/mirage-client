@@ -8,7 +8,7 @@ import CallModal from './CallModal';
 import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
 import { getTimeFromMs } from '../lib/utils/formatTime';
-import endCallImg from '../assets/endcall.png'
+import endCallImg from '../assets/endCall.png'
 import { Modal, Button } from 'antd';
 import { FlagOutlined, StarOutlined, LikeOutlined } from '@ant-design/icons';
 import FeedbackModal from '../pages/student/FeedbackModal';

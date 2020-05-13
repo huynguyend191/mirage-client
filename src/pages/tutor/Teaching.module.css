@@ -4,13 +4,13 @@
   justify-content: center;
   align-items: center;
   padding: 30px 0px;
-  margin: 30px;
+  margin: 100px;
   background-color: white;
+  min-width: 1000px;
 }
 
 .waitImg {
-  width: 800px;
-  height: 650px ;
+  width: 400px;
 }
 
 .wait {
@@ -22,7 +22,13 @@
 }
 
 .waitTxt {
-  font-size: 30px;
+  font-size: 22px;
   font-weight: bold;
   margin-left: 30px;
+}
+
+.teachingWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
 }
