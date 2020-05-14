@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AccountContext } from '../../context/AccountContext';
 import { Layout, Avatar, Dropdown, Menu } from 'antd';
 import FooterContent from '../../components/FooterContent';
 import styles from './Student.module.css';
-import { UserOutlined, DownOutlined, KeyOutlined, LogoutOutlined, BarChartOutlined, ContactsOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { UserOutlined, DownOutlined, KeyOutlined, LogoutOutlined, DollarCircleOutlined, ContactsOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import ForgotPasswordModal from '../../components/ForgotPasswordModal';
 import ChangePasswordModal from '../../components/ChangePasswordModal';
 import { Switch, Route, Link } from 'react-router-dom';
 import SideBarLogo from '../../components/SideBarLogo';
 import Profile from './Profile';
-import Stats from './Stats';
+import Subscriptions from './Subscriptions';
 import Study from './Study';
 import { serverUrl } from '../../lib/constants';
 
@@ -23,9 +23,6 @@ export default function Student(props) {
   const userAvatar = (account.student && account.student.avatar) ?
     <Avatar style={{ margin: "10px" }} src={serverUrl + account.student.avatar} /> :
     <Avatar style={{ margin: "10px" }} icon={<UserOutlined />} />
-  useEffect(() => {
-    
-  }, []);
   const userMenu = (
     <Menu>
       <Menu.Item onClick={() => setIsChangePass(true)}>
@@ -53,8 +50,8 @@ export default function Student(props) {
           <Menu.Item key="/student">
             <ContactsOutlined /><Link to="/student"><span>Profile</span></Link>
           </Menu.Item>
-          <Menu.Item key="/student/stats">
-            <BarChartOutlined /><Link to="/student/stats"><span>Stats</span></Link>
+          <Menu.Item key="/student/subscriptions">
+            <DollarCircleOutlined /><Link to="/student/subscriptions"><span>Subscriptions</span></Link>
           </Menu.Item>
         </Menu>
       </Sider>
@@ -71,7 +68,7 @@ export default function Student(props) {
         </Header>
         <Content>
           <Switch>
-            <Route path="/student/stats" component={Stats} />
+            <Route path="/student/subscriptions" component={Subscriptions} />
             <Route path="/student/Study" component={Study} />
             <Route path="/student" component={Profile} exact />
           </Switch>

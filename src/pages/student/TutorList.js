@@ -36,7 +36,7 @@ export default function TutorList({ startCall, onlineTutors, setTutor }) {
         showDetailModal={showDetailModal}
         setShowDetailModal={setShowDetailModal}
       />
-      <TutorReviewModal 
+      <TutorReviewModal
         selected={selected}
         showReviewModal={showReviewModal}
         setShowReviewModal={setShowReviewModal}
@@ -91,7 +91,7 @@ export default function TutorList({ startCall, onlineTutors, setTutor }) {
           key="recommend"
         >
           Recommend
-      </TabPane>
+        </TabPane>
       </Tabs>
     </div>
   )

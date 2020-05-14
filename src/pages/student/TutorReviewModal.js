@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './TutorReviewModal.module.css';
+// import styles from './TutorReviewModal.module.css';
 import { Modal, List } from 'antd';
 import axios from '../../lib/utils/axiosConfig';
 import { getReviewCount } from '../../lib/utils/getReviewCount';

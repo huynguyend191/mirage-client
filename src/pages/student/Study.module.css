@@ -13,13 +13,20 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding: 30px;
+  height: 400px;
 }
 
 .unverifyImg {
   width: 400px;
 }
 
+.timeoutImg {
+  width: 400px;
+}
+
 .unverifyTxt {
   font-size: 22px;
   font-weight: bold;
+  margin-left: 20px;
 }
