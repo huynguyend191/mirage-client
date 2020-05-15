@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AccountContext } from '../../context/AccountContext';
 import FooterContent from '../../components/FooterContent';
 import { Layout, Menu, Dropdown, Avatar } from 'antd';
-import { BarChartOutlined, IdcardOutlined, TeamOutlined, DownOutlined, ExceptionOutlined, MenuUnfoldOutlined, MenuFoldOutlined, KeyOutlined, LogoutOutlined } from '@ant-design/icons';
+import { BarChartOutlined, IdcardOutlined, TeamOutlined, DownOutlined, ExceptionOutlined, MenuUnfoldOutlined, MenuFoldOutlined, KeyOutlined, LogoutOutlined, CreditCardOutlined, DollarCircleOutlined } from '@ant-design/icons';
 import { Link, Route, Switch } from 'react-router-dom';
 import styles from './Admin.module.css';
 import Dashboard from './Dashboard';
@@ -13,6 +13,8 @@ import Reports from './Reports';
 import ChangePasswordModal from '../../components/ChangePasswordModal';
 import ForgotPasswordModal from '../../components/ForgotPasswordModal';
 import SideBarLogo from '../../components/SideBarLogo';
+import Subscriptions from './Subscriptions';
+import Payment from './Payment';
 
 const { Header, Content, Sider } = Layout;
 
@@ -61,6 +63,12 @@ export default function Admin(props) {
           <Menu.Item key="/admin/reports">
             <ExceptionOutlined /><Link to="/admin/reports"><span>Reports</span></Link>
           </Menu.Item>
+          <Menu.Item key="/admin/subscriptions">
+            <CreditCardOutlined /><Link to="/admin/subscriptions"><span>Subscriptions</span></Link>
+          </Menu.Item>
+          <Menu.Item key="/admin/payment">
+            <DollarCircleOutlined /><Link to="/admin/payment"><span>Payment</span></Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
@@ -80,6 +88,8 @@ export default function Admin(props) {
             <Route path="/admin/students" component={Students} />
             <Route path="/admin/tutors" component={Tutors} />
             <Route path="/admin/reports" component={Reports} />
+            <Route path="/admin/subscriptions" component={Subscriptions} />
+            <Route path="/admin/payment" component={Payment} />
             <Route path="/admin" component={Dashboard} exact />
           </Switch>
         </Content>

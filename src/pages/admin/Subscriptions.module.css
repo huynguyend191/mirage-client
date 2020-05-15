@@ -1,0 +1,20 @@
+.cancelBtn {
+  color: red;
+  cursor: pointer;
+}
+
+.reload {
+  margin-bottom: 10px;
+}
+
+.subscriptions {
+  width: 1200px;
+  justify-content: center;
+  margin: 50px auto;
+}
+
+.acceptBtn {
+  cursor: pointer;
+  color: #52c41a;
+  margin-right: 10px;
+}
