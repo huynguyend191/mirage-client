@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './Subscriptions.module.css';
 import { HistoryOutlined, CreditCardOutlined } from '@ant-design/icons';
-import { Tabs, Table } from 'antd';
+import { Tabs } from 'antd';
 import SubscriptionHistory from './SubscriptionHistory';
+import ExtendSubscription from './ExtendSubscription';
 
 const { TabPane } = Tabs;
 
@@ -23,7 +24,7 @@ export default function Subscriptions() {
           }
           key="extend"
         >
-          Extend
+          <ExtendSubscription />
         </TabPane>
         <TabPane
           tab={

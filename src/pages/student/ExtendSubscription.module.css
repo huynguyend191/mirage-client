@@ -1,0 +1,38 @@
+.extendSub {
+  padding: 30px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.extendSubContent {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.extendDuration {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.extendPrice {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.extendSave {
+  font-weight: 400;
+}
+
+.tierImage {
+  height: 180px;
+}
+
+.subTier {
+  font-size: 26px;
+  font-weight: bold;
+}

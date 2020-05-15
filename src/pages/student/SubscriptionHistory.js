@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Table, Spin, Tag, Popconfirm } from 'antd';
+import { Table, Spin, Tag, Popconfirm, Button } from 'antd';
 import axios from '../../lib/utils/axiosConfig';
 import { AccountContext } from '../../context/AccountContext';
-import { SUB_STATE, SUB_TYPE } from '../../lib/constants';
+import { SUB_STATE, SUB_TIER } from '../../lib/constants';
 import moment from 'moment';
 import styles from './SubscriptionHistory.module.css';
+import { ReloadOutlined } from '@ant-design/icons';
 
 export default function SubscriptionHistory() {
   const { account } = useContext(AccountContext);
@@ -50,16 +51,16 @@ export default function SubscriptionHistory() {
       }
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
-      render: type => {
-        if (type === SUB_TYPE.SILVER) {
+      title: 'Tier',
+      dataIndex: 'tier',
+      render: tier => {
+        if (tier === SUB_TIER.SILVER) {
           return <Tag color="#C0C0C0">Silver</Tag>
         }
-        else if (type === SUB_TYPE.GOLD) {
+        else if (tier === SUB_TIER.GOLD) {
           return <Tag color="#DAA520">Gold</Tag>
         }
-        else if (type === SUB_TYPE.PLATIUM) {
+        else if (tier === SUB_TIER.PLATIUM) {
           return <Tag color="processing">Platium</Tag>
         }
         else {
@@ -103,9 +104,9 @@ export default function SubscriptionHistory() {
         if (record.state === SUB_STATE.PENDING) {
           return (
             <Popconfirm
-              title="Do you want to cancel this request?" 
-              okText="Yes" 
-              cancelText="No" 
+              title="Do you want to cancel this request?"
+              okText="Yes"
+              cancelText="No"
               className={styles.cancelBtn}
               onConfirm={() => cancelSubscription(record.id)}
             >
@@ -125,6 +126,9 @@ export default function SubscriptionHistory() {
   }, [])
   return (
     <Spin spinning={loading}>
+      <Button className={styles.reload} onClick={getStudentSub} icon={<ReloadOutlined />}>
+        Reload
+      </Button>
       <Table
         columns={columns}
         dataSource={studentSub}

@@ -43,10 +43,18 @@ export const SUB_STATE = Object.freeze({
   CANCELED: 3
 });
 
-export const SUB_TYPE = Object.freeze({
+export const SUB_TIER = Object.freeze({
   NORMAL: 1,
   SILVER: 2, 
   GOLD: 3,
   PLATIUM: 4
 });
 
+export const PRICE_PER_MIN = 0.1; //$
+
+export const SUB_DISCOUNT_RATE = Object.freeze({
+  NORMAL: 1, 
+  SILVER: 0.85, 
+  GOLD: 0.75,
+  PLATIUM: 0.65
+})
