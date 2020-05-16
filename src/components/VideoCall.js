@@ -8,7 +8,7 @@ import CallModal from './CallModal';
 import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
 import { getTimeFromMs } from '../lib/utils/formatTime';
-import endCallImg from '../assets/endCall.png'
+import endCallImg from '../assets/endcall.png'
 import { Modal, Button } from 'antd';
 import { FlagOutlined, StarOutlined, LikeOutlined } from '@ant-design/icons';
 import FeedbackModal from '../pages/student/FeedbackModal';
@@ -40,7 +40,8 @@ export default function VideoCall({ account }) {
   useEffect(() => {
     //TODO check time with student, refresh after each call to get new time
     socket
-      .on(SOCKET_EVENTS.INIT, (data) => {
+      .on(SOCKET_EVENTS.INIT, () => {
+        
       })
       .on(SOCKET_EVENTS.REQUEST, ({ from }) => {
         setCallModal(true);
@@ -50,8 +51,12 @@ export default function VideoCall({ account }) {
         if (data.sdp) {
           pcRef.current.setRemoteDescription(data.sdp);
           if (data.sdp.type === 'offer') pcRef.current.createAnswer();
+          if (account.role === ROLES.TUTOR) {
+            socket.emit(SOCKET_EVENTS.SAVE_VIDEOS);
+          }
         } else pcRef.current.addIceCandidate(data.candidate);
         start.current = Date.now();
+
         // auto end call if student runs out of time
         // TODO set duration = remaining time
         if (account.role === ROLES.STUDENT) {
@@ -123,9 +128,7 @@ export default function VideoCall({ account }) {
   }
 
   const endCall = async (isStarter) => {
-    if (account.role === ROLES.TUTOR) {
-      socket.emit(SOCKET_EVENTS.SAVE_VIDEOS, callFrom.student);
-    }
+
     end.current = Date.now();
     if (start.current > 0) {
       setAfterCallModal(true);
