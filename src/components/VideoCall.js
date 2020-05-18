@@ -129,7 +129,10 @@ export default function VideoCall({ account, remainingTime }) {
   }
 
   const endCall = async (isStarter) => {
-
+    if (account.role === ROLES.TUTOR) {
+      // record stream from tutor side
+      socket.emit(SOCKET_EVENTS.CREATE_CALL_HISTORY, callFrom.student);
+    }
     end.current = Date.now();
     if (start.current > 0) {
       setAfterCallModal(true);
@@ -223,6 +226,7 @@ export default function VideoCall({ account, remainingTime }) {
           onlineTutors={onlineTutors}
           startCall={startCall}
           setTutor={setTutor}
+          remainingTime={remainingTime}
         />
       )}
       {!_.isEmpty(configRef.current) && (

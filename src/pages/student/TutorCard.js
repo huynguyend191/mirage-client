@@ -27,7 +27,7 @@ export default function TutorCard({ callWithVideo, openDetailModal, item, openRe
               {item.profile.name}
               {item.status === STATUS.AVAILABLE ?
                 <CheckCircleFilled style={{ color: "#52c41a", fontSize: "12px", marginLeft: "3px" }} /> :
-                <Tooltip title="User is busy"><MinusCircleFilled style={{ color: "red", fontSize: "12px", marginLeft: "3px" }} /></Tooltip>
+                <Tooltip title="Busy"><MinusCircleFilled style={{ color: "red", fontSize: "12px", marginLeft: "3px" }} /></Tooltip>
               }
             </div>
             <div>
