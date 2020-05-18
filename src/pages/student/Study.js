@@ -5,6 +5,7 @@ import styles from './Study.module.css';
 import Unverify from '../../assets/unverify.png';
 import Timeout from '../../assets/timeout.png';
 import axios from '../../lib/utils/axiosConfig';
+import { getTimeFromMs } from '../../lib/utils/formatTime';
 
 export default function Study() {
   const { account } = useContext(AccountContext);
@@ -22,10 +23,15 @@ export default function Study() {
     getStudent();
   }, [account]);
 
-  let renderStudy;
+  let renderStudy = null;
   if ((account && account.verification)) {
     if (student && student.remaining_time > 0) {
-      renderStudy = <VideoCall account={account} />
+      renderStudy = (
+        <div className={styles.remainingTime}>
+          <div><span className={styles.remainingTimeTitle}>Remaining time: </span>{getTimeFromMs(student.remaining_time)}</div>
+          <VideoCall account={account} remainingTime={student.remaining_time} />
+        </div>
+      )
     } else {
       renderStudy = (
         <div className={styles.unverify}>

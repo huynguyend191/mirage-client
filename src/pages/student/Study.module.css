@@ -30,3 +30,12 @@
   font-weight: bold;
   margin-left: 20px;
 }
+
+.remainingTime {
+  height: 30px;
+  margin-top: 50px;
+}
+
+.remainingTimeTitle {
+  font-weight: bold;
+}

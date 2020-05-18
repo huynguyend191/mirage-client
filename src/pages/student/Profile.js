@@ -7,6 +7,7 @@ import { UserOutlined, UploadOutlined, FileImageOutlined } from '@ant-design/ico
 import preferences from '../../lib/preferences';
 import moment from 'moment';
 import { serverUrl } from '../../lib/constants';
+import { getTimeFromMs } from '../../lib/utils/formatTime';
 const { Option } = Select;
 const { Panel } = Collapse;
 
@@ -113,6 +114,7 @@ export default function Profile() {
           <div className={styles.accountInfo}>
             <p className={styles.name}>{profile.name}</p>
             <p>Email: {profile.account.email}</p>
+            <p>Remaining time: {getTimeFromMs(profile.remaining_time)}</p>
             {account.verification ? (
               <Tag color="success">Verified</Tag>
             ) : (

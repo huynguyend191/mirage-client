@@ -6,6 +6,7 @@ import { serverUrl } from '../../lib/constants';
 import { UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { STATES } from '../../lib/constants';
+import { getTimeFromMs } from '../../lib/utils/formatTime';
 const { TabPane } = Tabs;
 
 export default function StudentProfile({ selected, getStudentsData, setShowDetailModal, showDetailModal }) {
@@ -54,6 +55,7 @@ export default function StudentProfile({ selected, getStudentsData, setShowDetai
                 <Descriptions.Item label="Username">{selected.username}</Descriptions.Item>
                 <Descriptions.Item label="Email">{selected.email}</Descriptions.Item>
                 <Descriptions.Item label="Birthdate">{detail.birthdate ? moment(detail.birthdate).format('YYYY-MM-DD') : null}</Descriptions.Item>
+                <Descriptions.Item label="Remaining time">{getTimeFromMs(detail.remaining_time)}</Descriptions.Item>
                 <Descriptions.Item label="Status">
                   {selected.verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>}
                   {selected.state ? <Tag color="success">Active</Tag> : <Tag color="error">Inactive</Tag>}

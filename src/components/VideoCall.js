@@ -8,13 +8,13 @@ import CallModal from './CallModal';
 import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
 import { getTimeFromMs } from '../lib/utils/formatTime';
-import endCallImg from '../assets/endcall.png'
+import endCallImg from '../assets/endCall.png'
 import { Modal, Button } from 'antd';
 import { FlagOutlined, StarOutlined, LikeOutlined } from '@ant-design/icons';
 import FeedbackModal from '../pages/student/FeedbackModal';
 
 
-export default function VideoCall({ account }) {
+export default function VideoCall({ account, remainingTime }) {
   // video call
   const [callWindow, setCallWindow] = useState(false);
   const [callModal, setCallModal] = useState(false);
@@ -52,15 +52,16 @@ export default function VideoCall({ account }) {
           pcRef.current.setRemoteDescription(data.sdp);
           if (data.sdp.type === 'offer') pcRef.current.createAnswer();
           if (account.role === ROLES.TUTOR) {
+            // record stream from tutor side
             socket.emit(SOCKET_EVENTS.SAVE_VIDEOS);
           }
         } else pcRef.current.addIceCandidate(data.candidate);
         start.current = Date.now();
 
         // auto end call if student runs out of time
-        // TODO set duration = remaining time
         if (account.role === ROLES.STUDENT) {
-          // setTimeout(() => endCall(true), 3000);
+          setTimeout(() => endCall(true), remainingTime);
+
         }
       })
       .on(SOCKET_EVENTS.END, () => endCall(false))
