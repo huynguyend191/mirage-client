@@ -115,9 +115,11 @@ export default function VideoCall({ account, remainingTime }) {
     configRef.current = config;
     pcRef.current = new PeerConnection(friendID)
       .on('localStream', (src) => {
+        if (!isCaller) {
+          setCallModal(false);
+        } 
         setCallWindow(true);
         setLocalSrc(src)
-        if (!isCaller) setCallModal(false)
       })
       .on('peerStream', src => setPeerSrc(src))
       .start(isCaller, config);
@@ -229,9 +231,8 @@ export default function VideoCall({ account, remainingTime }) {
           remainingTime={remainingTime}
         />
       )}
-      {!_.isEmpty(configRef.current) && (
+      {!_.isEmpty(configRef.current) && callWindow && (
         <CallWindow
-          callWindow={callWindow}
           localSrc={localSrc}
           peerSrc={peerSrc}
           config={configRef.current}
