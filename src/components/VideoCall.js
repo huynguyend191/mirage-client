@@ -231,8 +231,9 @@ export default function VideoCall({ account, remainingTime }) {
           remainingTime={remainingTime}
         />
       )}
-      {!_.isEmpty(configRef.current) && callWindow && (
+      {!_.isEmpty(configRef.current) && (
         <CallWindow
+          callWindow={callWindow}
           localSrc={localSrc}
           peerSrc={peerSrc}
           config={configRef.current}

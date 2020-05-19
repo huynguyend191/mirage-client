@@ -51,7 +51,7 @@ export default function SignInModal({ isVisible, onClose, onSwitchRegister, onSw
       title="Sign in"
       width="400px"
     >
-      {error ? <Alert style={{marginBottom: "15px"}} message={error} type="error" showIcon banner closable afterClose={() => setError(null)} /> : null}
+      {error ? <Alert style={{ marginBottom: "15px" }} message={error} type="error" showIcon banner closable afterClose={() => setError(null)} /> : null}
       <Form
         name="normal_sign_in"
         className={styles.signInForm}
@@ -75,22 +75,18 @@ export default function SignInModal({ isVisible, onClose, onSwitchRegister, onSw
             placeholder="Password"
           />
         </Form.Item>
-        <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
 
-          <p onClick={onForgotPass} className={styles.signInForgot}>
-            Forgot password?
-          </p>
-        </Form.Item>
 
         <Form.Item>
           <Button type="primary" htmlType="submit" className={styles.signInButton} shape="round" loading={loading}>
             Sign in
         </Button>
-        Don't have an account? <span className={styles.registerNow} onClick={onChangeMode}>Register now!</span>
+          Don't have an account? <span className={styles.registerNow} onClick={onChangeMode}>Register!</span>
+          <p onClick={onForgotPass} className={styles.signInForgot}>
+            Forgot password?
+          </p>
         </Form.Item>
+
       </Form>
     </Modal>
   )

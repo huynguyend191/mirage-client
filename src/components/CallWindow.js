@@ -5,7 +5,7 @@ import { VideoCameraFilled, AudioFilled, StopOutlined, AudioMutedOutlined, Video
 import styles from './CallWindow.module.css';
 import Timer from 'react-compound-timer';
 
-export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, endCall }) {
+export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, endCall, callWindow }) {
   const peerVideo = useRef(null);
   const localVideo = useRef(null);
   const [video, setVideo] = useState(config.video);
@@ -42,50 +42,53 @@ export default function CallWindow({ peerSrc, localSrc, config, mediaDevice, end
     }
   };
   return (
-    <div className={styles.callWindowWrapper}>
-      <div className={styles.callWindow}>
-        <div className={styles.videoScreenContainer}>
-          <video className={styles.videoScreen} ref={localVideo} autoPlay muted />
-          {peerSrc && <video className={styles.videoScreen} ref={peerVideo} autoPlay />}
-        </div>
-        {peerSrc && (
-          <div>
-            <Timer
-              formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
-              lastUnit="h"
-              className={styles.callTime}
-            >
-            <Timer.Hours />:
+    callWindow ? (
+      <div className={styles.callWindowWrapper}>
+        <div className={styles.callWindow}>
+          <div className={styles.videoScreenContainer}>
+            <video className={styles.videoScreen} ref={localVideo} autoPlay muted />
+            {peerSrc && <video className={styles.videoScreen} ref={peerVideo} autoPlay />}
+          </div>
+          {peerSrc && (
+            <div>
+              <Timer
+                formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
+                lastUnit="h"
+                className={styles.callTime}
+              >
+                <Timer.Hours />:
             <Timer.Minutes />:
             <Timer.Seconds />
-            </Timer>
-          </div>
+              </Timer>
+            </div>
 
-        )}
-        <div className={styles.videoControl}>
-          <Button
-            shape="circle"
-            type={video ? "primary" : "danger"}
-            icon={video ? <VideoCameraFilled /> : <VideoCameraAddOutlined />}
-            onClick={() => toggleMediaDevice('video')}
-            size="large"
-          />
-          <Button
-            shape="circle"
-            type={audio ? "primary" : "danger"}
-            icon={audio ? <AudioFilled /> : <AudioMutedOutlined />}
-            onClick={() => toggleMediaDevice('audio')}
-            size="large"
-          />
-          <Button
-            shape="circle"
-            type="danger"
-            onClick={() => endCall(true)}
-            icon={<StopOutlined />}
-            size="large"
-          />
+          )}
+          <div className={styles.videoControl}>
+            <Button
+              shape="circle"
+              type={video ? "primary" : "danger"}
+              icon={video ? <VideoCameraFilled /> : <VideoCameraAddOutlined />}
+              onClick={() => toggleMediaDevice('video')}
+              size="large"
+            />
+            <Button
+              shape="circle"
+              type={audio ? "primary" : "danger"}
+              icon={audio ? <AudioFilled /> : <AudioMutedOutlined />}
+              onClick={() => toggleMediaDevice('audio')}
+              size="large"
+            />
+            <Button
+              shape="circle"
+              type="danger"
+              onClick={() => endCall(true)}
+              icon={<StopOutlined />}
+              size="large"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    ) : null
+
   )
 }

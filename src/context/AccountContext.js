@@ -8,11 +8,9 @@ const AccountContextProvider = (props) => {
   const [account, setAccount] = useState(initialAccount);
 
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem('remember'))) {
-      const existAccount = getAccountInfo();
-      if (existAccount) {
-        setAccount(existAccount);
-      }
+    const existAccount = getAccountInfo();
+    if (existAccount) {
+      setAccount(existAccount);
     }
   }, []);
 
