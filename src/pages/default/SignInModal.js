@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Modal, Form, Input, Button, Checkbox, Alert } from 'antd';
+import { Modal, Form, Input, Button, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './SignInModal.module.css';
 import { AccountContext } from '../../context/AccountContext';

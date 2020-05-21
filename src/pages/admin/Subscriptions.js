@@ -6,7 +6,7 @@ import moment from 'moment';
 import styles from './Subscriptions.module.css';
 import { ReloadOutlined } from '@ant-design/icons';
 
-export default function Subscriptions() {
+export default function StudentSub() {
   const [studentSub, setStudentSub] = useState([]);
   const [loading, setLoading] = useState(false);
 

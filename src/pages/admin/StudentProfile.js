@@ -7,6 +7,7 @@ import { UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { STATES } from '../../lib/constants';
 import { getTimeFromMs } from '../../lib/utils/formatTime';
+import StudentSub from './StudentSub';
 const { TabPane } = Tabs;
 
 export default function StudentProfile({ selected, getStudentsData, setShowDetailModal, showDetailModal }) {
@@ -42,6 +43,8 @@ export default function StudentProfile({ selected, getStudentsData, setShowDetai
       getStudentDetail();
     }
   }, [selected]);
+
+  
 
   const renderDetail = detail ?
     (<Tabs defaultActiveKey="profile" type="card">
@@ -83,13 +86,13 @@ export default function StudentProfile({ selected, getStudentsData, setShowDetai
       </TabPane>
       <TabPane tab="History" key="history">
         Call history
-        </TabPane>
+      </TabPane>
       <TabPane tab="Report" key="report">
         Report
-        </TabPane>
+      </TabPane>
       <TabPane tab="Subscription" key="subscription">
-        Subscription
-        </TabPane>
+       <StudentSub subscriptions={detail.subscriptions} />
+      </TabPane>
     </Tabs>
 
     )
