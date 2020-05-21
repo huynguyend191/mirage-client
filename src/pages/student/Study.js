@@ -11,22 +11,24 @@ export default function Study() {
   const [student, setStudent] = useState(null);
 
   useEffect(() => {
-    const getStudent = async () => {
-      try {
-        const result = await axios.get('/students/' + account.student.id);
-        setStudent(result.data.student);
-      } catch (error) {
-        console.log(error)
-      }
-    }
     getStudent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
+
+  const getStudent = async () => {
+    try {
+      const result = await axios.get('/students/' + account.student.id);
+      setStudent(result.data.student);
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   let renderStudy = null;
   if ((account && account.verification)) {
     if (student && student.remaining_time > 0) {
       renderStudy = (
-        <VideoCall account={account} remainingTime={student.remaining_time} />
+        <VideoCall account={account} remainingTime={student.remaining_time} getStudent={getStudent} />
       )
     } else {
       renderStudy = (

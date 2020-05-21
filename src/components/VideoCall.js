@@ -8,13 +8,13 @@ import CallModal from './CallModal';
 import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
 import { getTimeFromMs } from '../lib/utils/formatTime';
-import endCallImg from '../assets/endCall.png'
+import endCallImg from '../assets/endcall.png'
 import { Modal, Button } from 'antd';
 import { FlagOutlined, StarOutlined, LikeOutlined } from '@ant-design/icons';
 import FeedbackModal from '../pages/student/FeedbackModal';
 
 
-export default function VideoCall({ account, remainingTime }) {
+export default function VideoCall({ account, remainingTime, getStudent }) {
   // video call
   const [callWindow, setCallWindow] = useState(false);
   const [callModal, setCallModal] = useState(false);
@@ -61,7 +61,6 @@ export default function VideoCall({ account, remainingTime }) {
         // auto end call if student runs out of time
         if (account.role === ROLES.STUDENT) {
           setTimeout(() => endCall(true), remainingTime);
-
         }
       })
       .on(SOCKET_EVENTS.END, () => endCall(false))
@@ -135,6 +134,10 @@ export default function VideoCall({ account, remainingTime }) {
       // record stream from tutor side
       socket.emit(SOCKET_EVENTS.CREATE_CALL_HISTORY, callFrom.student);
     }
+    if (account.role === ROLES.STUDENT) {
+      // refresh remaining time
+      getStudent();
+    }
     end.current = Date.now();
     if (start.current > 0) {
       setAfterCallModal(true);
@@ -172,18 +175,6 @@ export default function VideoCall({ account, remainingTime }) {
   let btnHolder = null;
   if (callFrom.student) {
     renderCallFrom = callFrom.student.name;
-    btnHolder = (
-      <div>
-        <Button
-          shape="round"
-          type="danger"
-          icon={<FlagOutlined />}
-          size="small"
-        >
-          Report
-        </Button>
-      </div>
-    )
   } else if (tutor.current) {
     renderCallFrom = tutor.current.name;
     btnHolder = (
@@ -203,14 +194,6 @@ export default function VideoCall({ account, remainingTime }) {
           onClick={() => setShowFeedback(true)}
         >
           Feedback
-        </Button>
-        <Button
-          shape="round"
-          type="danger"
-          icon={<FlagOutlined />}
-          size="small"
-        >
-          Report
         </Button>
       </div>
     )
