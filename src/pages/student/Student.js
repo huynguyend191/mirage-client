@@ -3,7 +3,7 @@ import { AccountContext } from '../../context/AccountContext';
 import { Layout, Avatar, Dropdown, Menu } from 'antd';
 import FooterContent from '../../components/FooterContent';
 import styles from './Student.module.css';
-import { UserOutlined, DownOutlined, KeyOutlined, LogoutOutlined, DollarCircleOutlined, ContactsOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { UserOutlined, DownOutlined, KeyOutlined, LogoutOutlined, DollarCircleOutlined, ContactsOutlined, VideoCameraOutlined, HistoryOutlined } from '@ant-design/icons';
 import ForgotPasswordModal from '../../components/ForgotPasswordModal';
 import ChangePasswordModal from '../../components/ChangePasswordModal';
 import { Switch, Route, Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ import Profile from './Profile';
 import Subscriptions from './Subscriptions';
 import Study from './Study';
 import { serverUrl } from '../../lib/constants';
+import StudentCallHistories from './StudentCallHistories';
 
 const { Header, Content, Sider } = Layout;
 
@@ -41,7 +42,7 @@ export default function Student(props) {
         onClose={() => setIsChangePass(false)}
         onForgot={() => setIsForgotPass(true)}
       />
-      <Sider>
+      <Sider collapsible>
         <SideBarLogo collapsed={false} />
         <Menu theme="dark" defaultSelectedKeys={["/student/video-call"]} mode="inline" selectedKeys={[location.pathname]}>
           <Menu.Item key="/student/study">
@@ -53,11 +54,14 @@ export default function Student(props) {
           <Menu.Item key="/student/subscriptions">
             <DollarCircleOutlined /><Link to="/student/subscriptions"><span>Subscriptions</span></Link>
           </Menu.Item>
+          <Menu.Item key="/student/call-histories">
+            <HistoryOutlined /><Link to="/student/call-histories"><span>Call histories</span></Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
         <Header>
-          <div className={styles.userControl}>  
+          <div className={styles.userControl}>
             Hello, {account.username}
             <Dropdown overlay={userMenu} placement="bottomLeft">
               <div>
@@ -69,7 +73,8 @@ export default function Student(props) {
         <Content>
           <Switch>
             <Route path="/student/subscriptions" component={Subscriptions} />
-            <Route path="/student/Study" component={Study} />
+            <Route path="/student/study" component={Study} />
+            <Route path="/student/call-histories" component={StudentCallHistories} />
             <Route path="/student" component={Profile} exact />
           </Switch>
         </Content>

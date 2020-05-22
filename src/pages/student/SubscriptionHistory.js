@@ -16,12 +16,7 @@ export default function SubscriptionHistory() {
     setLoading(true);
     try {
       const result = await axios.get('/subscriptions/' + account.student.id);
-      const subs = [];
-      result.data.subscriptions.forEach(sub => {
-        sub.key = sub.id;
-        subs.push(sub);
-      });
-      setStudentSub(subs);
+      setStudentSub(result.data.subscriptions);
       setLoading(false);
     } catch (error) {
       console.log(error.response);
@@ -133,6 +128,7 @@ export default function SubscriptionHistory() {
         columns={columns}
         dataSource={studentSub}
         pagination={false}
+        rowKey='id'
       />
     </Spin>
   )

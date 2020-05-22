@@ -3,12 +3,13 @@ import { AccountContext } from '../../context/AccountContext';
 import { Layout, Avatar, Dropdown, Menu } from 'antd';
 import FooterContent from '../../components/FooterContent';
 import styles from './Tutor.module.css';
-import { UserOutlined, DownOutlined, KeyOutlined, LogoutOutlined, BarChartOutlined, ContactsOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { UserOutlined, DownOutlined, KeyOutlined, LogoutOutlined, BarChartOutlined, ContactsOutlined, VideoCameraOutlined, HistoryOutlined } from '@ant-design/icons';
 import ForgotPasswordModal from '../../components/ForgotPasswordModal';
 import ChangePasswordModal from '../../components/ChangePasswordModal';
 import Profile from './Profile';
 import Stats from './Stats';
 import Teaching from './Teaching';
+import TutorCallHistories from './TutorCallHistories';
 import { Switch, Route, Link } from 'react-router-dom';
 import SideBarLogo from '../../components/SideBarLogo';
 import { serverUrl } from '../../lib/constants';
@@ -41,7 +42,7 @@ export default function Tutor(props) {
         onClose={() => setIsChangePass(false)}
         onForgot={() => setIsForgotPass(true)}
       />
-      <Sider>
+      <Sider collapsible>
         <SideBarLogo collapsed={false} />
         <Menu theme="dark" defaultSelectedKeys={["/tutor"]} mode="inline" selectedKeys={[location.pathname]}>
           <Menu.Item key="/tutor">
@@ -49,6 +50,9 @@ export default function Tutor(props) {
           </Menu.Item>
           <Menu.Item key="/tutor/teaching">
             <VideoCameraOutlined /><Link to="/tutor/teaching"><span>Teaching</span></Link>
+          </Menu.Item>
+          <Menu.Item key="/tutor/call-histories">
+            <HistoryOutlined /><Link to="/tutor/call-histories"><span>Call histories</span></Link>
           </Menu.Item>
           <Menu.Item key="/tutor/stats">
             <BarChartOutlined /><Link to="/tutor/stats"><span>Stats</span></Link>
@@ -70,6 +74,7 @@ export default function Tutor(props) {
           <Switch>
             <Route path="/tutor/stats" component={Stats} />
             <Route path="/tutor/teaching" component={Teaching} />
+            <Route path="/tutor/call-histories" component={TutorCallHistories} />
             <Route path="/tutor" component={Profile} exact />
           </Switch>
         </Content>
