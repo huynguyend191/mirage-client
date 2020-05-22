@@ -3,7 +3,7 @@ import { Tag, Table } from 'antd';
 import { SUB_STATE, SUB_TIER } from '../../lib/constants';
 import moment from 'moment';
 
-export default function CallHistory({ subscriptions }) {
+export default function StudentSub({ subscriptions }) {
   const columns = [
     {
       title: 'Date',
@@ -68,5 +68,5 @@ export default function CallHistory({ subscriptions }) {
         pagination={false}
       />
     </div>
-  )
+  );
 }

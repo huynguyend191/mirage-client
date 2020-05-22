@@ -8,6 +8,7 @@ import moment from 'moment';
 import { STATES } from '../../lib/constants';
 import { getTimeFromMs } from '../../lib/utils/formatTime';
 import StudentSub from './StudentSub';
+import CallHistories from './CallHistories';
 const { TabPane } = Tabs;
 
 export default function StudentProfile({ selected, getStudentsData, setShowDetailModal, showDetailModal }) {
@@ -85,7 +86,7 @@ export default function StudentProfile({ selected, getStudentsData, setShowDetai
         </div>
       </TabPane>
       <TabPane tab="History" key="history">
-        Call history
+        <CallHistories callHistories={detail.call_histories} />
       </TabPane>
       <TabPane tab="Report" key="report">
         Report

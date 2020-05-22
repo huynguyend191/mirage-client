@@ -10,7 +10,7 @@ import styles from './VideoCall.module.css';
 import { getTimeFromMs } from '../lib/utils/formatTime';
 import endCallImg from '../assets/endcall.png'
 import { Modal, Button } from 'antd';
-import { FlagOutlined, StarOutlined, LikeOutlined } from '@ant-design/icons';
+import { StarOutlined, LikeOutlined } from '@ant-design/icons';
 import FeedbackModal from '../pages/student/FeedbackModal';
 
 
