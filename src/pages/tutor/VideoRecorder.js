@@ -42,9 +42,8 @@ export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfi
       });
       cancelRecord();
       refreshProfile();
-      setLoading(false);
     } catch (error) {
-      console.log(error.response)
+      console.log(error.response);
       setLoading(false);
     }
   }
@@ -67,7 +66,6 @@ export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfi
     player.current.on('finishRecord', () => {
       // recordedData is a blob object containing the recorded data that
       // can be downloaded by the user, stored on server etc.
-      console.log('finished recording: ', player.current.recordedData);
       setRecorded(player.current.recordedData);
     });
 
