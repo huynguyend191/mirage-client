@@ -3,7 +3,6 @@ import 'video.js/dist/video-js.css';
 import videojs from 'video.js';
 
 export default function CallRecordPlayer({ url }) {
-  console.log(url)
   const player = useRef(null);
   const videoNode = useRef(null);
   const videoJsOptions = {

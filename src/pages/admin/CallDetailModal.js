@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'antd';
 import 'video.js/dist/video-js.css';
 import { serverUrl } from '../../lib/constants';
-import CallRecordPlayer from './CallRecordPlayer';
+import CallRecordPlayer from '../../components/CallRecordPlayer';
 import styles from './CallDetailModal.module.css';
 import moment from 'moment';
 
