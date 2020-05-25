@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Modal, Form, Input, Button, Alert } from 'antd';
+import { Modal, Form, Input, Button, Alert, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './SignInModal.module.css';
 import { AccountContext } from '../../context/AccountContext';
@@ -15,9 +15,9 @@ export default function SignInModal({ isVisible, onClose, onSwitchRegister, onSw
       setLoading(true);
       const account = {
         user: values.user,
-        password: values.password
+        password: values.password,
+        remember: values.remember
       };
-      localStorage.setItem('remember', values.remember);
       const result = await axios.post('/accounts/sign-in', account);
       setLoading(false);
       onSignIn(result.data.account);
@@ -75,16 +75,19 @@ export default function SignInModal({ isVisible, onClose, onSwitchRegister, onSw
             placeholder="Password"
           />
         </Form.Item>
-
-
+        <Form.Item>
+          <Form.Item name="remember" valuePropName="checked" noStyle>
+            <Checkbox>Remember me</Checkbox>
+          </Form.Item>
+          <p onClick={onForgotPass} className={styles.signInForgot}>
+            Forgot password?
+          </p>
+        </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" className={styles.signInButton} shape="round" loading={loading}>
             Sign in
         </Button>
           Don't have an account? <span className={styles.registerNow} onClick={onChangeMode}>Register!</span>
-          <p onClick={onForgotPass} className={styles.signInForgot}>
-            Forgot password?
-          </p>
         </Form.Item>
 
       </Form>
