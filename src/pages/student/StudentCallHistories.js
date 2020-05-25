@@ -14,11 +14,12 @@ export default function StudentCallHistories() {
   const [loading, setLoading] = useState(false);
   const [showCallDetail, setShowCallDetail] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [searchKey, setSearchKey] = useState("");
 
   const getHistory = async () => {
     setLoading(true);
     try {
-      const result = await axios.get('/call-histories');
+      const result = await axios.get('/call-histories?studentId=' + account.student.id +'&search=' + searchKey);
       setHistory(result.data.callHistories);
       setLoading(false);
     } catch (error) {
@@ -29,11 +30,16 @@ export default function StudentCallHistories() {
   useEffect(() => {
     getHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchKey]);
   const onSelectRow = (record) => {
     setSelected(record);
     setShowCallDetail(true);
   };
+
+  const searchCall = (value) => {
+    setSearchKey(value);
+  }
+
   const columns = [
     {
       title: 'Date',
@@ -47,6 +53,13 @@ export default function StudentCallHistories() {
       dataIndex: 'tutor',
       render: tutor => {
         return <div>{tutor.name}</div>
+      }
+    },
+    {
+      title: 'Username',
+      dataIndex: 'tutor',
+      render: tutor => {
+        return <div>{tutor.account.username}</div>
       }
     },
     {
@@ -77,7 +90,7 @@ export default function StudentCallHistories() {
         selected={selected}
       />
       <div className={styles.searchBar}>
-        <Search placeholder="Search for username, name" enterButton />
+        <Search placeholder="Search for username, name" onSearch={searchCall} enterButton />
       </div>
       <Spin spinning={loading}>
         <Table
