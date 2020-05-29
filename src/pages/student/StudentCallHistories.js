@@ -6,6 +6,7 @@ import { AccountContext } from '../../context/AccountContext';
 import moment from 'moment';
 import { getTimeFromMs } from '../../lib/utils/formatTime';
 import StudentCallDetailModal from './StudentCallDetailModal';
+import ReportModal from '../../components/ReportModal';
 const { Search } = Input;
 
 export default function StudentCallHistories() {
@@ -14,12 +15,13 @@ export default function StudentCallHistories() {
   const [loading, setLoading] = useState(false);
   const [showCallDetail, setShowCallDetail] = useState(false);
   const [selected, setSelected] = useState(null);
-  const [searchKey, setSearchKey] = useState("");
+  const [searchKey, setSearchKey] = useState('');
+  const [showReport, setShowReport] = useState(false);
 
   const getHistory = async () => {
     setLoading(true);
     try {
-      const result = await axios.get('/call-histories?studentId=' + account.student.id +'&search=' + searchKey);
+      const result = await axios.get('/call-histories?studentId=' + account.student.id + '&search=' + searchKey);
       setHistory(result.data.callHistories);
       setLoading(false);
     } catch (error) {
@@ -31,42 +33,47 @@ export default function StudentCallHistories() {
     getHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchKey]);
-  const onSelectRow = (record) => {
+  const onViewRecord = record => {
     setSelected(record);
     setShowCallDetail(true);
   };
 
-  const searchCall = (value) => {
+  const onReportRecord = record => {
+    setSelected(record);
+    setShowReport(true);
+  };
+
+  const searchCall = value => {
     setSearchKey(value);
-  }
+  };
 
   const columns = [
     {
       title: 'Date',
       dataIndex: 'createdAt',
       render: createdAt => {
-        return <div>{moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
+        return <div>{moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>;
       }
     },
     {
       title: 'Tutor',
       dataIndex: 'tutor',
       render: tutor => {
-        return <div>{tutor.name}</div>
+        return <div>{tutor.name}</div>;
       }
     },
     {
       title: 'Username',
       dataIndex: 'tutor',
       render: tutor => {
-        return <div>{tutor.account.username}</div>
+        return <div>{tutor.account.username}</div>;
       }
     },
     {
       title: 'Duration',
       dataIndex: 'duration',
       render: duration => {
-        return <div>{getTimeFromMs(duration)}</div>
+        return <div>{getTimeFromMs(duration)}</div>;
       }
     },
     {
@@ -74,10 +81,14 @@ export default function StudentCallHistories() {
       render: (text, record) => {
         return (
           <div>
-            <Button className={styles.viewRecordBtn} onClick={() => onSelectRow(record)}>View record</Button>
-            <Button danger onClick={() => onSelectRow(record)}>Report</Button>
+            <Button className={styles.viewRecordBtn} onClick={() => onViewRecord(record)}>
+              View record
+            </Button>
+            <Button danger onClick={() => onReportRecord(record)}>
+              Report
+            </Button>
           </div>
-        )
+        );
       }
     }
   ];
@@ -89,17 +100,13 @@ export default function StudentCallHistories() {
         showCallDetail={showCallDetail}
         selected={selected}
       />
+      <ReportModal setShowReport={setShowReport} showReport={showReport} selected={selected} />
       <div className={styles.searchBar}>
         <Search placeholder="Search for username, name" onSearch={searchCall} enterButton />
       </div>
       <Spin spinning={loading}>
-        <Table
-          columns={columns}
-          dataSource={history}
-          pagination={false}
-          rowKey='id'
-        />
+        <Table columns={columns} dataSource={history} pagination={false} rowKey="id" />
       </Spin>
     </div>
-  )
+  );
 }
