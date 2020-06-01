@@ -40,13 +40,13 @@ export const STATUS = Object.freeze({
 
 export const SUB_STATE = Object.freeze({
   COMPLETED: 1,
-  PENDING: 2, 
+  PENDING: 2,
   CANCELED: 3
 });
 
 export const SUB_TIER = Object.freeze({
   NORMAL: 1,
-  SILVER: 2, 
+  SILVER: 2,
   GOLD: 3,
   PLATIUM: 4
 });
@@ -54,8 +54,16 @@ export const SUB_TIER = Object.freeze({
 export const PRICE_PER_MIN = 0.1; //$
 
 export const SUB_DISCOUNT_RATE = Object.freeze({
-  NORMAL: 1, 
-  SILVER: 0.85, 
+  NORMAL: 1,
+  SILVER: 0.85,
   GOLD: 0.75,
   PLATIUM: 0.65
-})
+});
+
+export const REPORT_REASONS = ['Nudity', 'Harassment', 'Spam', 'Hate speech', 'Something else'];
+
+export const REPORT_STATE = Object.freeze({
+  RESOLVED: 1,
+  PENDING: 2,
+  CANCELLED: 3
+});
