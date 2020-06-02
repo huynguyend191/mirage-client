@@ -63,6 +63,13 @@ export default function Payment() {
       }
     },
     {
+      title: 'Price',
+      dataIndex: 'price',
+      render: price => {
+        return <div>{price}$</div>;
+      }
+    },
+    {
       title: 'State',
       dataIndex: 'state',
       render: state => {
