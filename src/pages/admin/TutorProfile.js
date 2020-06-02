@@ -8,17 +8,18 @@ import { STATES, PROFILE_STATUS } from '../../lib/constants';
 import VideoPlayer from './VideoPlayer';
 import axios from '../../lib/utils/axiosConfig';
 import CallHistories from './CallHistories';
+import AccountReport from './AccountReport';
+import TutorPayment from './TutorPayment';
 
 const { TabPane } = Tabs;
 
-export default function TutorProfile({ selected, setShowDetailModal, getTutorsData, showDetailModal  }) {
+export default function TutorProfile({ selected, setShowDetailModal, getTutorsData, showDetailModal }) {
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detail, setDetail] = useState(null);
   const [updateStatusLoading, setUpdateStatusLoading] = useState(false);
   const [stateLoading, setStateLoading] = useState(false);
 
-
-  const updateProfileStatus = async (status) => {
+  const updateProfileStatus = async status => {
     try {
       setUpdateStatusLoading(true);
       await axios.put('/tutors/' + selected.id, { profileStatus: status });
@@ -30,7 +31,7 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
     }
   };
 
-  const updateStateUser = async (state) => {
+  const updateStateUser = async state => {
     try {
       setStateLoading(true);
       await axios.put('/accounts/' + selected.accountId, { state: state });
@@ -65,29 +66,37 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
       <div className={styles.statusControlBtnWrapper}>
         <Button
           type="primary"
-          style={{ backgroundColor: "#52c41a", color: "white", borderColor: "#52c41a" }}
+          style={{ backgroundColor: '#52c41a', color: 'white', borderColor: '#52c41a' }}
           className={styles.statusControlBtn}
           onClick={() => updateProfileStatus(PROFILE_STATUS.ACCEPTED)}
-        >Accept</Button>
-        <Button className={styles.statusControlBtn} onClick={() => updateProfileStatus(PROFILE_STATUS.PENDING)}>Pending</Button>
+        >
+          Accept
+        </Button>
+        <Button className={styles.statusControlBtn} onClick={() => updateProfileStatus(PROFILE_STATUS.PENDING)}>
+          Pending
+        </Button>
       </div>
     </div>
-  )
+  );
   if (selected && selected.profileStatus === PROFILE_STATUS.ACCEPTED) {
     statusControl = (
       <div className={styles.statusControl}>
         <Alert showIcon message="Accepted" type="success" />
         <div className={styles.statusControlBtnWrapper}>
-          <Button className={styles.statusControlBtn} onClick={() => updateProfileStatus(PROFILE_STATUS.PENDING)}>Pending</Button>
+          <Button className={styles.statusControlBtn} onClick={() => updateProfileStatus(PROFILE_STATUS.PENDING)}>
+            Pending
+          </Button>
           <Button
             type="primary"
             danger
             className={styles.statusControlBtn}
             onClick={() => updateProfileStatus(PROFILE_STATUS.REJECTED)}
-          >Reject</Button>
+          >
+            Reject
+          </Button>
         </div>
       </div>
-    )
+    );
   }
   if (selected && selected.profileStatus === PROFILE_STATUS.PENDING) {
     statusControl = (
@@ -96,20 +105,23 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
         <div className={styles.statusControlBtnWrapper}>
           <Button
             className={styles.statusControlBtn}
-            style={{ backgroundColor: "#52c41a", color: "white", borderColor: "#52c41a" }}
+            style={{ backgroundColor: '#52c41a', color: 'white', borderColor: '#52c41a' }}
             onClick={() => updateProfileStatus(PROFILE_STATUS.ACCEPTED)}
-          >Accept</Button>
+          >
+            Accept
+          </Button>
           <Button
             type="primary"
             danger
             className={styles.statusControlBtn}
             onClick={() => updateProfileStatus(PROFILE_STATUS.REJECTED)}
-          >Reject</Button>
+          >
+            Reject
+          </Button>
         </div>
       </div>
-    )
+    );
   }
-
 
   const tutorProfile = (
     <div>
@@ -124,8 +136,21 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
                   <Descriptions.Item label="Student type">{detail.student_type}</Descriptions.Item>
                   <Descriptions.Item label="Accent">{detail.accent}</Descriptions.Item>
                   <Descriptions.Item label="Fluency">{detail.fluency}</Descriptions.Item>
-                  <Descriptions.Item label="Tutor styles"> {detail.teaching_styles ? JSON.parse(detail.teaching_styles).map(style => { return <Tag key={style}>{style}</Tag> }) : null}</Descriptions.Item>
-                  <Descriptions.Item label="Specialities">{detail.specialities ? JSON.parse(detail.specialities).map(speciality => { return <Tag key={speciality}>{speciality}</Tag> }) : null}</Descriptions.Item>
+                  <Descriptions.Item label="Tutor styles">
+                    {' '}
+                    {detail.teaching_styles
+                      ? JSON.parse(detail.teaching_styles).map(style => {
+                          return <Tag key={style}>{style}</Tag>;
+                        })
+                      : null}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Specialities">
+                    {detail.specialities
+                      ? JSON.parse(detail.specialities).map(speciality => {
+                          return <Tag key={speciality}>{speciality}</Tag>;
+                        })
+                      : null}
+                  </Descriptions.Item>
                 </Descriptions>
               </div>
               <div className={styles.detailWrapper}>
@@ -140,41 +165,54 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
               <div className={styles.detailWrapper}>
                 <p className={styles.detailTitle}>Certificates</p>
                 <div className={styles.uploadedCert}>
-                  {detail.certificates ? (
-                    JSON.parse(detail.certificates).map((cert, index) => {
-                      return (<a key={index} href={serverUrl + cert.path}><FileDoneOutlined />{cert.originalname}</a>);
-                    })
-                  ) : null}
+                  {detail.certificates
+                    ? JSON.parse(detail.certificates).map((cert, index) => {
+                        return (
+                          <a key={index} href={serverUrl + cert.path}>
+                            <FileDoneOutlined />
+                            {cert.originalname}
+                          </a>
+                        );
+                      })
+                    : null}
                 </div>
               </div>
               <div className={styles.detailWrapper}>
                 <Descriptions bordered size="small" column={1} title="Introduction">
                   <Descriptions.Item label="Introduction">{detail.introduction}</Descriptions.Item>
                 </Descriptions>
-                {detail.video ? <div className={styles.videoWrapper}><VideoPlayer username={selected.username} /></div> : null}
+                {detail.video ? (
+                  <div className={styles.videoWrapper}>
+                    <VideoPlayer username={selected.username} />
+                  </div>
+                ) : null}
               </div>
             </div>
           ) : null}
         </div>
-
       </Spin>
     </div>
-  )
+  );
 
-  const renderDetail = detail ?
-    (<Tabs defaultActiveKey="info" type="card">
+  const renderDetail = detail ? (
+    <Tabs defaultActiveKey="info" type="card">
       <TabPane tab="Info" key="info">
         <div className={styles.detail}>
           <div className={styles.detailBasic}>
-            {detail.avatar ? <Avatar src={serverUrl + detail.avatar} size={100} />
-              : <Avatar icon={<UserOutlined />} size={100} />}
+            {detail.avatar ? (
+              <Avatar src={serverUrl + detail.avatar} size={100} />
+            ) : (
+              <Avatar icon={<UserOutlined />} size={100} />
+            )}
             <div className={styles.detailBasicInfo}>
               <Descriptions size="small" column={1} title={detail.name} bordered>
                 <Descriptions.Item label="Username">{selected.username}</Descriptions.Item>
                 <Descriptions.Item label="Email">{selected.email}</Descriptions.Item>
                 <Descriptions.Item label="Phone">{detail.phone}</Descriptions.Item>
                 <Descriptions.Item label="Address">{detail.address}</Descriptions.Item>
-                <Descriptions.Item label="Birthdate">{detail.birthdate ? moment(detail.birthdate).format('YYYY-MM-DD') : null}</Descriptions.Item>
+                <Descriptions.Item label="Birthdate">
+                  {detail.birthdate ? moment(detail.birthdate).format('YYYY-MM-DD') : null}
+                </Descriptions.Item>
                 <Descriptions.Item label="Status">
                   {selected.verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>}
                   {selected.state ? <Tag color="success">Active</Tag> : <Tag color="error">Inactive</Tag>}
@@ -183,9 +221,26 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
             </div>
           </div>
           <div className={styles.banBtnHolder}>
-            {selected.state ?
-              <Button loading={stateLoading} className={styles.changeStateBtn} type="primary" danger onClick={() => updateStateUser(STATES.INACTIVE)}>Ban</Button> :
-              <Button loading={stateLoading} className={styles.changeStateBtn} type="primary" onClick={() => updateStateUser(STATES.ACTIVE)}>Unban</Button>}
+            {selected.state ? (
+              <Button
+                loading={stateLoading}
+                className={styles.changeStateBtn}
+                type="primary"
+                danger
+                onClick={() => updateStateUser(STATES.INACTIVE)}
+              >
+                Ban
+              </Button>
+            ) : (
+              <Button
+                loading={stateLoading}
+                className={styles.changeStateBtn}
+                type="primary"
+                onClick={() => updateStateUser(STATES.ACTIVE)}
+              >
+                Unban
+              </Button>
+            )}
           </div>
         </div>
       </TabPane>
@@ -196,15 +251,13 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
         <CallHistories callHistories={detail.call_histories} />
       </TabPane>
       <TabPane tab="Report" key="report">
-        Report
+        <AccountReport reports={detail.account.reports} />
       </TabPane>
       <TabPane tab="Payment" key="payment">
-        Payment
+        <TutorPayment payments={detail.payments} />
       </TabPane>
     </Tabs>
-
-    )
-    : null;
+  ) : null;
 
   return (
     <Modal
@@ -214,11 +267,9 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
       footer={null}
       width="600px"
       destroyOnClose
-      bodyStyle={{ height: "400px", overflow: "auto" }}
+      bodyStyle={{ height: '400px', overflow: 'auto' }}
     >
-      <Spin spinning={loadingDetail}>
-        {renderDetail}
-      </Spin>
+      <Spin spinning={loadingDetail}>{renderDetail}</Spin>
     </Modal>
-  )
+  );
 }

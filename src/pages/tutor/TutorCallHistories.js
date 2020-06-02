@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styles from './TutorCallHistories.module.css';
-import { Table, Spin, Button, Input } from 'antd';
+import { Table, Spin, Button, Input, Tag } from 'antd';
 import axios from '../../lib/utils/axiosConfig';
 import { AccountContext } from '../../context/AccountContext';
 import moment from 'moment';
 import { getTimeFromMs } from '../../lib/utils/formatTime';
 import ReportModal from '../../components/ReportModal';
+import { HISTORY_COUNT } from '../../lib/constants';
 
 const { Search } = Input;
 
@@ -68,6 +69,17 @@ export default function TutorCallHistories() {
       dataIndex: 'duration',
       render: duration => {
         return <div>{getTimeFromMs(duration)}</div>;
+      }
+    },
+    {
+      title: 'Payment state',
+      dataIndex: 'counted',
+      render: counted => {
+        if (counted) {
+          return <Tag color="success">Counted</Tag>;
+        } else {
+          return <Tag>Uncounted</Tag>;
+        }
       }
     },
     {

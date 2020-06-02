@@ -29,33 +29,40 @@ export default function Subscriptions() {
     }
   };
 
-  const cancelSubscription = async (id) => {
+  const cancelSubscription = async id => {
     setLoading(true);
     try {
       await axios.put('/subscriptions/' + id, {
         state: SUB_STATE.CANCELED
-      })
+      });
       getStudentSub();
     } catch (error) {
       console.log(error.response);
       setLoading(false);
     }
-  }
+  };
 
-  const completeSubscription = async (id) => {
+  const completeSubscription = async id => {
     setLoading(true);
     try {
       await axios.put('/subscriptions/' + id, {
         state: SUB_STATE.COMPLETED
-      })
+      });
       getStudentSub();
     } catch (error) {
       console.log(error.response);
       setLoading(false);
     }
-  }
+  };
 
   const columns = [
+    {
+      title: 'Date',
+      dataIndex: 'createdAt',
+      render: createdAt => {
+        return <div>{moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>;
+      }
+    },
     {
       title: 'Name',
       dataIndex: 'name'
@@ -65,27 +72,17 @@ export default function Subscriptions() {
       dataIndex: 'username'
     },
     {
-      title: 'Date',
-      dataIndex: 'createdAt',
-      render: createdAt => {
-        return <div>{moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
-      }
-    },
-    {
       title: 'Tier',
       dataIndex: 'tier',
       render: tier => {
         if (tier === SUB_TIER.SILVER) {
-          return <Tag color="#C0C0C0">Silver</Tag>
-        }
-        else if (tier === SUB_TIER.GOLD) {
-          return <Tag color="#DAA520">Gold</Tag>
-        }
-        else if (tier === SUB_TIER.PLATIUM) {
-          return <Tag color="processing">Platium</Tag>
-        }
-        else {
-          return <Tag>Normal</Tag>
+          return <Tag color="#C0C0C0">Silver</Tag>;
+        } else if (tier === SUB_TIER.GOLD) {
+          return <Tag color="#DAA520">Gold</Tag>;
+        } else if (tier === SUB_TIER.PLATIUM) {
+          return <Tag color="processing">Platium</Tag>;
+        } else {
+          return <Tag>Normal</Tag>;
         }
       }
     },
@@ -93,14 +90,14 @@ export default function Subscriptions() {
       title: 'Duration',
       dataIndex: 'duration',
       render: duration => {
-        return <div>{duration / 60000} mins</div>
+        return <div>{duration / 60000} mins</div>;
       }
     },
     {
       title: 'Price',
       dataIndex: 'price',
       render: price => {
-        return <div>{price}$</div>
+        return <div>{price}$</div>;
       }
     },
     {
@@ -108,13 +105,11 @@ export default function Subscriptions() {
       dataIndex: 'state',
       render: state => {
         if (state === SUB_STATE.COMPLETED) {
-          return <Tag color="success">Completed</Tag>
-        }
-        else if (state === SUB_STATE.PENDING) {
-          return <Tag color="blue">Pending</Tag>
-        }
-        else {
-          return <Tag color="error">Cancelled</Tag>
+          return <Tag color="success">Completed</Tag>;
+        } else if (state === SUB_STATE.PENDING) {
+          return <Tag color="blue">Pending</Tag>;
+        } else {
+          return <Tag color="error">Cancelled</Tag>;
         }
       }
     },
@@ -142,33 +137,28 @@ export default function Subscriptions() {
                 onConfirm={() => cancelSubscription(record.id)}
               >
                 Cancel
-            </Popconfirm>
+              </Popconfirm>
             </div>
-          )
-        }
-        else {
-          return <div>N/A</div>
+          );
+        } else {
+          return <div>N/A</div>;
         }
       }
-    },
+    }
   ];
 
   useEffect(() => {
     getStudentSub();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
   return (
     <div className={styles.subscriptions}>
       <Spin spinning={loading}>
         <Button className={styles.reload} onClick={getStudentSub} icon={<ReloadOutlined />}>
           Reload
-      </Button>
-        <Table
-          columns={columns}
-          dataSource={studentSub}
-          pagination={false}
-        />
+        </Button>
+        <Table columns={columns} dataSource={studentSub} pagination={false} />
       </Spin>
     </div>
-  )
+  );
 }

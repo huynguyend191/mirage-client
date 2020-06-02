@@ -67,3 +67,14 @@ export const REPORT_STATE = Object.freeze({
   PENDING: 2,
   CANCELLED: 3
 });
+
+export const HISTORY_COUNT = Object.freeze({
+  COUNTED: 1,
+  UNCOUNTED: 0
+});
+
+export const PAYMENT_STATE = Object.freeze({
+  COMPLETED: 1,
+  PENDING: 2,
+  CANCELED: 3
+});

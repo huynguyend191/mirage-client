@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Spin, Tag, Popconfirm, Button } from 'antd';
+import { Table, Spin, Tag } from 'antd';
 import axios from '../../lib/utils/axiosConfig';
 import { REPORT_STATE, ROLES } from '../../lib/constants';
 import moment from 'moment';
-import { ReloadOutlined } from '@ant-design/icons';
 import styles from './Reports.module.css';
-import { getTimeFromMs } from '../../lib/utils/formatTime';
 import ReportDetailModal from './ReportDetailModal';
 
 export default function Report() {

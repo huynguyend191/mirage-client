@@ -9,7 +9,7 @@ export default function StudentSub({ subscriptions }) {
       title: 'Date',
       dataIndex: 'createdAt',
       render: createdAt => {
-        return <div>{moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
+        return <div>{moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>;
       }
     },
     {
@@ -17,16 +17,13 @@ export default function StudentSub({ subscriptions }) {
       dataIndex: 'tier',
       render: tier => {
         if (tier === SUB_TIER.SILVER) {
-          return <Tag color="#C0C0C0">Silver</Tag>
-        }
-        else if (tier === SUB_TIER.GOLD) {
-          return <Tag color="#DAA520">Gold</Tag>
-        }
-        else if (tier === SUB_TIER.PLATIUM) {
-          return <Tag color="processing">Platium</Tag>
-        }
-        else {
-          return <Tag>Normal</Tag>
+          return <Tag color="#C0C0C0">Silver</Tag>;
+        } else if (tier === SUB_TIER.GOLD) {
+          return <Tag color="#DAA520">Gold</Tag>;
+        } else if (tier === SUB_TIER.PLATIUM) {
+          return <Tag color="processing">Platium</Tag>;
+        } else {
+          return <Tag>Normal</Tag>;
         }
       }
     },
@@ -34,14 +31,14 @@ export default function StudentSub({ subscriptions }) {
       title: 'Duration',
       dataIndex: 'duration',
       render: duration => {
-        return <div>{duration / 60000} mins</div>
+        return <div>{duration / 60000} mins</div>;
       }
     },
     {
       title: 'Price',
       dataIndex: 'price',
       render: price => {
-        return <div>{price}$</div>
+        return <div>{price}$</div>;
       }
     },
     {
@@ -49,24 +46,18 @@ export default function StudentSub({ subscriptions }) {
       dataIndex: 'state',
       render: state => {
         if (state === SUB_STATE.COMPLETED) {
-          return <Tag color="success">Completed</Tag>
-        }
-        else if (state === SUB_STATE.PENDING) {
-          return <Tag color="blue">Pending</Tag>
-        }
-        else {
-          return <Tag color="error">Cancelled</Tag>
+          return <Tag color="success">Completed</Tag>;
+        } else if (state === SUB_STATE.PENDING) {
+          return <Tag color="blue">Pending</Tag>;
+        } else {
+          return <Tag color="error">Cancelled</Tag>;
         }
       }
     }
   ];
   return (
     <div>
-      <Table
-        columns={columns}
-        dataSource={subscriptions}
-        pagination={false}
-      />
+      <Table columns={columns} dataSource={subscriptions} pagination={false} rowKey="id" />
     </div>
   );
 }
