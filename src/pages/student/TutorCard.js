@@ -3,8 +3,17 @@ import styles from './TutorCard.module.css';
 import { Card, Avatar, Tooltip, Tag, Rate } from 'antd';
 import { VideoCameraFilled, AudioFilled, UserOutlined, CheckCircleFilled, MinusCircleFilled } from '@ant-design/icons';
 import { serverUrl, STATUS } from '../../lib/constants';
+import axios from '../../lib/utils/axiosConfig';
 
-export default function TutorCard({ callWithVideo, openDetailModal, item, openReviewlModal }) {
+export default function TutorCard({ callWithVideo, openDetailModal, item, openReviewlModal, getPreferences }) {
+  const removeFav = async () => {
+    try {
+      await axios.delete('/preferences/' + item.preId);
+      getPreferences();
+    } catch (error) {
+      console.error(error.response);
+    }
+  };
   return (
     <Card
       actions={[
@@ -69,6 +78,11 @@ export default function TutorCard({ callWithVideo, openDetailModal, item, openRe
                 View reviews
               </p>
             )}
+            {item.isFav ? (
+              <div className={styles.removeFav} onClick={() => removeFav()}>
+                Remove
+              </div>
+            ) : null}
           </div>
         </div>
         <p>{item.profile.introduction}</p>

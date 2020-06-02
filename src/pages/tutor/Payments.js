@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styles from './Payments.module.css';
-import { Table, Spin, Tag, Button } from 'antd';
+import { Table, Spin, Tag } from 'antd';
 import axios from '../../lib/utils/axiosConfig';
 import { PAYMENT_STATE } from '../../lib/constants';
 import moment from 'moment';

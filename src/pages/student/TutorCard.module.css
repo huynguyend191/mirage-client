@@ -45,3 +45,10 @@
   font-weight: normal;
   font-size: 14px;
 }
+
+.removeFav {
+  color: red;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 14px;
+}

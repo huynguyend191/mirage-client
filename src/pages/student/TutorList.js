@@ -76,9 +76,11 @@ export default function TutorList({ startCall, onlineTutors, setTutor, remaining
     preferences.forEach(pre => {
       if (pre.type === PREFERENCE_TYPES.FAVORITE) {
         const favTutor = {
+          preId: pre.id,
           profile: pre.tutor,
           status: STATUS.OFFLINE,
-          username: pre.tutor.account.username
+          username: pre.tutor.account.username,
+          isFav: true
         };
         onlineTutors.forEach(tutor => {
           if (tutor.profile.id === pre.tutorId) {
@@ -203,6 +205,7 @@ export default function TutorList({ startCall, onlineTutors, setTutor, remaining
                   callWithVideo={callWithVideo}
                   openDetailModal={openDetailModal}
                   openReviewlModal={openReviewlModal}
+                  getPreferences={getPreferences}
                 />
               </List.Item>
             )}
