@@ -8,11 +8,12 @@ import CallModal from './CallModal';
 import TutorList from '../pages/student/TutorList';
 import styles from './VideoCall.module.css';
 import { getTimeFromMs } from '../lib/utils/formatTime';
-import endCallImg from '../assets/endcall.png'
-import { Modal, Button } from 'antd';
+import endCallImg from '../assets/endcall.png';
+import { Modal, Button, Popconfirm } from 'antd';
 import { StarOutlined, LikeOutlined } from '@ant-design/icons';
 import FeedbackModal from '../pages/student/FeedbackModal';
-
+import axios from '../lib/utils/axiosConfig';
+import { PREFERENCE_TYPES } from '../lib/constants';
 
 export default function VideoCall({ account, remainingTime, getStudent }) {
   // video call
@@ -40,14 +41,12 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
   useEffect(() => {
     //TODO check time with student, refresh after each call to get new time
     socket
-      .on(SOCKET_EVENTS.INIT, () => {
-        
-      })
+      .on(SOCKET_EVENTS.INIT, () => {})
       .on(SOCKET_EVENTS.REQUEST, ({ from }) => {
         setCallModal(true);
-        setCallFrom(from)
+        setCallFrom(from);
       })
-      .on(SOCKET_EVENTS.CALL, (data) => {
+      .on(SOCKET_EVENTS.CALL, data => {
         if (data.sdp) {
           pcRef.current.setRemoteDescription(data.sdp);
           if (data.sdp.type === 'offer') pcRef.current.createAnswer();
@@ -64,7 +63,7 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
         }
       })
       .on(SOCKET_EVENTS.END, () => endCall(false))
-      .on(SOCKET_EVENTS.GET_ONLINE_TUTORS, (data) => {
+      .on(SOCKET_EVENTS.GET_ONLINE_TUTORS, data => {
         setOnlineTutors(data.online);
       })
       .emit(SOCKET_EVENTS.INIT, { account });
@@ -76,60 +75,60 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
         .off(SOCKET_EVENTS.REQUEST)
         .off(SOCKET_EVENTS.CALL)
         .off(SOCKET_EVENTS.END)
-        .off(SOCKET_EVENTS.GET_ONLINE_TUTORS)
-    }
+        .off(SOCKET_EVENTS.GET_ONLINE_TUTORS);
+    };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
   useEffect(() => {
     if (peerSrc && account.role === ROLES.TUTOR) {
-      peerRecorder.current = new MediaRecorder(peerSrc, { mimeType: "video/webm; codecs=vp9" });
+      peerRecorder.current = new MediaRecorder(peerSrc, { mimeType: 'video/webm; codecs=vp9' });
       peerRecorder.current.ondataavailable = e => {
         if (e.data && e.data.size > 0) {
           socket.emit(SOCKET_EVENTS.RECORD_STUDENT, e.data);
         }
-      }
+      };
       peerRecorder.current.start(1000);
     }
   }, [peerSrc, account.role]);
 
   useEffect(() => {
     if (localSrc && account.role === ROLES.TUTOR) {
-      localRecorder.current = new MediaRecorder(localSrc, { mimeType: "video/webm; codecs=vp9" });
+      localRecorder.current = new MediaRecorder(localSrc, { mimeType: 'video/webm; codecs=vp9' });
       localRecorder.current.ondataavailable = e => {
         if (e.data && e.data.size > 0) {
           socket.emit(SOCKET_EVENTS.RECORD_TUTOR, e.data);
         }
-      }
+      };
       localRecorder.current.start(1000);
     }
   }, [localSrc, account.role]);
 
   const setTutor = tutorProfile => {
     tutor.current = tutorProfile;
-  }
+  };
 
   const startCall = (isCaller, friendID, config) => {
     configRef.current = config;
     pcRef.current = new PeerConnection(friendID)
-      .on('localStream', (src) => {
+      .on('localStream', src => {
         if (!isCaller) {
           setCallModal(false);
-        } 
+        }
         setCallWindow(true);
-        setLocalSrc(src)
+        setLocalSrc(src);
       })
       .on('peerStream', src => setPeerSrc(src))
       .start(isCaller, config);
-  }
+  };
 
   const rejectCall = () => {
     socket.emit(SOCKET_EVENTS.END, { to: callFrom.username });
     setCallModal(false);
-  }
+  };
 
-  const endCall = async (isStarter) => {
+  const endCall = async isStarter => {
     if (account.role === ROLES.TUTOR) {
       // record stream from tutor side
       socket.emit(SOCKET_EVENTS.CREATE_CALL_HISTORY, callFrom.student);
@@ -152,9 +151,9 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
     setCallWindow(false);
     setLocalSrc(null);
     setPeerSrc(null);
-  }
+  };
 
-  const stopRecording = async (e) => {
+  const stopRecording = async e => {
     if (account.role === ROLES.STUDENT) {
       if (peerRecorder.current && peerSrc) {
         peerRecorder.current.stop();
@@ -163,13 +162,13 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
         localRecorder.current.stop();
       }
     }
-  }
+  };
 
   const closeAfterCall = () => {
     setAfterCallModal(false);
     start.current = 0;
     end.current = 0;
-  }
+  };
 
   let renderCallFrom = null;
   let btnHolder = null;
@@ -179,34 +178,36 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
     renderCallFrom = tutor.current.name;
     btnHolder = (
       <div>
-        <Button
-          shape="round"
-          type="primary"
-          icon={<LikeOutlined />}
-          size="small"
-        >
-          Favorite
-        </Button>
-        <Button
-          shape="round"
-          icon={<StarOutlined />}
-          size="small"
-          onClick={() => setShowFeedback(true)}
-        >
+        <Popconfirm title="Add this tutor to your favorites?" okText="Yes" cancelText="No" onConfirm={() => addToFav()}>
+          <Button shape="round" type="primary" icon={<LikeOutlined />} size="small">
+            Favorite
+          </Button>
+        </Popconfirm>
+
+        <Button shape="round" icon={<StarOutlined />} size="small" onClick={() => setShowFeedback(true)}>
           Feedback
         </Button>
       </div>
-    )
+    );
   }
+
+  const addToFav = async () => {
+    try {
+      await axios.post('/preferences', {
+        studentId: account.student.id,
+        tutorId: tutor.current.id,
+        type: PREFERENCE_TYPES.FAVORITE
+      });
+      alert('Tutor is added to your favorites');
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
   return (
     <div className={styles.videoCall}>
-      <FeedbackModal
-        tutor={tutor.current}
-        showFeedback={showFeedback}
-        setShowFeedBack={setShowFeedback}
-      />
-      {(account.role === ROLES.STUDENT && !callWindow) && (
+      <FeedbackModal tutor={tutor.current} showFeedback={showFeedback} setShowFeedBack={setShowFeedback} />
+      {account.role === ROLES.STUDENT && !callWindow && (
         <TutorList
           onlineTutors={onlineTutors}
           startCall={startCall}
@@ -224,12 +225,7 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
           endCall={endCall}
         />
       )}
-      <CallModal
-        callModal={callModal}
-        startCall={startCall}
-        rejectCall={rejectCall}
-        callFrom={callFrom}
-      />
+      <CallModal callModal={callModal} startCall={startCall} rejectCall={rejectCall} callFrom={callFrom} />
       <Modal
         visible={afterCallModal}
         title="Call ended"
@@ -241,18 +237,12 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
         <div className={styles.afterCall}>
           <img className={styles.endCallImg} src={endCallImg} draggable={false} alt="" />
           <div>
-            <div className={styles.endUser}>
-              Call with {renderCallFrom}
-            </div>
-            <div className={styles.endDuration}>
-              Duration: {getTimeFromMs(end.current - start.current)}
-            </div>
-            <div className={styles.btnHolder}>
-              {btnHolder}
-            </div>
+            <div className={styles.endUser}>Call with {renderCallFrom}</div>
+            <div className={styles.endDuration}>Duration: {getTimeFromMs(end.current - start.current)}</div>
+            <div className={styles.btnHolder}>{btnHolder}</div>
           </div>
         </div>
       </Modal>
     </div>
-  )
+  );
 }

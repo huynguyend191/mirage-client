@@ -6,7 +6,6 @@ import { AccountContext } from '../../context/AccountContext';
 import moment from 'moment';
 import { getTimeFromMs } from '../../lib/utils/formatTime';
 import ReportModal from '../../components/ReportModal';
-import { HISTORY_COUNT } from '../../lib/constants';
 
 const { Search } = Input;
 

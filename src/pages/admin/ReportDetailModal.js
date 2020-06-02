@@ -79,6 +79,35 @@ export default function ReportDetailModal({ showReportDetail, selected, setShowR
             </Button>
           </div>
         ) : null}
+        {selected.state === REPORT_STATE.RESOLVED ? (
+          <div className={styles.statusControlBtnWrapper}>
+            <Button className={styles.statusControlBtn} onClick={() => updateReport(REPORT_STATE.PENDING)}>
+              Pending
+            </Button>
+            <Button
+              type="primary"
+              danger
+              className={styles.statusControlBtn}
+              onClick={() => updateReport(REPORT_STATE.CANCELLED)}
+            >
+              Cancel
+            </Button>
+          </div>
+        ) : null}
+        {selected.state === REPORT_STATE.CANCELLED ? (
+          <div className={styles.statusControlBtnWrapper}>
+            <Button
+              className={styles.statusControlBtn}
+              style={{ backgroundColor: '#52c41a', color: 'white', borderColor: '#52c41a' }}
+              onClick={() => updateReport(REPORT_STATE.RESOLVED)}
+            >
+              Resolve
+            </Button>
+            <Button className={styles.statusControlBtn} onClick={() => updateReport(REPORT_STATE.PENDING)}>
+              Pending
+            </Button>
+          </div>
+        ) : null}
       </div>
     </Modal>
   ) : null;

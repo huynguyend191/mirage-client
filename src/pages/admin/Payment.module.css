@@ -1,0 +1,23 @@
+.payments {
+  width: 1200px;
+  justify-content: center;
+  margin: 50px auto;
+}
+
+.acceptBtn {
+  cursor: pointer;
+  color: #52c41a;
+  margin-right: 5px;
+}
+
+.cancelBtn {
+  color: red;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.pendingBtn {
+  color: #1890ff;
+  cursor: pointer;
+  margin-right: 5px;
+}

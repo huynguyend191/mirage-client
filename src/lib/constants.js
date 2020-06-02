@@ -35,7 +35,8 @@ export const SOCKET_EVENTS = Object.freeze({
 
 export const STATUS = Object.freeze({
   AVAILABLE: 1,
-  BUSY: 0
+  BUSY: 0,
+  OFFLINE: 2
 });
 
 export const SUB_STATE = Object.freeze({
@@ -77,4 +78,9 @@ export const PAYMENT_STATE = Object.freeze({
   COMPLETED: 1,
   PENDING: 2,
   CANCELED: 3
+});
+
+export const PREFERENCE_TYPES = Object.freeze({
+  FAVORITE: 1,
+  RECOMMEND: 2
 });

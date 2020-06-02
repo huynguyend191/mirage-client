@@ -25,7 +25,6 @@
   align-items: center;
 }
 
-
 .reviewCount {
   font-size: 14px;
   font-weight: 500;
@@ -38,4 +37,11 @@
 
 .reviewWrapper {
   cursor: pointer;
+}
+
+.viewReviews {
+  color: #1890ff;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 14px;
 }
