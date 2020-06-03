@@ -40,7 +40,7 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
       setShowDetailModal(false);
     } catch (error) {
       setStateLoading(false);
-      console.log(error.response);
+      alert(error.response);
     }
   };
 

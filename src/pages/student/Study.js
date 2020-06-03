@@ -20,16 +20,14 @@ export default function Study() {
       const result = await axios.get('/students/' + account.student.id);
       setStudent(result.data.student);
     } catch (error) {
-      console.log(error)
+      alert(error.response);
     }
-  }
+  };
 
   let renderStudy = null;
-  if ((account && account.verification)) {
+  if (account && account.verification) {
     if (student && student.remaining_time > 0) {
-      renderStudy = (
-        <VideoCall account={account} remainingTime={student.remaining_time} getStudent={getStudent} />
-      )
+      renderStudy = <VideoCall account={account} remainingTime={student.remaining_time} getStudent={getStudent} />;
     } else {
       renderStudy = (
         <div className={styles.unverify}>
@@ -39,7 +37,7 @@ export default function Study() {
             <p>Please subscribe to continue.</p>
           </div>
         </div>
-      )
+      );
     }
   } else {
     renderStudy = (
@@ -50,12 +48,8 @@ export default function Study() {
           <p>Verify your account to start now!</p>
         </div>
       </div>
-    )
+    );
   }
 
-  return (
-    <div className={styles.study}>
-      {renderStudy}
-    </div>
-  )
+  return <div className={styles.study}>{renderStudy}</div>;
 }

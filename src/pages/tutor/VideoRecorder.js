@@ -43,16 +43,20 @@ export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfi
       cancelRecord();
       refreshProfile();
     } catch (error) {
-      console.log(error.response);
+      alert(error.response);
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     player.current = videojs(videoNode.current, videoJsOptions, () => {
-      const version_info = 'Using video.js ' + videojs.VERSION +
-        ' with videojs-record ' + videojs.getPluginVersion('record') +
-        ' and recordrtc ' + RecordRTC.version;
+      const version_info =
+        'Using video.js ' +
+        videojs.VERSION +
+        ' with videojs-record ' +
+        videojs.getPluginVersion('record') +
+        ' and recordrtc ' +
+        RecordRTC.version;
       videojs.log(version_info);
     });
     player.current.on('deviceReady', () => {
@@ -81,23 +85,34 @@ export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfi
       if (player.current) {
         player.current.dispose();
       }
-    }
+    };
   }, []);
   return (
     <div>
       <div data-vjs-player>
-        <video id="myVideoRecord" ref={node => videoNode.current = node} className="video-js vjs-default-skin" playsInline></video>
+        <video
+          id="myVideoRecord"
+          ref={node => (videoNode.current = node)}
+          className="video-js vjs-default-skin"
+          playsInline
+        ></video>
       </div>
       {existedVideo ? (
         <div className={styles.btnWrapper}>
-          <Button className={styles.videoBtn} onClick={uploadVideo} loading={loading}>Upload</Button>
-          <Button className={styles.videoBtn} type="danger" onClick={cancelRecord}>Cancel</Button>
+          <Button className={styles.videoBtn} onClick={uploadVideo} loading={loading}>
+            Upload
+          </Button>
+          <Button className={styles.videoBtn} type="danger" onClick={cancelRecord}>
+            Cancel
+          </Button>
         </div>
       ) : (
         <div className={styles.btnWrapperNoCancel}>
-          <Button className={styles.videoBtn} onClick={uploadVideo} loading={loading}>Upload</Button>
+          <Button className={styles.videoBtn} onClick={uploadVideo} loading={loading}>
+            Upload
+          </Button>
         </div>
       )}
     </div>
-  )
+  );
 }

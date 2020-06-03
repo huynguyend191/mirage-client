@@ -24,7 +24,7 @@ export default function Subscriptions() {
       setStudentSub(subs);
       setLoading(false);
     } catch (error) {
-      console.log(error.response);
+      alert(error.response);
       setLoading(false);
     }
   };
@@ -37,7 +37,7 @@ export default function Subscriptions() {
       });
       getStudentSub();
     } catch (error) {
-      console.log(error.response);
+      alert(error.response);
       setLoading(false);
     }
   };
@@ -50,7 +50,7 @@ export default function Subscriptions() {
       });
       getStudentSub();
     } catch (error) {
-      console.log(error.response);
+      alert(error.response);
       setLoading(false);
     }
   };

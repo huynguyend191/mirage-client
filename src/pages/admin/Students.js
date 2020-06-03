@@ -9,7 +9,7 @@ export default function Students() {
   const [pageSize, setPageSize] = useState(10);
   const [students, setStudents] = useState([]);
   const [page, setPage] = useState(1);
-  const [searchKey, setSearchKey] = useState("");
+  const [searchKey, setSearchKey] = useState('');
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -30,14 +30,14 @@ export default function Students() {
           state: student.account.state,
           verification: student.account.verification,
           accountId: student.account.id
-        })
+        });
       });
       setTotal(result.data.totalResults);
       setStudents(tableData);
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error.response);
+      alert(error.response);
     }
   };
 
@@ -58,14 +58,17 @@ export default function Students() {
     {
       title: 'Email',
       dataIndex: 'email'
-    }, {
+    },
+    {
       title: 'State',
       dataIndex: 'state',
       render: state => (state ? <Tag color="success">Active</Tag> : <Tag color="error">Inactive</Tag>)
-    }, {
+    },
+    {
       title: 'Verification',
       dataIndex: 'verification',
-      render: verification => (verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>)
+      render: verification =>
+        verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>
     }
   ];
 
@@ -88,12 +91,12 @@ export default function Students() {
         setSelected(record);
         setShowDetailModal(true);
       }
-    }
+    };
   };
 
-  const searchUser = (value) => {
+  const searchUser = value => {
     setSearchKey(value);
-  }
+  };
 
   return (
     <div className={styles.studentsLayout}>
@@ -107,12 +110,7 @@ export default function Students() {
         <Search placeholder="Search for username, name or email" onSearch={searchUser} enterButton />
       </div>
       <Spin spinning={loading}>
-        <Table
-          columns={columns}
-          dataSource={students}
-          pagination={false}
-          onRow={onSelectRow}
-        />
+        <Table columns={columns} dataSource={students} pagination={false} onRow={onSelectRow} />
       </Spin>
       <div className={styles.paginationWrapper}>
         <Pagination

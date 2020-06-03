@@ -23,9 +23,9 @@ export default function ExtendSubscription() {
       setPurchaseLoading(false);
     } catch (error) {
       setPurchaseLoading(false);
-      console.log(error.response);
+      alert(error.response);
     }
-  }
+  };
 
   return (
     <div className={styles.extendSub}>
@@ -37,9 +37,19 @@ export default function ExtendSubscription() {
               <div className={styles.extendDuration}>60 minutes</div>
               <Divider />
               <img className={styles.tierImage} src={Normal} alt="" draggable="false" />
-              <div className={styles.extendPrice}>{Number(60 * PRICE_PER_MIN * SUB_DISCOUNT_RATE.NORMAL).toFixed(2)}$</div>
-              <Popconfirm placement="top" title="Do you want to create purchase request?" onConfirm={() => createPurchase(60, SUB_TIER.NORMAL)} okText="Yes" cancelText="No">
-                <Button type="primary" shape="round" loading={purchaseLoading}>Purchase</Button>
+              <div className={styles.extendPrice}>
+                {Number(60 * PRICE_PER_MIN * SUB_DISCOUNT_RATE.NORMAL).toFixed(2)}$
+              </div>
+              <Popconfirm
+                placement="top"
+                title="Do you want to create purchase request?"
+                onConfirm={() => createPurchase(60, SUB_TIER.NORMAL)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary" shape="round" loading={purchaseLoading}>
+                  Purchase
+                </Button>
               </Popconfirm>
             </div>
           </Card>
@@ -51,9 +61,20 @@ export default function ExtendSubscription() {
               <div className={styles.extendDuration}>120 minutes</div>
               <Divider />
               <img className={styles.tierImage} src={Silver} alt="" draggable="false" />
-              <div className={styles.extendPrice}>{Number(120 * PRICE_PER_MIN * SUB_DISCOUNT_RATE.SILVER).toFixed(2)}$ <span className={styles.extendSave}>(Save 15%)</span></div>
-              <Popconfirm placement="top" title="Do you want to create purchase request?" onConfirm={() => createPurchase(120, SUB_TIER.SILVER)} okText="Yes" cancelText="No">
-                <Button type="primary" shape="round" loading={purchaseLoading}>Purchase</Button>
+              <div className={styles.extendPrice}>
+                {Number(120 * PRICE_PER_MIN * SUB_DISCOUNT_RATE.SILVER).toFixed(2)}${' '}
+                <span className={styles.extendSave}>(Save 15%)</span>
+              </div>
+              <Popconfirm
+                placement="top"
+                title="Do you want to create purchase request?"
+                onConfirm={() => createPurchase(120, SUB_TIER.SILVER)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary" shape="round" loading={purchaseLoading}>
+                  Purchase
+                </Button>
               </Popconfirm>
             </div>
           </Card>
@@ -65,9 +86,20 @@ export default function ExtendSubscription() {
               <div className={styles.extendDuration}>480 minutes</div>
               <Divider />
               <img className={styles.tierImage} src={Gold} alt="" draggable="false" />
-              <div className={styles.extendPrice}>{Number(480 * PRICE_PER_MIN * SUB_DISCOUNT_RATE.GOLD).toFixed(2)}$ <span className={styles.extendSave}>(Save 25%)</span></div>
-              <Popconfirm placement="top" title="Do you want to create purchase request?" onConfirm={() => createPurchase(480, SUB_TIER.GOLD)} okText="Yes" cancelText="No">
-                <Button type="primary" shape="round" loading={purchaseLoading}>Purchase</Button>
+              <div className={styles.extendPrice}>
+                {Number(480 * PRICE_PER_MIN * SUB_DISCOUNT_RATE.GOLD).toFixed(2)}${' '}
+                <span className={styles.extendSave}>(Save 25%)</span>
+              </div>
+              <Popconfirm
+                placement="top"
+                title="Do you want to create purchase request?"
+                onConfirm={() => createPurchase(480, SUB_TIER.GOLD)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary" shape="round" loading={purchaseLoading}>
+                  Purchase
+                </Button>
               </Popconfirm>
             </div>
           </Card>
@@ -79,14 +111,25 @@ export default function ExtendSubscription() {
               <div className={styles.extendDuration}>720 minutes</div>
               <Divider />
               <img className={styles.tierImage} src={Platium} alt="" draggable="false" />
-              <div className={styles.extendPrice}>{Number(720 * PRICE_PER_MIN * SUB_DISCOUNT_RATE.PLATIUM).toFixed(2)}$ <span className={styles.extendSave}>(Save 35%)</span></div>
-              <Popconfirm placement="top" title="Do you want to create purchase request?" onConfirm={() => createPurchase(720, SUB_TIER.PLATIUM)} okText="Yes" cancelText="No">
-                <Button type="primary" shape="round" loading={purchaseLoading}>Purchase</Button>
+              <div className={styles.extendPrice}>
+                {Number(720 * PRICE_PER_MIN * SUB_DISCOUNT_RATE.PLATIUM).toFixed(2)}${' '}
+                <span className={styles.extendSave}>(Save 35%)</span>
+              </div>
+              <Popconfirm
+                placement="top"
+                title="Do you want to create purchase request?"
+                onConfirm={() => createPurchase(720, SUB_TIER.PLATIUM)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary" shape="round" loading={purchaseLoading}>
+                  Purchase
+                </Button>
               </Popconfirm>
             </div>
           </Card>
         </Col>
       </Row>
     </div>
-  )
+  );
 }

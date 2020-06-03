@@ -11,17 +11,17 @@ import {
   ContactsOutlined,
   VideoCameraOutlined,
   HistoryOutlined,
-  DollarCircleOutlined
+  BarChartOutlined
 } from '@ant-design/icons';
 import ForgotPasswordModal from '../../components/ForgotPasswordModal';
 import ChangePasswordModal from '../../components/ChangePasswordModal';
 import Profile from './Profile';
-import Payments from './Payments';
 import Teaching from './Teaching';
 import TutorCallHistories from './TutorCallHistories';
 import { Switch, Route, Link } from 'react-router-dom';
 import SideBarLogo from '../../components/SideBarLogo';
 import { serverUrl } from '../../lib/constants';
+import Stats from './Stats';
 
 const { Header, Content, Sider } = Layout;
 
@@ -77,10 +77,10 @@ export default function Tutor(props) {
               <span>Call histories</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="/tutor/payments">
-            <DollarCircleOutlined />
-            <Link to="/tutor/payments">
-              <span>Payments</span>
+          <Menu.Item key="/tutor/stats">
+            <BarChartOutlined />
+            <Link to="/tutor/stats">
+              <span>Stats</span>
             </Link>
           </Menu.Item>
         </Menu>
@@ -99,7 +99,7 @@ export default function Tutor(props) {
         </Header>
         <Content>
           <Switch>
-            <Route path="/tutor/payments" component={Payments} />
+            <Route path="/tutor/stats" component={Stats} />
             <Route path="/tutor/teaching" component={Teaching} />
             <Route path="/tutor/call-histories" component={TutorCallHistories} />
             <Route path="/tutor" component={Profile} exact />

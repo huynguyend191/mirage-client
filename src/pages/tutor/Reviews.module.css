@@ -1,0 +1,9 @@
+.reviews {
+  background-color: #fff;
+  width: 600px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

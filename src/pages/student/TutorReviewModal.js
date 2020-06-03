@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-// import styles from './TutorReviewModal.module.css';
 import { Modal, List } from 'antd';
 import axios from '../../lib/utils/axiosConfig';
 import { getReviewCount } from '../../lib/utils/getReviewCount';
 import ReviewSummary from '../../components/ReviewSummary';
 import Review from '../../components/Review';
-
 
 export default function TutorReviewModal({ selected, showReviewModal, setShowReviewModal }) {
   const [reviews, setReviews] = useState(null);
@@ -18,7 +16,7 @@ export default function TutorReviewModal({ selected, showReviewModal, setShowRev
     } catch (error) {
       console.log(error.response);
     }
-  }
+  };
 
   useEffect(() => {
     if (selected) {
@@ -26,7 +24,6 @@ export default function TutorReviewModal({ selected, showReviewModal, setShowRev
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
-
 
   return (
     <Modal
@@ -36,13 +33,11 @@ export default function TutorReviewModal({ selected, showReviewModal, setShowRev
       footer={null}
       width="600px"
       destroyOnClose
-      bodyStyle={{ maxHeight: "600px", overflow: "auto" }}
+      bodyStyle={{ maxHeight: '600px', overflow: 'auto' }}
     >
-      {reviews ?
-        (<div>
-          <ReviewSummary
-            reviews={reviews}
-          />
+      {reviews ? (
+        <div>
+          <ReviewSummary reviews={reviews} />
           <List
             itemLayout="horizontal"
             dataSource={reviews.reviews}
@@ -51,11 +46,9 @@ export default function TutorReviewModal({ selected, showReviewModal, setShowRev
                 <Review review={item} getTutorReview={getTutorReview} />
               </List.Item>
             )}
-          />,
-        </div>)
-        : null
-
-      }
+          />
+        </div>
+      ) : null}
     </Modal>
-  )
+  );
 }

@@ -10,60 +10,48 @@ export default function ChangePasswordModal({ isVisible, onForgot, onClose }) {
   const [loading, setLoading] = useState(false);
   const { account } = useContext(AccountContext);
 
-  const onFinish = async (values) => {
+  const onFinish = async values => {
     try {
       setLoading(true);
       const password = {
         oldPassword: values.oldpassword,
         newPassword: values.password
-      }
-      const result = await axios.post('/accounts/' + account.id + '/change-password', password);
-      console.log(result);
+      };
+      await axios.post('/accounts/' + account.id + '/change-password', password);
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error.response);
+      alert(error.response);
     }
   };
   const onCancel = () => {
-    form.resetFields()
+    form.resetFields();
     onClose();
   };
   const forgotPassword = () => {
     onCancel();
     onForgot();
-  }
+  };
 
   const layout = {
     labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
+    wrapperCol: { span: 16 }
   };
   const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
+    wrapperCol: { offset: 8, span: 16 }
   };
 
   return (
-    <Modal
-      visible={isVisible}
-      footer={null}
-      title="Change your password"
-      onCancel={onCancel}
-      width="500px"
-    >
-      <Form
-        {...layout}
-        name="change-password"
-        onFinish={onFinish}
-        form={form}
-      >
+    <Modal visible={isVisible} footer={null} title="Change your password" onCancel={onCancel} width="500px">
+      <Form {...layout} name="change-password" onFinish={onFinish} form={form}>
         <Form.Item
           name="oldpassword"
           label="Current password"
           rules={[
             {
               required: true,
-              message: 'Please input your current password!',
-            },
+              message: 'Please input your current password!'
+            }
           ]}
         >
           <Input.Password />
@@ -74,8 +62,8 @@ export default function ChangePasswordModal({ isVisible, onForgot, onClose }) {
           rules={[
             {
               required: true,
-              message: 'Please input your new password!',
-            },
+              message: 'Please input your new password!'
+            }
           ]}
           hasFeedback
         >
@@ -89,7 +77,7 @@ export default function ChangePasswordModal({ isVisible, onForgot, onClose }) {
           rules={[
             {
               required: true,
-              message: 'Please confirm your password!',
+              message: 'Please confirm your password!'
             },
             ({ getFieldValue }) => ({
               validator(rule, value) {
@@ -97,8 +85,8 @@ export default function ChangePasswordModal({ isVisible, onForgot, onClose }) {
                   return Promise.resolve();
                 }
                 return Promise.reject('The two passwords that you entered do not match!');
-              },
-            }),
+              }
+            })
           ]}
         >
           <Input.Password />
@@ -107,11 +95,13 @@ export default function ChangePasswordModal({ isVisible, onForgot, onClose }) {
           <Button type="primary" htmlType="submit" className={styles.registerButton} loading={loading}>
             Update password
           </Button>
-          {account.role === ROLES.ADMIN ? 
-            null : 
-            <span className={styles.forgotPass} onClick={forgotPassword}>Forgot password?</span>}
+          {account.role === ROLES.ADMIN ? null : (
+            <span className={styles.forgotPass} onClick={forgotPassword}>
+              Forgot password?
+            </span>
+          )}
         </Form.Item>
       </Form>
     </Modal>
-  )
+  );
 }

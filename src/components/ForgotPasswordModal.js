@@ -10,42 +10,27 @@ export default function ForgotPasswordModal({ isVisible, onClose }) {
   const [loading, setLoading] = useState(false);
   const { account } = useContext(AccountContext);
 
-  const onFinish = async (values) => {
+  const onFinish = async values => {
     try {
       setLoading(true);
-      const result = await axios.post('/accounts/reset-password', { user: values.user });
-      console.log(result.data);
+      await axios.post('/accounts/reset-password', { user: values.user });
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error.response);
+      alert(error.response);
     }
   };
   const onCancel = () => {
-    form.resetFields()
+    form.resetFields();
     onClose();
-  }
+  };
 
   const defaultUser = account ? account.email : null;
 
   return (
-    <Modal
-      visible={isVisible}
-      footer={null}
-      title="Reset your password"
-      width="350px"
-      onCancel={onCancel}
-    >
-      <Form
-        name="forgot_password"
-        form={form}
-        onFinish={onFinish}
-        initialValues={{ user: defaultUser }}
-      >
-        <Form.Item
-          name="user"
-          rules={[{ required: true, message: 'Please input your username or email!' }]}
-        >
+    <Modal visible={isVisible} footer={null} title="Reset your password" width="350px" onCancel={onCancel}>
+      <Form name="forgot_password" form={form} onFinish={onFinish} initialValues={{ user: defaultUser }}>
+        <Form.Item name="user" rules={[{ required: true, message: 'Please input your username or email!' }]}>
           <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Enter your username or email" />
         </Form.Item>
         <Form.Item>
@@ -55,5 +40,5 @@ export default function ForgotPasswordModal({ isVisible, onClose }) {
         </Form.Item>
       </Form>
     </Modal>
-  )
+  );
 }

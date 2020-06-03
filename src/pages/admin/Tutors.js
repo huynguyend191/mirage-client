@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../lib/utils/axiosConfig';
-import { Table, Tag, Pagination, Input, Spin} from 'antd';
+import { Table, Tag, Pagination, Input, Spin } from 'antd';
 import styles from './Tutors.module.css';
 import { PROFILE_STATUS } from '../../lib/constants';
 import TutorProfile from './TutorProfile';
 const { Search } = Input;
 
-
 export default function Tutors() {
   const [pageSize, setPageSize] = useState(10);
   const [tutors, setTutors] = useState([]);
   const [page, setPage] = useState(1);
-  const [searchKey, setSearchKey] = useState("");
+  const [searchKey, setSearchKey] = useState('');
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -33,17 +32,17 @@ export default function Tutors() {
           verification: tutor.account.verification,
           accountId: tutor.account.id,
           profileStatus: tutor.profileStatus
-        })
+        });
       });
       setTotal(result.data.totalResults);
       setTutors(tableData);
       setLoading(false);
     } catch (error) {
-      console.log(error.response);
+      alert(error.response);
       setLoading(false);
     }
   };
- 
+
   useEffect(() => {
     getTutorsData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,25 +69,23 @@ export default function Tutors() {
     {
       title: 'Verification',
       dataIndex: 'verification',
-      render: verification => (verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>)
+      render: verification =>
+        verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>
     },
     {
       title: 'Profile status',
       dataIndex: 'profileStatus',
       render: profileStatus => {
         if (profileStatus === PROFILE_STATUS.ACCEPTED) {
-          return <Tag color="success">Accepted</Tag>
-        }
-        else if (profileStatus === PROFILE_STATUS.PENDING) {
-          return <Tag color="blue">Pending</Tag>
-        }
-        else {
-          return <Tag color="error">Rejected</Tag>
+          return <Tag color="success">Accepted</Tag>;
+        } else if (profileStatus === PROFILE_STATUS.PENDING) {
+          return <Tag color="blue">Pending</Tag>;
+        } else {
+          return <Tag color="error">Rejected</Tag>;
         }
       }
     }
   ];
-
 
   const showTotal = () => {
     return `Total ${total} results`;
@@ -109,10 +106,10 @@ export default function Tutors() {
         setSelected(record);
         setShowDetailModal(true);
       }
-    }
+    };
   };
 
-  const searchUser = (value) => {
+  const searchUser = value => {
     setSearchKey(value);
   };
 
@@ -128,12 +125,7 @@ export default function Tutors() {
         <Search placeholder="Search for username, name or email" onSearch={searchUser} enterButton />
       </div>
       <Spin spinning={loading}>
-        <Table
-          columns={columns}
-          dataSource={tutors}
-          pagination={false}
-          onRow={onSelectRow}
-        />
+        <Table columns={columns} dataSource={tutors} pagination={false} onRow={onSelectRow} />
       </Spin>
       <div className={styles.paginationWrapper}>
         <Pagination
@@ -148,5 +140,5 @@ export default function Tutors() {
         />
       </div>
     </div>
-  )
+  );
 }

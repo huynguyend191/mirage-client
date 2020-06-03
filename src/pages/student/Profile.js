@@ -27,33 +27,36 @@ export default function Profile() {
       setLoadingProfile(false);
     } catch (error) {
       setLoadingProfile(false);
-      console.log(error.response);
+      alert(error.response);
     }
-  }
+  };
 
   useEffect(() => {
     getStudentProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const avatarProfile = (profile && profile.avatar) ?
-    <Avatar src={serverUrl + profile.avatar} size={100} />
-    : <Avatar icon={<UserOutlined />} size={100} />
+  const avatarProfile =
+    profile && profile.avatar ? (
+      <Avatar src={serverUrl + profile.avatar} size={100} />
+    ) : (
+      <Avatar icon={<UserOutlined />} size={100} />
+    );
 
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 5 },
+      sm: { span: 5 }
     },
     wrapperCol: {
       xs: { span: 24 },
-      sm: { span: 16 },
-    },
+      sm: { span: 16 }
+    }
   };
   const uploadBtnLayout = {
     wrapperCol: { offset: 5, span: 16 }
-  }
-  const onSubmit = async (values) => {
+  };
+  const onSubmit = async values => {
     try {
       setLoading(true);
       await axios.put('/students/' + profile.id, values);
@@ -61,9 +64,9 @@ export default function Profile() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error.response)
+      alert(error.response);
     }
-  }
+  };
 
   const uploadAvaProps = {
     onRemove: file => {
@@ -76,9 +79,8 @@ export default function Profile() {
       }
       return false;
     },
-    fileList: avatar,
-  }
-
+    fileList: avatar
+  };
 
   const uploadAvatar = async () => {
     try {
@@ -86,25 +88,25 @@ export default function Profile() {
       const formData = new FormData();
       formData.append('avatar', avatar[0]);
       await axios('/students/avatar/' + profile.account.username, {
-        method: "POST",
-        data: formData,
+        method: 'POST',
+        data: formData
       });
       await getStudentProfile();
       window.location.reload(false);
       setLoadingAva(false);
     } catch (error) {
       setLoadingAva(false);
-      console.log(error.response)
+      alert(error.response);
     }
-  }
+  };
 
   const resendConfirmation = async () => {
     try {
       await axios.post('/accounts/resend-verify', { email: profile.account.email });
     } catch (error) {
-      console.log(error.response)
+      alert(error.response);
     }
-  }
+  };
 
   return (
     <Spin spinning={loadingProfile}>
@@ -118,8 +120,13 @@ export default function Profile() {
             {account.verification ? (
               <Tag color="success">Verified</Tag>
             ) : (
-                <span><Tag color="default">Unverified</Tag><Button type="link" onClick={resendConfirmation}>Resend confirmation email</Button></span>
-              )}
+              <span>
+                <Tag color="default">Unverified</Tag>
+                <Button type="link" onClick={resendConfirmation}>
+                  Resend confirmation email
+                </Button>
+              </span>
+            )}
           </div>
         </div>
         <div className={styles.collapse}>
@@ -135,11 +142,11 @@ export default function Profile() {
                 student_type: profile.student_type ? profile.student_type : undefined,
                 student_lvl: profile.student_lvl ? profile.student_lvl : undefined,
                 accent: profile.accent ? profile.accent : undefined,
-                specialities: (profile.specialities) ? JSON.parse(profile.specialities) : undefined,
-                teaching_styles: (profile.teaching_styles) ? JSON.parse(profile.teaching_styles) : undefined,
+                specialities: profile.specialities ? JSON.parse(profile.specialities) : undefined,
+                teaching_styles: profile.teaching_styles ? JSON.parse(profile.teaching_styles) : undefined
               }}
             >
-              <Collapse defaultActiveKey={["1", "2"]}>
+              <Collapse defaultActiveKey={['1', '2']}>
                 <Panel header="Basic info" key="1">
                   <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please enter your name' }]}>
                     <Input placeholder="Your fullname" value={profile.name} />
@@ -152,49 +159,79 @@ export default function Profile() {
                   </Form.Item>
                   <Form.Item name="avatar" label="Upload avatar">
                     <Upload {...uploadAvaProps} listType="picture-card">
-                      <Button icon={<FileImageOutlined />}>
-                        Change avatar
-                    </Button>
+                      <Button icon={<FileImageOutlined />}>Change avatar</Button>
                     </Upload>
                   </Form.Item>
                   <Form.Item {...uploadBtnLayout}>
-                    <Button disabled={avatar.length <= 0} onClick={uploadAvatar} loading={loadingAva} style={{ width: "159px" }}><UploadOutlined /> Upload avatar</Button>
+                    <Button
+                      disabled={avatar.length <= 0}
+                      onClick={uploadAvatar}
+                      loading={loadingAva}
+                      style={{ width: '159px' }}
+                    >
+                      <UploadOutlined /> Upload avatar
+                    </Button>
                   </Form.Item>
                 </Panel>
                 <Panel header="Study preferences" key="2">
-                  <Alert style={{ marginBottom: "15px" }} message="Complete your profile to help finding appropriate tutors easier" type="info" showIcon />
+                  <Alert
+                    style={{ marginBottom: '15px' }}
+                    message="Complete your profile to help finding appropriate tutors easier"
+                    type="info"
+                    showIcon
+                  />
                   <Form.Item name="student_type" label="Type">
-                    <Select placeholder="What type of student are you?" >
+                    <Select placeholder="What type of student are you?">
                       {preferences.STUDENT_TYPE.map(type => {
-                        return <Option value={type} key={type}>{type}</Option>
+                        return (
+                          <Option value={type} key={type}>
+                            {type}
+                          </Option>
+                        );
                       })}
                     </Select>
                   </Form.Item>
                   <Form.Item name="student_lvl" label="Your level">
                     <Select placeholder="Your English level">
                       {preferences.STUDENT_LVL.map(lvl => {
-                        return <Option value={lvl} key={lvl}>{lvl}</Option>
+                        return (
+                          <Option value={lvl} key={lvl}>
+                            {lvl}
+                          </Option>
+                        );
                       })}
                     </Select>
                   </Form.Item>
                   <Form.Item name="accent" label="Favorite accent">
                     <Select placeholder="What is your favorite English accent?">
                       {preferences.ENG_ACCENT.map(accent => {
-                        return <Option value={accent} key={accent}>{accent}</Option>
+                        return (
+                          <Option value={accent} key={accent}>
+                            {accent}
+                          </Option>
+                        );
                       })}
                     </Select>
                   </Form.Item>
                   <Form.Item name="specialities" label="Interests">
                     <Select mode="multiple" placeholder="What do you want to study?">
                       {preferences.SPECIALITIES.map(spec => {
-                        return <Option value={spec} key={spec}>{spec}</Option>
+                        return (
+                          <Option value={spec} key={spec}>
+                            {spec}
+                          </Option>
+                        );
                       })}
                     </Select>
                   </Form.Item>
                   <Form.Item name="teaching_styles" label="Teaching styles">
                     <Select mode="multiple" placeholder="Which styles of teaching do you prefer?">
                       {preferences.TEACHING_STYLE.map(style => {
-                        return <Option value={style} key={style}>{style}</Option>
+                        return (
+                          <Option value={style} key={style}>
+                            {style}
+                          </Option>
+                        );
                       })}
                     </Select>
                   </Form.Item>
@@ -203,7 +240,7 @@ export default function Profile() {
               <div className={styles.submitWrapper}>
                 <Button type="primary" htmlType="submit" loading={loading}>
                   Update profile
-              </Button>
+                </Button>
               </div>
             </Form>
           ) : null}

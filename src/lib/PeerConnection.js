@@ -6,16 +6,17 @@ const PC_CONFIG = { iceServers: [{ urls: ['stun:stun.l.google.com:19302'] }] };
 
 class PeerConnection extends Emitter {
   /**
-     * Create a PeerConnection.
-     * @param {String} friendID - ID of the friend you want to call.
-     */
+   * Create a PeerConnection.
+   * @param {String} friendID - ID of the friend you want to call.
+   */
   constructor(friendID) {
     super();
     this.pc = new RTCPeerConnection(PC_CONFIG);
-    this.pc.onicecandidate = event => socket.emit('call', {
-      to: this.friendID,
-      candidate: event.candidate
-    });
+    this.pc.onicecandidate = event =>
+      socket.emit('call', {
+        to: this.friendID,
+        candidate: event.candidate
+      });
     this.pc.ontrack = event => this.emit('peerStream', event.streams[0]);
 
     this.mediaDevice = new MediaDevice();
@@ -29,8 +30,8 @@ class PeerConnection extends Emitter {
    */
   start(isCaller, config) {
     this.mediaDevice
-      .on('stream', (stream) => {
-        stream.getTracks().forEach((track) => {
+      .on('stream', stream => {
+        stream.getTracks().forEach(track => {
           this.pc.addTrack(track, stream);
         });
         this.emit('localStream', stream);
@@ -60,16 +61,18 @@ class PeerConnection extends Emitter {
   }
 
   createOffer() {
-    this.pc.createOffer()
+    this.pc
+      .createOffer()
       .then(this.getDescription.bind(this))
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
     return this;
   }
 
   createAnswer() {
-    this.pc.createAnswer()
+    this.pc
+      .createAnswer()
       .then(this.getDescription.bind(this))
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
     return this;
   }
 

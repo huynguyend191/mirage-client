@@ -118,7 +118,7 @@ export default function TutorList({ startCall, onlineTutors, setTutor, remaining
       const result = await axios.get('/preferences?studentId=' + account.student.id);
       setPreferences(result.data.preferences);
     } catch (error) {
-      console.log(error.response);
+      alert(error.response);
     }
   };
 

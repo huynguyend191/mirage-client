@@ -26,7 +26,7 @@ export default function StudentProfile({ selected, getStudentsData, setShowDetai
       setShowDetailModal(false);
     } catch (error) {
       setStateLoading(false);
-      console.log(error.response);
+      alert(error.response);
     }
   };
 

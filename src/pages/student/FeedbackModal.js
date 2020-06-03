@@ -11,28 +11,28 @@ export default function FeedbackModal({ showFeedback, setShowFeedBack, tutor }) 
 
   const layout = {
     labelCol: { span: 4 },
-    wrapperCol: { span: 16 },
+    wrapperCol: { span: 16 }
   };
 
   const tailLayout = {
-    wrapperCol: { offset: 4, span: 16 },
+    wrapperCol: { offset: 4, span: 16 }
   };
 
-  const onSubmit = async (values) => {
+  const onSubmit = async values => {
     try {
       setLoading(true);
       const data = {
         ...values,
         studentId: account.student.id,
         tutorId: tutor.id
-      }
+      };
       await axios.post('/reviews/', data);
       setLoading(false);
       setSuccessAlert(true);
     } catch (error) {
       setLoading(false);
       setErrorAlert(false);
-      console.log(error.response);
+      alert(error.response);
     }
   };
 
@@ -40,7 +40,7 @@ export default function FeedbackModal({ showFeedback, setShowFeedBack, tutor }) 
     setShowFeedBack(false);
     setSuccessAlert(false);
     setErrorAlert(false);
-  }
+  };
 
   return (
     <Modal
@@ -52,21 +52,18 @@ export default function FeedbackModal({ showFeedback, setShowFeedBack, tutor }) 
     >
       {sucessAlert ? <Alert message="Review submitted" type="success" showIcon /> : null}
       {errorAlert ? <Alert message="Fail to submit, please try again" type="error" showIcon /> : null}
-      <Form
-        {...layout}
-        onFinish={onSubmit}
-      >
+      <Form {...layout} onFinish={onSubmit}>
         <Form.Item name="rating" label="Rating">
           <Rate allowClear={true} defaultValue={0} />
         </Form.Item>
-        <Form.Item 
-          name="comment" 
+        <Form.Item
+          name="comment"
           label="Comment"
           rules={[
             {
               required: true,
-              message: 'Please input your comment',
-            },
+              message: 'Please input your comment'
+            }
           ]}
         >
           <Input.TextArea placeholder="Share your experience" />
@@ -78,5 +75,5 @@ export default function FeedbackModal({ showFeedback, setShowFeedBack, tutor }) 
         </Form.Item>
       </Form>
     </Modal>
-  )
+  );
 }

@@ -130,10 +130,10 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
 
   const endCall = async isStarter => {
     if (account.role === ROLES.TUTOR) {
-      // record stream from tutor side
       socket.emit(SOCKET_EVENTS.CREATE_CALL_HISTORY, callFrom.student);
     }
     if (account.role === ROLES.STUDENT) {
+      socket.emit(SOCKET_EVENTS.CREATE_CALL_HISTORY, account.student);
       // refresh remaining time
       getStudent();
     }
@@ -200,7 +200,7 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
       });
       alert('Tutor is added to your favorites');
     } catch (error) {
-      console.log(error.response);
+      alert(error.response);
     }
   };
 

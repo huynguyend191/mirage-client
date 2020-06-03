@@ -16,6 +16,7 @@ export default function TutorCallHistories() {
   const [showReport, setShowReport] = useState(false);
   const [selected, setSelected] = useState(null);
   const [searchKey, setSearchKey] = useState('');
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const getHistory = async () => {
     setLoading(true);
@@ -24,10 +25,25 @@ export default function TutorCallHistories() {
       setHistory(result.data.callHistories);
       setLoading(false);
     } catch (error) {
-      console.log(error.response);
+      alert(error.response);
       setLoading(false);
     }
   };
+
+  const createPayment = async () => {
+    setPaymentLoading(true);
+    try {
+      await axios.post('/payments', {
+        tutorId: account.tutor.id
+      });
+      setPaymentLoading(false);
+      getHistory();
+    } catch (error) {
+      alert(error.response);
+      setPaymentLoading(false);
+    }
+  };
+
   useEffect(() => {
     getHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,6 +114,9 @@ export default function TutorCallHistories() {
   return (
     <div className={styles.TutorCallHistories}>
       <ReportModal setShowReport={setShowReport} showReport={showReport} selected={selected} />
+      <Button type="primary" onClick={createPayment} loading={paymentLoading}>
+        Create payment request
+      </Button>
       <div className={styles.searchBar}>
         <Search placeholder="Search for username, name" onSearch={searchCall} enterButton />
       </div>
