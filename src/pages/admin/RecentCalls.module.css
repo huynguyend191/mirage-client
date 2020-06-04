@@ -1,0 +1,12 @@
+.recentCalls {
+  padding: 10px;
+  background-color: #fff;
+  width: 800px;
+  margin: 10px;
+}
+
+.recentCallsTitle {
+  font-weight: bold;
+  text-align: center;
+  font-size: 18px;
+}

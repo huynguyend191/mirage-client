@@ -1,0 +1,9 @@
+.dashboard {
+  margin: 50px auto;
+}
+
+.dashboardRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

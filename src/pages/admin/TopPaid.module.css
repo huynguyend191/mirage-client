@@ -1,0 +1,12 @@
+.topPaid {
+  padding: 10px;
+  background-color: #fff;
+  width: 600px;
+  margin: 10px;
+}
+
+.topPaidTitle {
+  font-weight: bold;
+  text-align: center;
+  font-size: 18px;
+}
