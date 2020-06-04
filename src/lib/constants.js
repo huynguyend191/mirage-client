@@ -52,15 +52,6 @@ export const SUB_TIER = Object.freeze({
   PLATIUM: 4
 });
 
-export const PRICE_PER_MIN = 0.1; //$
-
-export const SUB_DISCOUNT_RATE = Object.freeze({
-  NORMAL: 1,
-  SILVER: 0.85,
-  GOLD: 0.75,
-  PLATIUM: 0.65
-});
-
 export const REPORT_REASONS = ['Nudity', 'Harassment', 'Spam', 'Hate speech', 'Something else'];
 
 export const REPORT_STATE = Object.freeze({
@@ -84,3 +75,7 @@ export const PREFERENCE_TYPES = Object.freeze({
   FAVORITE: 1,
   RECOMMEND: 2
 });
+
+export const STUDENT_PRICE = 'student price';
+export const TUTOR_PRICE = 'tutor price';
+export const DISCOUNT_RATE = 'discount rate';

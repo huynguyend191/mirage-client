@@ -3,7 +3,7 @@
   background-color: #ffffff;
   width: 1200px;
   min-height: 200px;
-  border: 1px solid #d9d9d9; 
+  border: 1px solid #d9d9d9;
   padding: 30px;
 }
 
@@ -13,4 +13,10 @@
   float: right;
   position: relative;
   z-index: 99;
+}
+
+.payRate {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: bold;
 }

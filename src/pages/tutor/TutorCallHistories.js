@@ -6,6 +6,7 @@ import { AccountContext } from '../../context/AccountContext';
 import moment from 'moment';
 import { getTimeFromMs } from '../../lib/utils/formatTime';
 import ReportModal from '../../components/ReportModal';
+import { TUTOR_PRICE } from '../../lib/constants';
 
 const { Search } = Input;
 
@@ -17,6 +18,7 @@ export default function TutorCallHistories() {
   const [selected, setSelected] = useState(null);
   const [searchKey, setSearchKey] = useState('');
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const [price, setPrice] = useState(0);
 
   const getHistory = async () => {
     setLoading(true);
@@ -45,7 +47,20 @@ export default function TutorCallHistories() {
   };
 
   useEffect(() => {
+    const getPrice = async () => {
+      try {
+        const result = await axios.get('/settings');
+        result.data.settings.forEach(setting => {
+          if (setting.type === TUTOR_PRICE) {
+            setPrice(Number(setting.content));
+          }
+        });
+      } catch (error) {
+        alert(error.response.data.message);
+      }
+    };
     getHistory();
+    getPrice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchKey]);
   const onReport = record => {
@@ -117,6 +132,7 @@ export default function TutorCallHistories() {
       <Button type="primary" onClick={createPayment} loading={paymentLoading}>
         Create payment request
       </Button>
+      <span className={styles.payRate}>*Payment rate: {price}$/min</span>
       <div className={styles.searchBar}>
         <Search placeholder="Search for username, name" onSearch={searchCall} enterButton />
       </div>

@@ -2,7 +2,20 @@ import React, { useContext, useState } from 'react';
 import { AccountContext } from '../../context/AccountContext';
 import FooterContent from '../../components/FooterContent';
 import { Layout, Menu, Dropdown, Avatar } from 'antd';
-import { BarChartOutlined, IdcardOutlined, TeamOutlined, DownOutlined, ExceptionOutlined, MenuUnfoldOutlined, MenuFoldOutlined, KeyOutlined, LogoutOutlined, CreditCardOutlined, DollarCircleOutlined } from '@ant-design/icons';
+import {
+  BarChartOutlined,
+  IdcardOutlined,
+  TeamOutlined,
+  DownOutlined,
+  ExceptionOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  KeyOutlined,
+  LogoutOutlined,
+  CreditCardOutlined,
+  DollarCircleOutlined,
+  SettingOutlined
+} from '@ant-design/icons';
 import { Link, Route, Switch } from 'react-router-dom';
 import styles from './Admin.module.css';
 import Dashboard from './Dashboard';
@@ -15,6 +28,7 @@ import ForgotPasswordModal from '../../components/ForgotPasswordModal';
 import SideBarLogo from '../../components/SideBarLogo';
 import Subscriptions from './Subscriptions';
 import Payment from './Payment';
+import Settings from './Settings';
 
 const { Header, Content, Sider } = Layout;
 
@@ -25,17 +39,19 @@ export default function Admin(props) {
   const { onSignOut, account } = useContext(AccountContext);
   const { location } = props;
 
-  const onCollapse = (collapsed) => {
-    setCollapsed(collapsed)
-  }
+  const onCollapse = collapsed => {
+    setCollapsed(collapsed);
+  };
 
   const userMenu = (
     <Menu>
       <Menu.Item onClick={() => setIsChangePass(true)}>
-        <KeyOutlined /><span>Change password</span>
+        <KeyOutlined />
+        <span>Change password</span>
       </Menu.Item>
       <Menu.Item onClick={onSignOut}>
-        <LogoutOutlined /><span>Sign out</span>
+        <LogoutOutlined />
+        <span>Sign out</span>
       </Menu.Item>
     </Menu>
   );
@@ -50,36 +66,65 @@ export default function Admin(props) {
       />
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} className={styles.adminMenu}>
         <SideBarLogo collapsed={collapsed} />
-        <Menu theme="dark" defaultSelectedKeys={["/admin"]} mode="inline" selectedKeys={[location.pathname]}>
+        <Menu theme="dark" defaultSelectedKeys={['/admin']} mode="inline" selectedKeys={[location.pathname]}>
           <Menu.Item key="/admin">
-            <BarChartOutlined /><Link to="/admin"><span>Dashboard</span></Link>
+            <BarChartOutlined />
+            <Link to="/admin">
+              <span>Dashboard</span>
+            </Link>
           </Menu.Item>
           <Menu.Item key="/admin/students">
-            <TeamOutlined /><Link to="/admin/students"><span>Students</span></Link>
+            <TeamOutlined />
+            <Link to="/admin/students">
+              <span>Students</span>
+            </Link>
           </Menu.Item>
           <Menu.Item key="/admin/tutors">
-            <IdcardOutlined /><Link to="/admin/tutors"><span>Tutors</span></Link>
+            <IdcardOutlined />
+            <Link to="/admin/tutors">
+              <span>Tutors</span>
+            </Link>
           </Menu.Item>
           <Menu.Item key="/admin/reports">
-            <ExceptionOutlined /><Link to="/admin/reports"><span>Reports</span></Link>
+            <ExceptionOutlined />
+            <Link to="/admin/reports">
+              <span>Reports</span>
+            </Link>
           </Menu.Item>
           <Menu.Item key="/admin/subscriptions">
-            <CreditCardOutlined /><Link to="/admin/subscriptions"><span>Subscriptions</span></Link>
+            <CreditCardOutlined />
+            <Link to="/admin/subscriptions">
+              <span>Subscriptions</span>
+            </Link>
           </Menu.Item>
-          <Menu.Item key="/admin/payment">
-            <DollarCircleOutlined /><Link to="/admin/payment"><span>Payment</span></Link>
+          <Menu.Item key="/admin/payments">
+            <DollarCircleOutlined />
+            <Link to="/admin/payments">
+              <span>Payments</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/admin/settings">
+            <SettingOutlined />
+            <Link to="/admin/settings">
+              <span>Settings</span>
+            </Link>
           </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
-        <Header style={{ background: "white" }}>
-          {
-            collapsed ? <MenuUnfoldOutlined className={styles.menuIcon} onClick={() => setCollapsed(false)} /> : <MenuFoldOutlined className={styles.menuIcon} onClick={() => setCollapsed(true)} />
-          }
+        <Header style={{ background: 'white' }}>
+          {collapsed ? (
+            <MenuUnfoldOutlined className={styles.menuIcon} onClick={() => setCollapsed(false)} />
+          ) : (
+            <MenuFoldOutlined className={styles.menuIcon} onClick={() => setCollapsed(true)} />
+          )}
           <div className={styles.userControl}>
             Hello, {account.username}
             <Dropdown overlay={userMenu} placement="bottomLeft">
-              <div><Avatar src={AvatarPic} size="large" draggable={false} /><DownOutlined className={styles.dropDownIcon} /></div>
+              <div>
+                <Avatar src={AvatarPic} size="large" draggable={false} />
+                <DownOutlined className={styles.dropDownIcon} />
+              </div>
             </Dropdown>
           </div>
         </Header>
@@ -89,13 +134,13 @@ export default function Admin(props) {
             <Route path="/admin/tutors" component={Tutors} />
             <Route path="/admin/reports" component={Reports} />
             <Route path="/admin/subscriptions" component={Subscriptions} />
-            <Route path="/admin/payment" component={Payment} />
+            <Route path="/admin/payments" component={Payment} />
+            <Route path="/admin/settings" component={Settings} />
             <Route path="/admin" component={Dashboard} exact />
           </Switch>
         </Content>
         <FooterContent />
       </Layout>
     </Layout>
-
   );
 }

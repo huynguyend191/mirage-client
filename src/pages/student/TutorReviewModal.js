@@ -14,7 +14,7 @@ export default function TutorReviewModal({ selected, showReviewModal, setShowRev
       const ratingCount = getReviewCount(result.data.reviews);
       setReviews({ ...result.data, ratingCount });
     } catch (error) {
-      console.log(error.response);
+      alert(error.response.data.message);
     }
   };
 

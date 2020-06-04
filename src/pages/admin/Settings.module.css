@@ -1,0 +1,11 @@
+.settings {
+  margin: 50px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.settingsContent {
+  background-color: #fff;
+  margin: 10px;
+}
