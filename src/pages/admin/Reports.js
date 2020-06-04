@@ -19,7 +19,7 @@ export default function Report() {
       setReports(result.data.reports);
       setLoading(false);
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setLoading(false);
     }
   };

@@ -17,7 +17,7 @@ export default function ForgotPasswordModal({ isVisible, onClose }) {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
   const onCancel = () => {

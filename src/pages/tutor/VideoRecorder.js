@@ -43,7 +43,7 @@ export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfi
       cancelRecord();
       refreshProfile();
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setLoading(false);
     }
   };

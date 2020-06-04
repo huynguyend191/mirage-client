@@ -25,7 +25,7 @@ export default function TutorCallHistories() {
       setHistory(result.data.callHistories);
       setLoading(false);
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setLoading(false);
     }
   };
@@ -39,7 +39,7 @@ export default function TutorCallHistories() {
       setPaymentLoading(false);
       getHistory();
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setPaymentLoading(false);
     }
   };

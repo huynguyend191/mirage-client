@@ -18,7 +18,7 @@ export default function Reviews() {
         const ratingCount = getReviewCount(result.data.reviews);
         setReviews({ ...result.data, ratingCount });
       } catch (error) {
-        alert(error.response);
+        alert(error.response.data.message);
       }
     };
     getTutorReview();

@@ -25,7 +25,7 @@ export default function Teaching() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
 

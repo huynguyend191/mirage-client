@@ -35,7 +35,7 @@ export default function Profile() {
       setLoadingProfile(false);
     } catch (error) {
       setLoadingProfile(true);
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
 
@@ -72,7 +72,7 @@ export default function Profile() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
   const uploadProps = {
@@ -120,7 +120,7 @@ export default function Profile() {
       await getTutorProfile();
       setUploading(false);
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setUploading(false);
     }
   };
@@ -139,7 +139,7 @@ export default function Profile() {
       setLoadingAva(false);
     } catch (error) {
       setLoadingAva(false);
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
 
@@ -147,7 +147,7 @@ export default function Profile() {
     try {
       await axios.post('/accounts/resend-verify', { email: profile.account.email });
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
 

@@ -20,7 +20,7 @@ export default function Study() {
       const result = await axios.get('/students/' + account.student.id);
       setStudent(result.data.student);
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
 

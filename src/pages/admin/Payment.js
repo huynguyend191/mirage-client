@@ -17,7 +17,7 @@ export default function Payment() {
       setPayments(result.data.payments);
       setLoading(false);
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setLoading(false);
     }
   };
@@ -30,7 +30,7 @@ export default function Payment() {
       });
       getPayments();
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setLoading(false);
     }
   };

@@ -200,7 +200,7 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
       });
       alert('Tutor is added to your favorites');
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
 

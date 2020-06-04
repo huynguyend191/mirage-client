@@ -19,7 +19,7 @@ export default function SubscriptionHistory() {
       setStudentSub(result.data.subscriptions);
       setLoading(false);
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setLoading(false);
     }
   };
@@ -32,7 +32,7 @@ export default function SubscriptionHistory() {
       });
       getStudentSub();
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setLoading(false);
     }
   };

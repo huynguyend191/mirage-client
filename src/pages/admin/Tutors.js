@@ -38,7 +38,7 @@ export default function Tutors() {
       setTutors(tableData);
       setLoading(false);
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setLoading(false);
     }
   };

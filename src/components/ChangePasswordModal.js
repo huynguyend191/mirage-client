@@ -21,7 +21,7 @@ export default function ChangePasswordModal({ isVisible, onForgot, onClose }) {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
   const onCancel = () => {

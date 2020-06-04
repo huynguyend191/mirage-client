@@ -23,7 +23,7 @@ export default function ExtendSubscription() {
       setPurchaseLoading(false);
     } catch (error) {
       setPurchaseLoading(false);
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
 

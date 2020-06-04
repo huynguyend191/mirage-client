@@ -32,7 +32,7 @@ export default function FeedbackModal({ showFeedback, setShowFeedBack, tutor }) 
     } catch (error) {
       setLoading(false);
       setErrorAlert(false);
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
 

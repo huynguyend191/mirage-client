@@ -25,7 +25,7 @@ export default function StudentCallHistories() {
       setHistory(result.data.callHistories);
       setLoading(false);
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
       setLoading(false);
     }
   };

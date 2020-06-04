@@ -10,6 +10,7 @@ import axios from '../../lib/utils/axiosConfig';
 import CallHistories from './CallHistories';
 import AccountReport from './AccountReport';
 import TutorPayment from './TutorPayment';
+import TutorReviews from './TutorReviews';
 
 const { TabPane } = Tabs;
 
@@ -40,7 +41,7 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
       setShowDetailModal(false);
     } catch (error) {
       setStateLoading(false);
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
 
@@ -255,6 +256,9 @@ export default function TutorProfile({ selected, setShowDetailModal, getTutorsDa
       </TabPane>
       <TabPane tab="Payment" key="payment">
         <TutorPayment payments={detail.payments} />
+      </TabPane>
+      <TabPane tab="Reviews" key="reviews">
+        <TutorReviews selected={detail} />
       </TabPane>
     </Tabs>
   ) : null;

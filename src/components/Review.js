@@ -15,7 +15,7 @@ export default function Review({ review, getTutorReview }) {
       await axios.delete('/reviews/' + id);
       getTutorReview();
     } catch (error) {
-      alert(error.response);
+      alert(error.response.data.message);
     }
   };
 
