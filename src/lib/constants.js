@@ -30,7 +30,8 @@ export const SOCKET_EVENTS = Object.freeze({
   RECORD_STUDENT: 'record_student',
   RECORD_TUTOR: 'record_tutor',
   SAVE_VIDEOS: 'save_videos',
-  CREATE_CALL_HISTORY: 'create_call_history'
+  CREATE_CALL_HISTORY: 'create_call_history',
+  GET_ONLINE_STUDENTS: 'get_online_students'
 });
 
 export const STATUS = Object.freeze({

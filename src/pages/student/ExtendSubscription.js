@@ -87,7 +87,7 @@ export default function ExtendSubscription() {
                   <img className={styles.tierImage} src={Silver} alt="" draggable="false" />
                   <div className={styles.extendPrice}>
                     {Number(120 * pricePerMin * discount.SILVER).toFixed(2)}${' '}
-                    <span className={styles.extendSave}>(Save {Math.floor((1 - discount.SILVER) * 100)}%)</span>
+                    <span className={styles.extendSave}>(Save {100 - discount.SILVER * 100}%)</span>
                   </div>
                   <Popconfirm
                     placement="top"
@@ -112,7 +112,7 @@ export default function ExtendSubscription() {
                   <img className={styles.tierImage} src={Gold} alt="" draggable="false" />
                   <div className={styles.extendPrice}>
                     {Number(480 * pricePerMin * discount.GOLD).toFixed(2)}${' '}
-                    <span className={styles.extendSave}>(Save {Math.floor((1 - discount.GOLD) * 100)}%)</span>
+                    <span className={styles.extendSave}>(Save {100 - discount.GOLD * 100}%)</span>
                   </div>
                   <Popconfirm
                     placement="top"
@@ -137,7 +137,7 @@ export default function ExtendSubscription() {
                   <img className={styles.tierImage} src={Platium} alt="" draggable="false" />
                   <div className={styles.extendPrice}>
                     {Number(720 * pricePerMin * discount.PLATIUM).toFixed(2)}${' '}
-                    <span className={styles.extendSave}>(Save {Math.floor((1 - discount.PLATIUM) * 100)}%)</span>
+                    <span className={styles.extendSave}>(Save {100 - discount.PLATIUM * 100}%)</span>
                   </div>
                   <Popconfirm
                     placement="top"
