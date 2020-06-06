@@ -15,9 +15,7 @@ export const PROFILE_STATUS = Object.freeze({
   REJECTED: 3
 });
 
-export const serverUrl = process.env.NODE_ENV === 'development'
-? 'https://localhost:3003/'
-: 'https://mirage-video-call.herokuapp.com/';
+export const serverUrl = process.env.NODE_ENV === 'development' ? 'https://localhost:3003/' : 'https://mirage.social/';
 
 export const SOCKET_EVENTS = Object.freeze({
   INIT: 'init',
