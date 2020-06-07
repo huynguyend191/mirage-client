@@ -33,6 +33,7 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
   // tutor called with student
   const [onlineTutors, setOnlineTutors] = useState([]);
   const tutor = useRef(null);
+  const student = useRef(null);
 
   // control after call modal like report, review, ...
   const [afterCallModal, setAfterCallModal] = useState(false);
@@ -45,6 +46,7 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
       .on(SOCKET_EVENTS.REQUEST, ({ from }) => {
         setCallModal(true);
         setCallFrom(from);
+        student.current = from;
       })
       .on(SOCKET_EVENTS.CALL, data => {
         if (data.sdp) {
@@ -130,10 +132,9 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
 
   const endCall = async isStarter => {
     if (account.role === ROLES.TUTOR) {
-      socket.emit(SOCKET_EVENTS.CREATE_CALL_HISTORY, callFrom.student);
+      socket.emit(SOCKET_EVENTS.CREATE_CALL_HISTORY, student.current.student);
     }
     if (account.role === ROLES.STUDENT) {
-      socket.emit(SOCKET_EVENTS.CREATE_CALL_HISTORY, account.student);
       // refresh remaining time
       getStudent();
     }
