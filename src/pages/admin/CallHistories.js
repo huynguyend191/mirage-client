@@ -12,28 +12,28 @@ export default function CallHistories({ callHistories }) {
       title: 'Date',
       dataIndex: 'createdAt',
       render: createdAt => {
-        return <div>{moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
+        return <div>{moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>;
       }
     },
     {
       title: 'Student',
       dataIndex: 'student',
       render: student => {
-        return <div>{student.name}</div>
+        return <div>{student.name}</div>;
       }
     },
     {
       title: 'Tutor',
       dataIndex: 'tutor',
       render: tutor => {
-        return <div>{tutor.name}</div>
+        return <div>{tutor.name}</div>;
       }
     },
     {
       title: 'Duration',
       dataIndex: 'duration',
       render: duration => {
-        return <div>{getTimeFromMs(duration)}</div>
+        return <div>{getTimeFromMs(duration)}</div>;
       }
     }
   ];
@@ -43,22 +43,12 @@ export default function CallHistories({ callHistories }) {
         setSelected(record);
         setShowCallDetail(true);
       }
-    }
+    };
   };
   return (
     <div>
-      <CallDetailModal
-        setShowCallDetail={setShowCallDetail}
-        showCallDetail={showCallDetail}
-        selected={selected}
-      />
-      <Table
-        columns={columns}
-        dataSource={callHistories}
-        pagination={false}
-        onRow={onSelectRow}
-        rowKey='id'
-      />
+      <CallDetailModal setShowCallDetail={setShowCallDetail} showCallDetail={showCallDetail} selected={selected} />
+      <Table columns={columns} dataSource={callHistories} pagination={true} onRow={onSelectRow} rowKey="id" />
     </div>
-  )
+  );
 }

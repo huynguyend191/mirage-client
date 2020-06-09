@@ -105,7 +105,7 @@ export default function StudentCallHistories() {
         <Search placeholder="Search for username, name" onSearch={searchCall} enterButton />
       </div>
       <Spin spinning={loading}>
-        <Table columns={columns} dataSource={history} pagination={false} rowKey="id" />
+        <Table columns={columns} dataSource={history} pagination={true} rowKey="id" />
       </Spin>
     </div>
   );

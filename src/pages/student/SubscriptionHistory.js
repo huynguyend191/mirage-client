@@ -119,7 +119,7 @@ export default function SubscriptionHistory() {
       <Button className={styles.reload} onClick={getStudentSub} icon={<ReloadOutlined />}>
         Reload
       </Button>
-      <Table columns={columns} dataSource={studentSub} pagination={false} rowKey="id" />
+      <Table columns={columns} dataSource={studentSub} pagination={true} rowKey="id" />
     </Spin>
   );
 }

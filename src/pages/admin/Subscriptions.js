@@ -157,7 +157,7 @@ export default function Subscriptions() {
         <Button className={styles.reload} onClick={getStudentSub} icon={<ReloadOutlined />}>
           Reload
         </Button>
-        <Table columns={columns} dataSource={studentSub} pagination={false} />
+        <Table columns={columns} dataSource={studentSub} pagination={true} />
       </Spin>
     </div>
   );

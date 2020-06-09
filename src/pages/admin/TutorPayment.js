@@ -33,7 +33,7 @@ export default function TutorPayment({ payments }) {
 
   return (
     <div>
-      <Table rowKey="id" columns={columns} dataSource={payments} pagination={false} />
+      <Table rowKey="id" columns={columns} dataSource={payments} pagination={true} />
     </div>
   );
 }

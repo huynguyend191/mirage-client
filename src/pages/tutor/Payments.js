@@ -59,7 +59,7 @@ export default function Payments() {
   return (
     <div className={styles.payments}>
       <Spin spinning={loading}>
-        <Table rowKey="id" columns={columns} dataSource={payments} pagination={false} />
+        <Table rowKey="id" columns={columns} dataSource={payments} pagination={true} />
       </Spin>
     </div>
   );

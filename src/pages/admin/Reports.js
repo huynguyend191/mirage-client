@@ -19,6 +19,7 @@ export default function Report() {
       setReports(result.data.reports);
       setLoading(false);
     } catch (error) {
+      console.log(error);
       alert(error.response.data.message);
       setLoading(false);
     }
@@ -88,7 +89,7 @@ export default function Report() {
         getReports={getReports}
       />
       <Spin spinning={loading}>
-        <Table columns={columns} dataSource={reports} pagination={false} rowKey="id" onRow={onSelectRow} />
+        <Table columns={columns} dataSource={reports} pagination={true} rowKey="id" onRow={onSelectRow} />
       </Spin>
     </div>
   );

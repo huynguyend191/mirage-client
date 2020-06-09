@@ -169,7 +169,7 @@ export default function Payment() {
         <Button className={styles.reload} onClick={getPayments} icon={<ReloadOutlined />}>
           Reload
         </Button>
-        <Table rowKey="id" columns={columns} dataSource={payments} pagination={false} />
+        <Table rowKey="id" columns={columns} dataSource={payments} pagination={true} />
       </Spin>
     </div>
   );

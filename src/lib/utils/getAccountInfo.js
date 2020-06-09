@@ -9,8 +9,8 @@ export const getAccountInfo = () => {
     account = jwtDecode(accessToken);
   }
   return account;
-}
+};
 
 export const removeAccountInfo = () => {
   cookies.remove('access_token');
-}
+};
