@@ -57,7 +57,7 @@ export default function StudentSub({ subscriptions }) {
   ];
   return (
     <div>
-      <Table columns={columns} dataSource={subscriptions} pagination={true} rowKey="id" />
+      <Table columns={columns} dataSource={subscriptions} pagination={true} rowKey="id" size="small" />
     </div>
   );
 }

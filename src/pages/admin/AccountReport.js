@@ -33,7 +33,7 @@ export default function AccountReport({ reports }) {
 
   return (
     <div>
-      <Table rowKey="id" columns={columns} dataSource={reports} pagination={true} />
+      <Table rowKey="id" columns={columns} dataSource={reports} pagination={true} size="small" />
     </div>
   );
 }

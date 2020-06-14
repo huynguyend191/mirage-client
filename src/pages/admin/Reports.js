@@ -67,7 +67,22 @@ export default function Report() {
         } else {
           return <Tag color="error">Cancelled</Tag>;
         }
-      }
+      },
+      filters: [
+        {
+          text: 'Resolved',
+          value: REPORT_STATE.RESOLVED
+        },
+        {
+          text: 'Pending',
+          value: REPORT_STATE.PENDING
+        },
+        {
+          text: 'Cancelled',
+          value: REPORT_STATE.CANCELLED
+        }
+      ],
+      onFilter: (value, record) => record.state.toString().indexOf(value) === 0
     }
   ];
 

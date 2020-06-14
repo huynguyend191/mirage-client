@@ -9,6 +9,11 @@ export const STATES = Object.freeze({
   INACTIVE: 0
 });
 
+export const VERIFICATION = Object.freeze({
+  VERIFIED: 1,
+  UNVERIFIED: 0
+});
+
 export const PROFILE_STATUS = Object.freeze({
   ACCEPTED: 1,
   PENDING: 2,
