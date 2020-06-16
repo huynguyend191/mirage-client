@@ -14,6 +14,7 @@ import { StarOutlined, LikeOutlined } from '@ant-design/icons';
 import FeedbackModal from '../pages/student/FeedbackModal';
 import axios from '../lib/utils/axiosConfig';
 import { PREFERENCE_TYPES } from '../lib/constants';
+import addNotification from 'react-push-notification';
 
 export default function VideoCall({ account, remainingTime, getStudent }) {
   // video call
@@ -44,6 +45,13 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
     socket
       .on(SOCKET_EVENTS.INIT, () => {})
       .on(SOCKET_EVENTS.REQUEST, ({ from }) => {
+        addNotification({
+          title: 'Someone is calling...',
+          message: 'Return to Mirage to receive phone call',
+          duration: 10000,
+          theme: 'darkblue',
+          native: true // when using native, your OS will handle theming.
+        });
         setCallModal(true);
         setCallFrom(from);
         student.current = from;
