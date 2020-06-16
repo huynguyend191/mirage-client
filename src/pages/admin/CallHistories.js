@@ -48,7 +48,14 @@ export default function CallHistories({ callHistories }) {
   return (
     <div>
       <CallDetailModal setShowCallDetail={setShowCallDetail} showCallDetail={showCallDetail} selected={selected} />
-      <Table columns={columns} dataSource={callHistories} pagination={true} onRow={onSelectRow} rowKey="id" />
+      <Table
+        columns={columns}
+        dataSource={callHistories}
+        pagination={true}
+        onRow={onSelectRow}
+        rowKey="id"
+        size="small"
+      />
     </div>
   );
 }

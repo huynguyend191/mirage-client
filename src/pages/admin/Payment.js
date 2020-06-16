@@ -80,7 +80,22 @@ export default function Payment() {
         } else {
           return <Tag color="error">Cancelled</Tag>;
         }
-      }
+      },
+      filters: [
+        {
+          text: 'Completed',
+          value: PAYMENT_STATE.COMPLETED
+        },
+        {
+          text: 'Pending',
+          value: PAYMENT_STATE.PENDING
+        },
+        {
+          text: 'Canceled',
+          value: PAYMENT_STATE.CANCELED
+        }
+      ],
+      onFilter: (value, record) => record.state.toString().indexOf(value) === 0
     },
     {
       title: 'Action',

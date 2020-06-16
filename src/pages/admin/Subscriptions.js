@@ -84,7 +84,26 @@ export default function Subscriptions() {
         } else {
           return <Tag>Normal</Tag>;
         }
-      }
+      },
+      filters: [
+        {
+          text: 'Normal',
+          value: SUB_TIER.NORMAL
+        },
+        {
+          text: 'Silver',
+          value: SUB_TIER.SILVER
+        },
+        {
+          text: 'Gold',
+          value: SUB_TIER.GOLD
+        },
+        {
+          text: 'Platium',
+          value: SUB_TIER.PLATIUM
+        }
+      ],
+      onFilter: (value, record) => record.tier.toString().indexOf(value) === 0
     },
     {
       title: 'Duration',
@@ -109,9 +128,24 @@ export default function Subscriptions() {
         } else if (state === SUB_STATE.PENDING) {
           return <Tag color="blue">Pending</Tag>;
         } else {
-          return <Tag color="error">Cancelled</Tag>;
+          return <Tag color="error">Canceled</Tag>;
         }
-      }
+      },
+      filters: [
+        {
+          text: 'Completed',
+          value: SUB_STATE.COMPLETED
+        },
+        {
+          text: 'Pending',
+          value: SUB_STATE.PENDING
+        },
+        {
+          text: 'Canceled',
+          value: SUB_STATE.CANCELED
+        }
+      ],
+      onFilter: (value, record) => record.state.toString().indexOf(value) === 0
     },
     {
       title: 'Action',

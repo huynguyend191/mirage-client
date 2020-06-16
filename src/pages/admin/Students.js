@@ -3,6 +3,8 @@ import axios from '../../lib/utils/axiosConfig';
 import { Table, Tag, Pagination, Spin, Input } from 'antd';
 import styles from './Students.module.css';
 import StudentProfile from './StudentProfile';
+import { STATES, VERIFICATION } from '../../lib/constants';
+
 const { Search } = Input;
 
 export default function Students() {
@@ -62,13 +64,37 @@ export default function Students() {
     {
       title: 'State',
       dataIndex: 'state',
-      render: state => (state ? <Tag color="success">Active</Tag> : <Tag color="error">Inactive</Tag>)
+      render: state => (state ? <Tag color="success">Active</Tag> : <Tag color="error">Inactive</Tag>),
+      filters: [
+        {
+          text: 'Active',
+          value: STATES.ACTIVE
+        },
+        {
+          text: 'Inactive',
+          value: STATES.INACTIVE
+        }
+      ],
+      filterMultiple: false,
+      onFilter: (value, record) => record.state.toString().indexOf(Boolean(value)) === 0
     },
     {
       title: 'Verification',
       dataIndex: 'verification',
       render: verification =>
-        verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>
+        verification ? <Tag color="success">Verified</Tag> : <Tag color="default">Unverified</Tag>,
+      filters: [
+        {
+          text: 'Verified',
+          value: VERIFICATION.VERIFIED
+        },
+        {
+          text: 'Unverified',
+          value: VERIFICATION.UNVERIFIED
+        }
+      ],
+      filterMultiple: false,
+      onFilter: (value, record) => record.verification.toString().indexOf(Boolean(value)) === 0
     }
   ];
 
