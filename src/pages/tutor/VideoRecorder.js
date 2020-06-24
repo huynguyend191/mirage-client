@@ -108,7 +108,7 @@ export default function VideoRecorder({ cancelRecord, existedVideo, refreshProfi
         </div>
       ) : (
         <div className={styles.btnWrapperNoCancel}>
-          <Button className={styles.videoBtn} onClick={uploadVideo} loading={loading}>
+          <Button className={styles.videoBtn} onClick={uploadVideo} loading={loading} disabled={recorded === null}>
             Upload
           </Button>
         </div>
