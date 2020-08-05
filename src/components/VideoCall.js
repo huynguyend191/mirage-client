@@ -60,13 +60,12 @@ export default function VideoCall({ account, remainingTime, getStudent }) {
         if (data.sdp) {
           pcRef.current.setRemoteDescription(data.sdp);
           if (data.sdp.type === 'offer') pcRef.current.createAnswer();
-          if (account.role === ROLES.TUTOR) {
-            // record stream from tutor side
-            socket.emit(SOCKET_EVENTS.SAVE_VIDEOS);
-          }
         } else pcRef.current.addIceCandidate(data.candidate);
         start.current = Date.now();
-
+        if (account.role === ROLES.TUTOR) {
+          // record stream from tutor side
+          socket.emit(SOCKET_EVENTS.SAVE_VIDEOS);
+        }
         // auto end call if student runs out of time
         if (account.role === ROLES.STUDENT) {
           setTimeout(() => endCall(true), remainingTime);

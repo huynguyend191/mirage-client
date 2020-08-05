@@ -30,28 +30,28 @@ export default function TutorList({ startCall, onlineTutors, setTutor, remaining
         const filteredTutors = [];
         tutors.forEach(tutor => {
           valid = false;
-          if (tutor.profile.name.toLowerCase().includes(keyword)) {
+          if (tutor.profile.name && tutor.profile.name.toLowerCase().includes(keyword)) {
             valid = true;
           }
-          if (tutor.profile.specialities.toLowerCase().includes(keyword)) {
+          if (tutor.profile.specialities && tutor.profile.specialities.toLowerCase().includes(keyword)) {
             valid = true;
           }
-          if (tutor.profile.teaching_styles.toLowerCase().includes(keyword)) {
+          if (tutor.profile.teaching_styles && tutor.profile.teaching_styles.toLowerCase().includes(keyword)) {
             valid = true;
           }
-          if (tutor.profile.accent.toLowerCase().includes(keyword)) {
+          if (tutor.profile.accent && tutor.profile.accent.toLowerCase().includes(keyword)) {
             valid = true;
           }
-          if (tutor.profile.student_lvl.toLowerCase().includes(keyword)) {
+          if (tutor.profile.student_lvl && tutor.profile.student_lvl.toLowerCase().includes(keyword)) {
             valid = true;
           }
-          if (tutor.profile.student_type.toLowerCase().includes(keyword)) {
+          if (tutor.profile.student_type && tutor.profile.student_type.toLowerCase().includes(keyword)) {
             valid = true;
           }
-          if (tutor.profile.interests.toLowerCase().includes(keyword)) {
+          if (tutor.profile.interests && tutor.profile.interests.toLowerCase().includes(keyword)) {
             valid = true;
           }
-          if (tutor.profile.fluency.toLowerCase().includes(keyword)) {
+          if (tutor.profile.fluency && tutor.profile.fluency.toLowerCase().includes(keyword)) {
             valid = true;
           }
           if (valid) {
